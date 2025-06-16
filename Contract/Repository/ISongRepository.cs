@@ -1,7 +1,7 @@
 using ThinMPm.Platforms.Android.Model.Contract;
 using ThinMPm.Platforms.Android.Model.ValueObjects;
 
-namespace ThinMPm.Platforms.Android.Repository.Contract;
+namespace ThinMPm.Contract.Repository;
 
 public interface ISongRepository
 {
