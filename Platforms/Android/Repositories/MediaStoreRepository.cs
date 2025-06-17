@@ -3,7 +3,7 @@ using Android.Database;
 using Android.OS;
 using Uri = Android.Net.Uri;
 
-namespace ThinMPm.Platforms.Android.Repository;
+namespace ThinMPm.Platforms.Android.Repositories;
 
 public abstract class MediaStoreRepository<T>
 {

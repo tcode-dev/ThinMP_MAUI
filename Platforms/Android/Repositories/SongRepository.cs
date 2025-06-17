@@ -1,11 +1,11 @@
 using Android.Content;
 using Android.Provider;
-using ThinMPm.Platforms.Android.Model;
-using ThinMPm.Platforms.Android.Model.Contract;
-using ThinMPm.Platforms.Android.Model.ValueObjects;
-using ThinMPm.Platforms.Android.Repository.Contract;
 
-namespace ThinMPm.Platforms.Android.Repository;
+using ThinMPm.Platforms.Android.Models;
+using ThinMPm.Platforms.Android.Models.Contracts;
+using ThinMPm.Platforms.Android.Repositories.Contracts;
+
+namespace ThinMPm.Platforms.Android.Repositories;
 
 public class SongRepository : MediaStoreRepository<ISongModel>, ISongRepository
 {
@@ -43,19 +43,19 @@ public class SongRepository : MediaStoreRepository<ISongModel>, ISongRepository
         return GetList();
     }
 
-    public ISongModel? FindById(SongId songId)
+    public ISongModel? FindById(string songId)
     {
         Selection = MediaStore.Audio.Media.InterfaceConsts.Id + " = ?";
-        SelectionArgs = new[] { songId.Raw };
+        SelectionArgs = new[] { songId };
         SortOrder = null;
         return Get();
     }
 
-    public IList<ISongModel> FindByIds(IList<SongId> songIds)
+    public IList<ISongModel> FindByIds(IList<string> songIds)
     {
         var ids = new List<string>();
         foreach (var id in songIds)
-            ids.Add(id.Raw);
+            ids.Add(id);
 
         Selection = MediaStore.Audio.Media.InterfaceConsts.Id + " IN (" + MakePlaceholders(ids.Count) + ") AND " +
                     MediaStore.Audio.Media.InterfaceConsts.IsMusic + " = 1";
@@ -64,50 +64,50 @@ public class SongRepository : MediaStoreRepository<ISongModel>, ISongRepository
         return GetList();
     }
 
-    public IList<ISongModel> FindByAlbumId(AlbumId albumId)
+    public IList<ISongModel> FindByAlbumId(string albumId)
     {
         Selection = MediaStore.Audio.Media.InterfaceConsts.AlbumId + " = ? AND " +
                     MediaStore.Audio.Media.InterfaceConsts.IsMusic + " = 1";
-        SelectionArgs = new[] { albumId.Raw };
+        SelectionArgs = new[] { albumId };
         SortOrder = trackNumberSortOrder;
         return GetList();
     }
 
-    public IList<ISongModel> FindByArtistId(ArtistId artistId)
+    public IList<ISongModel> FindByArtistId(string artistId)
     {
         Selection = MediaStore.Audio.Media.InterfaceConsts.ArtistId + " = ? AND " +
                     MediaStore.Audio.Media.InterfaceConsts.IsMusic + " = 1";
-        SelectionArgs = new[] { artistId.Raw };
+        SelectionArgs = new[] { artistId };
         SortOrder = $"{MediaStore.Audio.Media.InterfaceConsts.Album} ASC, {trackNumberSortOrder}";
         return GetList();
     }
 
-    private string GetId() =>
+    private string? GetId() =>
         Cursor?.GetColumnIndex(MediaStore.Audio.Media.InterfaceConsts.Id) is int idx && idx >= 0
             ? Cursor.GetString(idx)
             : string.Empty;
 
-    private string GetTitle() =>
+    private string? GetTitle() =>
         Cursor?.GetColumnIndex(MediaStore.Audio.Media.InterfaceConsts.Title) is int idx && idx >= 0
             ? Cursor.GetString(idx)
             : string.Empty;
 
-    private string GetArtistId() =>
+    private string? GetArtistId() =>
         Cursor?.GetColumnIndex(MediaStore.Audio.Media.InterfaceConsts.ArtistId) is int idx && idx >= 0
             ? Cursor.GetString(idx)
             : string.Empty;
 
-    private string GetArtistName() =>
+    private string? GetArtistName() =>
         Cursor?.GetColumnIndex(MediaStore.Audio.Media.InterfaceConsts.Artist) is int idx && idx >= 0
             ? Cursor.GetString(idx)
             : string.Empty;
 
-    private string GetAlbumId() =>
+    private string? GetAlbumId() =>
         Cursor?.GetColumnIndex(MediaStore.Audio.Media.InterfaceConsts.AlbumId) is int idx && idx >= 0
             ? Cursor.GetString(idx)
             : string.Empty;
 
-    private string GetAlbumName() =>
+    private string? GetAlbumName() =>
         Cursor?.GetColumnIndex(MediaStore.Audio.Media.InterfaceConsts.Album) is int idx && idx >= 0
             ? Cursor.GetString(idx)
             : string.Empty;
@@ -117,7 +117,7 @@ public class SongRepository : MediaStoreRepository<ISongModel>, ISongRepository
             ? Cursor.GetInt(idx)
             : 0;
 
-    private string GetTrackNumber() =>
+    private string? GetTrackNumber() =>
         Cursor?.GetColumnIndex(MediaStore.Audio.Media.InterfaceConsts.Track) is int idx && idx >= 0
             ? Cursor.GetString(idx)
             : string.Empty;
