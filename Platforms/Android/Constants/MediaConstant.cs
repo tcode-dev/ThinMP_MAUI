@@ -1,4 +1,4 @@
-namespace ThinMPm.Platforms.Android.Constant;
+namespace ThinMPm.Platforms.Android.Constants;
 
 public static class MediaConstant
 {
