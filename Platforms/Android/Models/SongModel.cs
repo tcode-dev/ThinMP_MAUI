@@ -1,20 +1,19 @@
 using Android.Provider;
 using Uri = Android.Net.Uri;
-using ThinMPm.Platforms.Android.Model.Contract;
-using ThinMPm.Platforms.Android.Model.ValueObjects;
-using ThinMPm.Platforms.Android.Constant;
+using ThinMPm.Platforms.Android.Constants;
+using ThinMPm.Platforms.Android.Models.Contracts;
 
-namespace ThinMPm.Platforms.Android.Model;
+namespace ThinMPm.Platforms.Android.Models;
 
 public class SongModel : ISongModel
 {
     private readonly string trackNumberRaw;
 
-    public SongId Id { get; }
+    public string Id { get; }
     public string Name { get; }
-    public AlbumId AlbumId { get; }
+    public string AlbumId { get; }
     public string AlbumName { get; }
-    public ArtistId ArtistId { get; }
+    public string ArtistId { get; }
     public string ArtistName { get; }
     public int Duration { get; }
 
@@ -29,20 +28,20 @@ public class SongModel : ISongModel
         string trackNumber)
     {
         trackNumberRaw = trackNumber;
-        Id = new SongId(id);
+        Id = id;
         Name = name;
-        AlbumId = new AlbumId(albumId);
+        AlbumId = albumId;
         AlbumName = albumName;
-        ArtistId = new ArtistId(artistId);
+        ArtistId = artistId;
         ArtistName = artistName;
         Duration = duration;
     }
 
-    public string ImageId => AlbumId.Raw;
+    public string ImageId => AlbumId;
 
-    public Uri ImageUri => Uri.Parse($"{MediaConstant.ALBUM_ART}/{AlbumId.Raw}");
+    public Uri ImageUri => Uri.Parse($"{MediaConstant.ALBUM_ART}/{AlbumId}");
 
-    public Uri MediaUri => Uri.Parse($"{MediaStore.Audio.Media.ExternalContentUri}/{Id.Raw}");
+    public Uri MediaUri => Uri.Parse($"{MediaStore.Audio.Media.ExternalContentUri}/{Id}");
 
     public double TrackNumber
     {
