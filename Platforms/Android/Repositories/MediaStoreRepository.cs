@@ -17,92 +17,98 @@ public abstract class MediaStoreRepository<T>
     public string? SortOrder { get; set; }
     public Bundle? Bundle { get; set; }
 
-    protected MediaStoreRepository(Context context, Uri uri, string[] projection)
+    protected MediaStoreRepository(Uri uri, string[] projection)
     {
-        Context = context;
+        Context = Platform.CurrentActivity?.ApplicationContext 
+            ?? throw new InvalidOperationException("Platform.CurrentActivity is null. Cannot obtain ApplicationContext.");
         Uri = uri;
         Projection = projection;
     }
 
     private void Initialize()
     {
-        Cursor = CreateCursor();
+        // Cursor = CreateCursor();
     }
 
     public abstract T Fetch();
 
     protected T? Get()
     {
-        Initialize();
+        throw new NotImplementedException("Get method is not implemented yet.");
+        // Initialize();
 
-        if (Cursor == null || !Cursor.MoveToNext())
-        {
-            Destroy();
-            return default;
-        }
+        // if (Cursor == null || !Cursor.MoveToNext())
+        // {
+        //     Destroy();
+        //     return default;
+        // }
 
-        var item = Fetch();
+        // var item = Fetch();
 
-        Destroy();
+        // Destroy();
 
-        return item;
+        // return item;
     }
 
     protected IList<T> GetList()
     {
-        Initialize();
+        throw new NotImplementedException("GetList method is not implemented yet.");
+        // Initialize();
 
-        var list = new List<T>();
+        // var list = new List<T>();
 
-        if (Cursor != null)
-        {
-            while (Cursor.MoveToNext())
-            {
-                list.Add(Fetch());
-            }
-        }
+        // if (Cursor != null)
+        // {
+        //     while (Cursor.MoveToNext())
+        //     {
+        //         list.Add(Fetch());
+        //     }
+        // }
 
-        Destroy();
+        // Destroy();
 
-        return list;
+        // return list;
     }
 
     protected string[] ToStringArray(IEnumerable<string> list)
     {
-        return list.ToArray();
+        throw new NotImplementedException("ToStringArray method is not implemented yet.");
+        // return list.ToArray();
     }
 
     protected string MakePlaceholders(int size)
     {
-        return string.Join(",", Enumerable.Repeat("?", size));
+        throw new NotImplementedException("MakePlaceholders method is not implemented yet.");
+        // return string.Join(",", Enumerable.Repeat("?", size));
     }
 
     private ICursor? CreateCursor()
     {
-        if (Bundle != null)
-        {
-            return Context.ContentResolver.Query(
-                Uri,
-                Projection,
-                Bundle,
-                null
-            );
-        }
-        else
-        {
-            return Context.ContentResolver.Query(
-                Uri,
-                Projection,
-                Selection,
-                SelectionArgs,
-                SortOrder
-            );
-        }
+        throw new NotImplementedException("CreateCursor method is not implemented yet.");
+        // if (Bundle != null)
+        // {
+        //     return Context.ContentResolver.Query(
+        //         Uri,
+        //         Projection,
+        //         Bundle,
+        //         null
+        //     );
+        // }
+        // else
+        // {
+        //     return Context.ContentResolver.Query(
+        //         Uri,
+        //         Projection,
+        //         Selection,
+        //         SelectionArgs,
+        //         SortOrder
+        //     );
+        // }
     }
 
     private void Destroy()
     {
-        Cursor?.Close();
-        Cursor = null;
+        // Cursor?.Close();
+        // Cursor = null;
     }
 }

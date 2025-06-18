@@ -7,81 +7,85 @@ using ThinMPm.Platforms.Android.Repositories.Contracts;
 
 namespace ThinMPm.Platforms.Android.Repositories;
 
-// public class SongRepository : MediaStoreRepository<ISongModel>, ISongRepository
-public class SongRepository : ISongRepository
+public class SongRepository : MediaStoreRepository<ISongModel>, ISongRepository
 {
-    private readonly string trackNumberSortOrder =
-        $"CASE " +
-        $"WHEN {MediaStore.Audio.Media.InterfaceConsts.Track} LIKE '%/%' THEN " +
-        $"CAST(SUBSTR({MediaStore.Audio.Media.InterfaceConsts.Track}, 0, INSTR({MediaStore.Audio.Media.InterfaceConsts.Track}, '/')) AS INTEGER) " +
-        $"ELSE " +
-        $"CAST({MediaStore.Audio.Media.InterfaceConsts.Track} AS INTEGER) " +
-        $"END ASC";
 
-    // public SongRepository(Context context)
-    //     : base(
-    //         context,
-    //         MediaStore.Audio.Media.ExternalContentUri,
-    //         new[]
-    //         {
-    //             MediaStore.Audio.Media.InterfaceConsts.Id,
-    //             MediaStore.Audio.Media.InterfaceConsts.Title,
-    //             MediaStore.Audio.Media.InterfaceConsts.ArtistId,
-    //             MediaStore.Audio.Media.InterfaceConsts.Artist,
-    //             MediaStore.Audio.Media.InterfaceConsts.AlbumId,
-    //             MediaStore.Audio.Media.InterfaceConsts.Album,
-    //             MediaStore.Audio.Media.InterfaceConsts.Duration,
-    //             MediaStore.Audio.Media.InterfaceConsts.Track
-    //         })
-    // {
-    // }
+  public SongRepository()
+      : base(
+          MediaStore.Audio.Media.ExternalContentUri!,
+          new[]
+          {
+              MediaStore.Audio.Media.InterfaceConsts.Id,
+              MediaStore.Audio.Media.InterfaceConsts.Title,
+              MediaStore.Audio.Media.InterfaceConsts.ArtistId,
+              MediaStore.Audio.Media.InterfaceConsts.Artist,
+              MediaStore.Audio.Media.InterfaceConsts.AlbumId,
+              MediaStore.Audio.Media.InterfaceConsts.Album,
+              MediaStore.Audio.Media.InterfaceConsts.Duration,
+              MediaStore.Audio.Media.InterfaceConsts.Track
+          })
+  {
+  }
 
-    // public IList<ISongModel> FindAll()
-    // {
-    //     Selection = MediaStore.Audio.Media.InterfaceConsts.IsMusic + " = 1";
-    //     SelectionArgs = null;
-    //     SortOrder = MediaStore.Audio.Media.InterfaceConsts.Title + " ASC";
-    //     return GetList();
-    // }
+  private readonly string trackNumberSortOrder =
+      $"CASE " +
+      $"WHEN {MediaStore.Audio.Media.InterfaceConsts.Track} LIKE '%/%' THEN " +
+      $"CAST(SUBSTR({MediaStore.Audio.Media.InterfaceConsts.Track}, 0, INSTR({MediaStore.Audio.Media.InterfaceConsts.Track}, '/')) AS INTEGER) " +
+      $"ELSE " +
+      $"CAST({MediaStore.Audio.Media.InterfaceConsts.Track} AS INTEGER) " +
+      $"END ASC";
 
-    // public ISongModel? FindById(string songId)
-    // {
-    //     Selection = MediaStore.Audio.Media.InterfaceConsts.Id + " = ?";
-    //     SelectionArgs = new[] { songId };
-    //     SortOrder = null;
-    //     return Get();
-    // }
+  public IList<ISongModel> FindAll()
+    {
+        throw new NotImplementedException("FindAll method is not implemented yet.");
+        // Selection = MediaStore.Audio.Media.InterfaceConsts.IsMusic + " = 1";
+        // SelectionArgs = null;
+        // SortOrder = MediaStore.Audio.Media.InterfaceConsts.Title + " ASC";
+        // return GetList();
+    }
 
-    // public IList<ISongModel> FindByIds(IList<string> songIds)
-    // {
-    //     var ids = new List<string>();
-    //     foreach (var id in songIds)
-    //         ids.Add(id);
+    public ISongModel? FindById(string songId)
+    {
+        throw new NotImplementedException("FindById method is not implemented yet.");
+        // Selection = MediaStore.Audio.Media.InterfaceConsts.Id + " = ?";
+        // SelectionArgs = new[] { songId };
+        // SortOrder = null;
+        // return Get();
+    }
 
-    //     Selection = MediaStore.Audio.Media.InterfaceConsts.Id + " IN (" + MakePlaceholders(ids.Count) + ") AND " +
-    //                 MediaStore.Audio.Media.InterfaceConsts.IsMusic + " = 1";
-    //     SelectionArgs = ids.ToArray();
-    //     SortOrder = null;
-    //     return GetList();
-    // }
+    public IList<ISongModel> FindByIds(IList<string> songIds)
+    {
+        throw new NotImplementedException("FindByIds method is not implemented yet.");
+        // var ids = new List<string>();
+        // foreach (var id in songIds)
+        //     ids.Add(id);
 
-    // public IList<ISongModel> FindByAlbumId(string albumId)
-    // {
-    //     Selection = MediaStore.Audio.Media.InterfaceConsts.AlbumId + " = ? AND " +
-    //                 MediaStore.Audio.Media.InterfaceConsts.IsMusic + " = 1";
-    //     SelectionArgs = new[] { albumId };
-    //     SortOrder = trackNumberSortOrder;
-    //     return GetList();
-    // }
+        // Selection = MediaStore.Audio.Media.InterfaceConsts.Id + " IN (" + MakePlaceholders(ids.Count) + ") AND " +
+        //             MediaStore.Audio.Media.InterfaceConsts.IsMusic + " = 1";
+        // SelectionArgs = ids.ToArray();
+        // SortOrder = null;
+        // return GetList();
+    }
 
-    // public IList<ISongModel> FindByArtistId(string artistId)
-    // {
-    //     Selection = MediaStore.Audio.Media.InterfaceConsts.ArtistId + " = ? AND " +
-    //                 MediaStore.Audio.Media.InterfaceConsts.IsMusic + " = 1";
-    //     SelectionArgs = new[] { artistId };
-    //     SortOrder = $"{MediaStore.Audio.Media.InterfaceConsts.Album} ASC, {trackNumberSortOrder}";
-    //     return GetList();
-    // }
+    public IList<ISongModel> FindByAlbumId(string albumId)
+    {
+        throw new NotImplementedException("FindByAlbumId method is not implemented yet.");
+        // Selection = MediaStore.Audio.Media.InterfaceConsts.AlbumId + " = ? AND " +
+        //             MediaStore.Audio.Media.InterfaceConsts.IsMusic + " = 1";
+        // SelectionArgs = new[] { albumId };
+        // SortOrder = trackNumberSortOrder;
+        // return GetList();
+    }
+
+    public IList<ISongModel> FindByArtistId(string artistId)
+    {
+        throw new NotImplementedException("FindByArtistId method is not implemented yet.");
+        // Selection = MediaStore.Audio.Media.InterfaceConsts.ArtistId + " = ? AND " +
+        //             MediaStore.Audio.Media.InterfaceConsts.IsMusic + " = 1";
+        // SelectionArgs = new[] { artistId };
+        // SortOrder = $"{MediaStore.Audio.Media.InterfaceConsts.Album} ASC, {trackNumberSortOrder}";
+        // return GetList();
+    }
 
     // private string? GetId() =>
     //     Cursor?.GetColumnIndex(MediaStore.Audio.Media.InterfaceConsts.Id) is int idx && idx >= 0
@@ -136,4 +140,5 @@ public class SongRepository : ISongRepository
     //     );
 
     // public override ISongModel Fetch() => GetSong();
+        public override ISongModel Fetch() => throw new NotImplementedException("Fetch method is not implemented yet.");
 }
