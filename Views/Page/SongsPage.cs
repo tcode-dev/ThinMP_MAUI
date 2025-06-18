@@ -1,28 +1,23 @@
 using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Markup;
+using ThinMPm.ViewModels;
 
 namespace ThinMPm.Views.Page;
 
-class SecondPage : ContentPage
+class SongsPage : ContentPage
 {
-    public SecondPage()
+    // private readonly SongViewModel _vm;
+    public SongsPage(SongViewModel vm)
     {
-        // Content = new VerticalStackLayout
+        BindingContext = vm;
+
+        // var collectionView = new CollectionView
         // {
-        //     Children =
-        //     {
-        //         new Label()
-        //             .Text("Second Page")
-        //             .FontSize(24)
-        //             .CenterHorizontal(),
-
-        //         new Button()
-        //             .Text("Back")
-        //             .CenterHorizontal()
-        //             .Invoke(b => b.Clicked += (s, e) => Navigation.PopAsync()),
-
-        //     }
+        //     ItemTemplate = new DataTemplate(() =>
+        //         new Label().Bind(Label.TextProperty, "Name")
+        //     )
         // };
+        // collectionView.SetBinding(ItemsView.ItemsSourceProperty, "Songs");
         var items = new ObservableCollection<string>
         {
             "aa", "bb", "cc"
@@ -39,6 +34,11 @@ class SecondPage : ContentPage
             )
         }
         .Margin(20);
+    }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        // _viewModel.Load();
     }
 }

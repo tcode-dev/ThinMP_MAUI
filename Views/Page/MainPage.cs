@@ -1,8 +1,7 @@
-﻿namespace ThinMPm;
-
-using CommunityToolkit.Maui.Markup;
-
+﻿using CommunityToolkit.Maui.Markup;
 using static CommunityToolkit.Maui.Markup.GridRowsColumns;
+
+namespace ThinMPm.Views.Page;
 
 public class ViewModel
 {
@@ -42,14 +41,34 @@ class MainPage : ContentPage
                  .Margin(5, 5)
                  .Bind(Entry.TextProperty, static (ViewModel vm) => vm.RegistrationCode, static (ViewModel vm, string text) => vm.RegistrationCode = text),
 
+                // new Button()
+                //     .Text("Go to Second Page")
+                //     .Row(Row.Navigate).ColumnSpan(All<Column>())
+                //     .CenterHorizontal()
+                //     .Invoke(b => b.Clicked += async (s, e) =>
+                //     {
+                //         await Navigation.PushAsync(new SecondPage());
+                //     }),
+
                 new Button()
-                    .Text("Go to Second Page")
+                    .Text("Go to Songs Page")
                     .Row(Row.Navigate).ColumnSpan(All<Column>())
                     .CenterHorizontal()
                     .Invoke(b => b.Clicked += async (s, e) =>
                     {
-                        await Navigation.PushAsync(new SecondPage());
-                    })
+                        var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<SongsPage>();
+                        await Navigation.PushAsync(page);
+                        // var serviceProvider = Application.Current?.Handler?.MauiContext?.Services;
+                        // if (serviceProvider is not null)
+                        // {
+                        //     var songsPage = serviceProvider.GetRequiredService<SongsPage>();
+                        //     if (songsPage is not null)
+                        //     {
+
+                        //         await Navigation.PushAsync(songsPage);
+                        //     }
+                        // }
+                    }),
             }
         };
     }
