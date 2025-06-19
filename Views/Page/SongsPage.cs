@@ -11,34 +11,23 @@ class SongsPage : ContentPage
     {
         BindingContext = vm;
 
-        // var collectionView = new CollectionView
+        // Content = new CollectionView
         // {
         //     ItemTemplate = new DataTemplate(() =>
         //         new Label().Bind(Label.TextProperty, "Name")
         //     )
-        // };
-        // collectionView.SetBinding(ItemsView.ItemsSourceProperty, "Songs");
-        var items = new ObservableCollection<string>
-        {
-            "aa", "bb", "cc"
-        };
-
-        Content = new CollectionView
-        {
-            ItemsSource = items,
-            ItemTemplate = new DataTemplate(() =>
-                new Label()
-                    .Bind(Label.TextProperty, ".")
-                    .FontSize(20)
-                    .Padding(10)
-            )
-        }
-        .Margin(20);
+        // }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs));
+        Content = new Label()
+    .Bind(Label.TextProperty, "Songs.Count");
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        // _viewModel.Load();
+
+        if (BindingContext is SongViewModel vm)
+        {
+            vm.Load();
+        }
     }
 }

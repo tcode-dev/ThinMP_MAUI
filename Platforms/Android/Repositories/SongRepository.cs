@@ -34,7 +34,7 @@ public class SongRepository : MediaStoreRepository<ISongModel>, ISongRepository
       $"CAST({MediaStore.Audio.Media.InterfaceConsts.Track} AS INTEGER) " +
       $"END ASC";
 
-  public IList<ISongModel> FindAll()
+    public IList<ISongModel> FindAll()
     {
         Selection = MediaStore.Audio.Media.InterfaceConsts.IsMusic + " = 1";
         SelectionArgs = null;
