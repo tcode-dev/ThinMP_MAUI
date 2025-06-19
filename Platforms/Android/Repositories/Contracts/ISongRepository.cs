@@ -6,13 +6,13 @@ namespace ThinMPm.Platforms.Android.Repositories.Contracts;
 
 public interface ISongRepository
 {
-    // IList<ISongModel> FindAll();
+    IList<ISongModel> FindAll();
 
-    // ISongModel? FindById(string songId);
+    ISongModel? FindById(string songId);
 
-    // IList<ISongModel> FindByIds(IList<string> songIds);
+    IList<ISongModel> FindByIds(IList<string> songIds);
 
-    // IList<ISongModel> FindByAlbumId(string albumId);
+    IList<ISongModel> FindByAlbumId(string albumId);
 
-    // IList<ISongModel> FindByArtistId(string artistId);
+    IList<ISongModel> FindByArtistId(string artistId);
 }
