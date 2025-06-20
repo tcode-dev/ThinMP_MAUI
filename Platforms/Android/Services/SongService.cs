@@ -16,17 +16,17 @@ public class SongService : ISongService
 
     public IList<ISongModel> FindAll()
     {
-        return _songRepository.FindAll().Select(song => (ISongModel)song.ToHostModel()).ToList();
+        return _songRepository.FindAll().Select(song => song.ToHostModel()).ToList();
     }
 
     public IList<ISongModel> FindByAlbumId(string albumId)
     {
-        return _songRepository.FindByAlbumId(albumId).Select(song => (ISongModel)song.ToHostModel()).ToList();
+        return _songRepository.FindByAlbumId(albumId).Select(song => song.ToHostModel()).ToList();
     }
 
     public IList<ISongModel> FindByArtistId(string artistId)
     {
-        return _songRepository.FindByArtistId(artistId).Select(song => (ISongModel)song.ToHostModel()).ToList();
+        return _songRepository.FindByArtistId(artistId).Select(song => song.ToHostModel()).ToList();
     }
 
     public ISongModel? FindById(string songId)
@@ -36,11 +36,11 @@ public class SongService : ISongService
         {
             return null;
         }
-        return (ISongModel)nativeSong.ToHostModel();
+        return nativeSong.ToHostModel();
     }
 
     public IList<ISongModel> FindByIds(IList<string> songIds)
     {
-        return _songRepository.FindByIds(songIds).Select(song => (ISongModel)song.ToHostModel()).ToList();
+        return _songRepository.FindByIds(songIds).Select(song => song.ToHostModel()).ToList();
     }
 }
