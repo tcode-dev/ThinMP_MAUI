@@ -1,12 +1,13 @@
 using ThinMPm.Platforms.Android.Models.Contracts;
+using HostSongModel = ThinMPm.Models.SongModel;
 
 namespace ThinMPm.Platforms.Android.Models.Extensions;
 
 public static class SongModelExtensions
 {
-    public static SongModel ToHostModel(this ISongModel native)
+    public static HostSongModel ToHostModel(this ISongModel native)
     {
-        return new SongModel(
+        return new HostSongModel(
             native.Id,
             native.Name,
             native.AlbumId,

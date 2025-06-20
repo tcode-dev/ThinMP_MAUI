@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
@@ -6,7 +7,7 @@ namespace ThinMPm.ViewModels;
 public class SongViewModel
 {
     readonly ISongService _songService;
-    public IList<ISongModel> Songs { get; private set; } = new List<ISongModel>();
+    public ObservableCollection<ISongModel> Songs { get; } = new();
 
     public SongViewModel(ISongService songService)
     {
@@ -15,6 +16,10 @@ public class SongViewModel
 
     public void Load()
     {
-        this.Songs = _songService.FindAll();
+        Songs.Clear();
+        foreach (var song in _songService.FindAll())
+        {
+            Songs.Add(song);
+        }
     }
 }

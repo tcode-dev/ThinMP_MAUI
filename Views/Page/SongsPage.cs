@@ -11,14 +11,12 @@ class SongsPage : ContentPage
     {
         BindingContext = vm;
 
-        // Content = new CollectionView
-        // {
-        //     ItemTemplate = new DataTemplate(() =>
-        //         new Label().Bind(Label.TextProperty, "Name")
-        //     )
-        // }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs));
-        Content = new Label()
-    .Bind(Label.TextProperty, "Songs.Count");
+        Content = new CollectionView
+        {
+            ItemTemplate = new DataTemplate(() =>
+                new Label().Bind(Label.TextProperty, "Name")
+            )
+        }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs));
     }
 
     protected override void OnAppearing()
