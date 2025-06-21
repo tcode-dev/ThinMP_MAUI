@@ -16,8 +16,11 @@ public class SongViewModel
 
     public void Load()
     {
+        var songs = _songService.FindAll();
+
         Songs.Clear();
-        foreach (var song in _songService.FindAll())
+
+        foreach (var song in songs)
         {
             Songs.Add(song);
         }
