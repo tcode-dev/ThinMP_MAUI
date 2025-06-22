@@ -7,6 +7,10 @@ using ThinMPm.Views.Page;
 using ThinMPm.Platforms.Android.Repositories.Contracts;
 using ThinMPm.Platforms.Android.Repositories;
 using ThinMPm.Platforms.Android.Services;
+#elif IOS
+using ThinMPm.Platforms.iOS.Repositories.Contracts;
+using ThinMPm.Platforms.iOS.Repositories;
+using ThinMPm.Platforms.iOS.Services;
 #endif
 
 namespace ThinMPm;
@@ -24,15 +28,10 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-#if ANDROID
 		builder.Services.AddTransient<ISongRepository, SongRepository>();
 		builder.Services.AddTransient<ISongService, SongService>();
-// #elif IOS
-// 		builder.Services.AddSingleton<ISongRepository, ThinMPm.Platforms.iOS.Repository.SongRepository>();
-#endif
 		builder.Services.AddSingleton<SongViewModel>();
 		builder.Services.AddSingleton<SongsPage>();
-
 
 #if DEBUG
 		builder.Logging.AddDebug();
