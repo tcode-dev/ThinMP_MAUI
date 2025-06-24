@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Maui.Markup;
 using ThinMPm.Contracts.Models;
 using ThinMPm.ViewModels;
@@ -7,7 +6,6 @@ namespace ThinMPm.Views.Page;
 
 class SongsPage : ContentPage
 {
-    // private readonly SongViewModel _vm;
     public SongsPage(SongViewModel vm)
     {
         BindingContext = vm;
