@@ -65,4 +65,9 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+		<PackageReference Include="Xamarin.AndroidX.Media3.Common" Version="1.7.1" />
+		<PackageReference Include="Xamarin.AndroidX.Media3.ExoPlayer" Version="1.7.1" />
+		<PackageReference Include="Xamarin.AndroidX.Media3.Session" Version="1.7.1" />
+	</ItemGroup>
 </Project>
