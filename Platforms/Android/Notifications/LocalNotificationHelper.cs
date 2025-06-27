@@ -7,6 +7,7 @@ using AndroidX.Core.App;
 using Resource = ThinMPm.Resource;
 using ThinMPm.Constants;
 using ThinMPm.Platforms.Android.Constants;
+using AndroidX.Media3.Session;
 
 namespace ThinMPm.Platforms.Android.Notifications;
 
@@ -31,7 +32,7 @@ public static class LocalNotificationHelper
       Bitmap albumArtBitmap = null)
   {
     var builder = new NotificationCompat.Builder(context, NotificationConstant.CHANNEL_ID)
-        .SetSmallIcon(Resource.Drawable.round_audiotrack_24)
+        // .SetSmallIcon(Resource.Drawable.round_audiotrack_24)
         .SetStyle(mediaStyle)
         .SetContentTitle(title)
         .SetContentText(message)
@@ -48,13 +49,13 @@ public static class LocalNotificationHelper
 
   public static void CreateNotificationChannel(Context context)
   {
-    var channel = new NotificationChannel(
-        NotificationConstant.CHANNEL_ID,
-        context.Resources.GetString(Resource.String.channel_name),
-        NotificationImportance.Low);
+    // var channel = new NotificationChannel(
+    //     NotificationConstant.CHANNEL_ID,
+    //     context.Resources.GetString(Resource.String.channel_name),
+    //     NotificationImportance.Low);
 
-    var notificationManager = (NotificationManager)context.GetSystemService(Context.NotificationService);
-    notificationManager.CreateNotificationChannel(channel);
+    // var notificationManager = (NotificationManager)context.GetSystemService(Context.NotificationService);
+    // notificationManager.CreateNotificationChannel(channel);
   }
 
   public static void CancelAll(Context context)
