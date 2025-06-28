@@ -1,14 +1,18 @@
 using CommunityToolkit.Maui.Markup;
 using ThinMPm.Contracts.Models;
+using ThinMPm.Contracts.Services;
 using ThinMPm.ViewModels;
 
 namespace ThinMPm.Views.Page;
 
 class SongsPage : ContentPage
 {
-    public SongsPage(SongViewModel vm)
+
+    private readonly IPlayerService _playerService;
+    public SongsPage(SongViewModel vm, IPlayerService playerService)
     {
         BindingContext = vm;
+        _playerService = playerService;
 
         Content = new CollectionView
         {
@@ -49,7 +53,8 @@ class SongsPage : ContentPage
                         if (bindable.BindingContext is ISongModel item)
                         {
                             int index = vm.Songs.IndexOf(item);
-                            Console.WriteLine($"Tapped index: {index}, Name: {item.Name}");
+
+                            _playerService.StartAllSongs(index);
                         }
                     }
                 };

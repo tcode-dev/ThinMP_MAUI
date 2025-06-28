@@ -27,7 +27,7 @@ public class MusicService : Service
   private Action<bool> _sendIsPlayingChange;
   private RepeatMode _repeatMode;
   private ShuffleMode _shuffleMode;
-  private List<ISongModel> _playingList = new();
+  private IList<ISongModel> _playingList = new List<ISongModel>();
   private bool _initialized = false;
   private bool _isPlaying = false;
   private bool _isStarting = false;
@@ -38,24 +38,26 @@ public class MusicService : Service
   {
     base.OnCreate();
     IsServiceRunning = true;
+    _binder = new MusicBinder(this);
 
     _headsetEventReceiver = new HeadsetEventReceiver(() =>
     {
-      new Handler(_player.ApplicationLooper).Post(() => _player.Stop());
+      _player.Stop();
     });
 
     RegisterReceiver(_headsetEventReceiver, new IntentFilter(Intent.ActionHeadsetPlug));
   }
 
-  public void Start(List<ISongModel> songs, int index, RepeatMode repeatMode, ShuffleMode shuffleMode)
+  public void Start(IList<ISongModel> songs, int index, RepeatMode repeatMode, ShuffleMode shuffleMode)
   {
+    Console.WriteLine("MusicService.Start 1");
     if (_isStarting) return;
-
+    Console.WriteLine("MusicService.Start 2");
     _isStarting = true;
     _playingList = songs;
-    this._repeatMode = repeatMode;
-    this._shuffleMode = shuffleMode;
-
+    _repeatMode = repeatMode;
+    _shuffleMode = shuffleMode;
+    Console.WriteLine("MusicService.Start 3");
     if (!_initialized)
     {
       InitializeStart(index);
@@ -68,50 +70,44 @@ public class MusicService : Service
 
   public void Play()
   {
-    new Handler(_player.ApplicationLooper).Post(() => _player.Play());
+    _player.Play();
   }
 
   public void Pause()
   {
-    new Handler(_player.ApplicationLooper).Post(() => _player.Pause());
+    _player.Pause();
   }
 
   public void Prev()
   {
-    new Handler(_player.ApplicationLooper).Post(() =>
+    try
     {
-      try
-      {
-        if (_player.CurrentPosition <= PREV_MS)
-          _player.SeekToPrevious();
-        else
-          _player.SeekTo(0);
-      }
-      catch (Java.Lang.Exception e)
-      {
-        OnError(e.Message);
-      }
-    });
+      if (_player.CurrentPosition <= PREV_MS)
+        _player.SeekToPrevious();
+      else
+        _player.SeekTo(0);
+    }
+    catch (Java.Lang.Exception e)
+    {
+      OnError(e.Message);
+    }
   }
 
   public void Next()
   {
-    new Handler(_player.ApplicationLooper).Post(() => _player.SeekToNext());
+    _player.SeekToNext();
   }
 
   public void Seek(long ms)
   {
-    new Handler(_player.ApplicationLooper).Post(() =>
+    try
     {
-      try
-      {
-        _player.SeekTo(ms);
-      }
-      catch (Java.Lang.Exception e)
-      {
-        OnError(e.Message);
-      }
-    });
+      _player.SeekTo(ms);
+    }
+    catch (Java.Lang.Exception e)
+    {
+      OnError(e.Message);
+    }
   }
 
   public void SetSendPlaybackSongChange(Action<ISongModel> callback)
@@ -126,26 +122,17 @@ public class MusicService : Service
 
   public void SetRepeat(RepeatMode repeatMode)
   {
-    new Handler(_player.ApplicationLooper).Post(() =>
-    {
-      _player.RepeatMode = (int)repeatMode;
-    });
+    _player.RepeatMode = (int)repeatMode;
   }
 
   public void SetShuffle(ShuffleMode shuffleMode)
   {
-    new Handler(_player.ApplicationLooper).Post(() =>
-    {
-      _player.ShuffleModeEnabled = shuffleMode == ShuffleMode.On;
-    });
+    _player.ShuffleModeEnabled = shuffleMode == ShuffleMode.On;
   }
 
   public void GetCurrentTime(Action<long> callback)
   {
-    new Handler(_player.ApplicationLooper).Post(() =>
-    {
-      callback(_player.CurrentPosition);
-    });
+    callback(_player.CurrentPosition);
   }
 
   private void InitializeStart(int index)
@@ -162,23 +149,25 @@ public class MusicService : Service
 
   private void ResumeStart(int index)
   {
-    new Handler(_player.ApplicationLooper).Post(() =>
-    {
-      if (_isPlaying)
-        _player.Stop();
+    if (_isPlaying)
+      _player.Stop();
 
-      _player.RemoveListener(_playerEventListener);
-      _player.Release();
-      _mediaSession.Release();
-      SetPlayer(index);
-      Play();
-    });
+    _player.RemoveListener(_playerEventListener);
+    _player.Release();
+    _mediaSession.Release();
+    SetPlayer(index);
+    Play();
   }
 
   private ISongModel GetCurrentSong()
   {
-    if (_player.CurrentMediaItem == null) return null;
-    return _playingList.FirstOrDefault(song => MediaItem.FromUri(song.MediaUri) == _player.CurrentMediaItem);
+    if (_player.CurrentMediaItem == null)
+    {
+      return null;
+    }
+
+
+    return _playingList.FirstOrDefault(song => MediaItem.FromUri(song.MediaUri).ToString() == _player.CurrentMediaItem.ToString());
   }
 
   private void SetPlayer(int index)
@@ -200,7 +189,10 @@ public class MusicService : Service
   private Notification CreateNotification()
   {
     var song = GetCurrentSong();
-    if (song == null) return null;
+    if (song == null)
+    {
+      return null;
+    }
 
     Bitmap albumArtBitmap = null;
     try
@@ -260,15 +252,12 @@ public class MusicService : Service
   {
     if (!_initialized) return;
 
-    new Handler(_player.ApplicationLooper).Post(() =>
-    {
-      if (_isPlaying)
-        _player.Stop();
+    if (_isPlaying)
+      _player.Stop();
 
-      _player.RemoveListener(_playerEventListener);
-      _player.Release();
-      _mediaSession.Release();
-    });
+    _player.RemoveListener(_playerEventListener);
+    _player.Release();
+    _mediaSession.Release();
   }
 
   public override IBinder OnBind(Intent intent)
@@ -344,18 +333,20 @@ public class MusicService : Service
     // }
   }
 
-public class MusicBinder : Binder
-{
+  public class MusicBinder : Binder
+  {
     private readonly MusicService _service;
 
     public MusicBinder(MusicService service)
     {
-        _service = service;
+      Console.WriteLine("MusicBinder.MusicBinder");
+      _service = service;
     }
 
     public MusicService GetService()
     {
-        return _service;
+      Console.WriteLine("MusicBinder.GetService");
+      return _service;
     }
-}
+  }
 }

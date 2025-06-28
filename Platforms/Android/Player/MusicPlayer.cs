@@ -13,9 +13,8 @@ public static class MusicPlayer
   private static bool bound = false;
 
   public static void Start(
-      List<ISongModel> songs,
+      IList<ISongModel> songs,
       int index,
-      Context context,
       RepeatMode repeatMode,
       ShuffleMode shuffleMode,
       Action<ISongModel> sendPlaybackSongChange,
@@ -25,9 +24,11 @@ public static class MusicPlayer
     {
       if (isServiceBinding) return;
 
-      var intent = new Intent(context, typeof(MusicService));
-      context.StartForegroundService(intent);
-      BindService(context, () =>
+      var intent = new Intent(Platform.CurrentActivity?.ApplicationContext, typeof(MusicService));
+
+      Platform.CurrentActivity?.ApplicationContext.StartForegroundService(intent);
+
+      BindService(Platform.CurrentActivity?.ApplicationContext, () =>
       {
         musicService?.Start(songs, index, repeatMode, shuffleMode);
         musicService?.SetSendPlaybackSongChange(sendPlaybackSongChange);
@@ -35,7 +36,6 @@ public static class MusicPlayer
       });
       return;
     }
-
     musicService?.Start(songs, index, repeatMode, shuffleMode);
   }
 

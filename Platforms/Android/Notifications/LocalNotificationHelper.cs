@@ -49,13 +49,13 @@ public static class LocalNotificationHelper
 
   public static void CreateNotificationChannel(Context context)
   {
-    // var channel = new NotificationChannel(
-    //     NotificationConstant.CHANNEL_ID,
-    //     context.Resources.GetString(Resource.String.channel_name),
-    //     NotificationImportance.Low);
+    var channel = new NotificationChannel(
+        NotificationConstant.CHANNEL_ID,
+        "Lock screen media controls",
+        NotificationImportance.Low);
 
-    // var notificationManager = (NotificationManager)context.GetSystemService(Context.NotificationService);
-    // notificationManager.CreateNotificationChannel(channel);
+    var notificationManager = (NotificationManager)context.GetSystemService(Context.NotificationService);
+    notificationManager.CreateNotificationChannel(channel);
   }
 
   public static void CancelAll(Context context)

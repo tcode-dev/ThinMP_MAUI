@@ -30,6 +30,7 @@ public static class MauiProgram
 
 		builder.Services.AddTransient<ISongRepository, SongRepository>();
 		builder.Services.AddTransient<ISongService, SongService>();
+		builder.Services.AddTransient<IPlayerService, PlayerService>();
 		builder.Services.AddSingleton<SongViewModel>();
 		builder.Services.AddSingleton<SongsPage>();
 
