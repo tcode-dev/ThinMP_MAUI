@@ -3,7 +3,7 @@ using Android.OS;
 using ThinMPm.Platforms.Android.Models.Contracts;
 using ThinMPm.Constants;
 
-namespace ThinMPm.Platforms.Android.Player;
+namespace ThinMPm.Platforms.Android.Audio;
 
 public static class MusicPlayer
 {

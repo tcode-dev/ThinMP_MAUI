@@ -3,15 +3,15 @@ using Android.Content;
 using Android.OS;
 using Android.Graphics;
 using AndroidX.Media3.Common;
+using AndroidX.Media3.ExoPlayer;
 using AndroidX.Media3.Session;
 using ThinMPm.Platforms.Android.Models.Contracts;
 using ThinMPm.Constants;
 using ThinMPm.Platforms.Android.Receivers;
 using ThinMPm.Platforms.Android.Notifications;
 using ThinMPm.Platforms.Android.Constants;
-using AndroidX.Media3.ExoPlayer;
 
-namespace ThinMPm.Platforms.Android.Player;
+namespace ThinMPm.Platforms.Android.Audio;
 
 [Service]
 public class MusicService : Service
@@ -50,14 +50,13 @@ public class MusicService : Service
 
   public void Start(IList<ISongModel> songs, int index, RepeatMode repeatMode, ShuffleMode shuffleMode)
   {
-    Console.WriteLine("MusicService.Start 1");
     if (_isStarting) return;
-    Console.WriteLine("MusicService.Start 2");
+
     _isStarting = true;
     _playingList = songs;
     _repeatMode = repeatMode;
     _shuffleMode = shuffleMode;
-    Console.WriteLine("MusicService.Start 3");
+
     if (!_initialized)
     {
       InitializeStart(index);
@@ -288,49 +287,46 @@ public class MusicService : Service
       this.service = service;
     }
 
-    // public void OnEvents(IPlayerListener player, Player.Events events)
-    // {
-    //   if (events.Contains(Player.EventPositionDiscontinuity)) return;
+    public void OnEvents(IPlayerListener player, Player.Events events)
+    {
+      if (events.Contains(Player.EventPositionDiscontinuity)) return;
 
-    //   if (events.Contains(Player.EventIsPlayingChanged))
-    //   {
-    //     service._isPlaying = player.IsPlaying;
-    //     service.OnIsPlayingChange();
-    //   }
-    // }
+      if (events.Contains(Player.EventIsPlayingChanged))
+      {
+        service._isPlaying = player.IsPlaying;
+        service.OnIsPlayingChange();
+      }
+    }
 
-    // public void OnTracksChanged(Tracks tracks)
-    // {
-    //   service.OnPlaybackSongChange();
-    //   service.Notification();
-    //   service._isStarting = false;
-    // }
+    public void OnTracksChanged(Tracks tracks)
+    {
+      service.OnPlaybackSongChange();
+      service.Notification();
+      service._isStarting = false;
+    }
 
-    // public void OnPlaybackStateChanged(int playbackState)
-    // {
-    //   if (playbackState == Player.StateEnded)
-    //   {
-    //     new Handler(service._player.ApplicationLooper).Post(() =>
-    //     {
-    //       service._player.Pause();
-    //       service._player.SeekTo(0, 0);
-    //       service.OnIsPlayingChange();
-    //       service.OnPlaybackSongChange();
-    //     });
-    //   }
-    // }
+    public void OnPlaybackStateChanged(int playbackState)
+    {
+      if (playbackState == Player.StateEnded)
+      {
+        service._player.Pause();
+        service._player.SeekTo(0, 0);
+        service.OnIsPlayingChange();
+        service.OnPlaybackSongChange();
+      }
+    }
 
-    // public void OnPlayerError(PlaybackException error)
-    // {
-    //   if (error.ErrorCode == PlaybackException.ErrorCodeIoFileNotFound)
-    //   {
-    //     service.OnError(error.Message);
-    //   }
-    //   else
-    //   {
-    //     service._isStarting = false;
-    //   }
-    // }
+    public void OnPlayerError(PlaybackException error)
+    {
+      if (error.ErrorCode == PlaybackException.ErrorCodeIoFileNotFound)
+      {
+        service.OnError(error.Message);
+      }
+      else
+      {
+        service._isStarting = false;
+      }
+    }
   }
 
   public class MusicBinder : Binder
@@ -339,13 +335,11 @@ public class MusicService : Service
 
     public MusicBinder(MusicService service)
     {
-      Console.WriteLine("MusicBinder.MusicBinder");
       _service = service;
     }
 
     public MusicService GetService()
     {
-      Console.WriteLine("MusicBinder.GetService");
       return _service;
     }
   }
