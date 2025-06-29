@@ -1,5 +1,5 @@
 using ThinMPm.Contracts.Services;
-using ThinMPm.Platforms.Android.Player;
+using ThinMPm.Platforms.Android.Audio;
 using ThinMPm.Platforms.Android.Repositories.Contracts;
 
 namespace ThinMPm.Platforms.Android.Services;
@@ -15,7 +15,7 @@ public class PlayerService : IPlayerService
     public void StartAllSongs(int index)
     {
         var songs = _songRepository.FindAll();
-Console.WriteLine("PlayerService.StartAllSongs");
+
         MusicPlayer.Start(
             songs,
             index,
