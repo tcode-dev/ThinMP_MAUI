@@ -149,7 +149,9 @@ public class MusicService : Service
   private void ResumeStart(int index)
   {
     if (_isPlaying)
+    {
       _player.Stop();
+    }
 
     _player.RemoveListener(_playerEventListener);
     _player.Release();
@@ -226,7 +228,6 @@ public class MusicService : Service
   private void OnError(string message)
   {
     Retry();
-    // エラー通知処理を追加可能
   }
 
   private void Retry()
@@ -287,15 +288,21 @@ public class MusicService : Service
       this.service = service;
     }
 
-    public void OnEvents(IPlayerListener player, Player.Events events)
+    public void OnPlayerStateChanged(bool playWhenReady, int playbackState)
     {
-      if (events.Contains(Player.EventPositionDiscontinuity)) return;
-
-      if (events.Contains(Player.EventIsPlayingChanged))
+      Console.WriteLine($"OnPlayerStateChanged: playWhenReady={playWhenReady}, playbackState={playbackState}");
+      if (playbackState == MediaConstant.STATE_ENDED) // STATE_ENDED
       {
-        service._isPlaying = player.IsPlaying;
+        service._player.Pause();
+        service._player.SeekTo(0, 0);
         service.OnIsPlayingChange();
+        service.OnPlaybackSongChange();
       }
+    }
+
+    public void OnPlayWhenReadyChanged(bool playWhenReady, int reason)
+    {
+      Console.WriteLine($"OnPlayWhenReadyChanged: playWhenReady={playWhenReady}, reason={reason}");
     }
 
     public void OnTracksChanged(Tracks tracks)
@@ -303,17 +310,6 @@ public class MusicService : Service
       service.OnPlaybackSongChange();
       service.Notification();
       service._isStarting = false;
-    }
-
-    public void OnPlaybackStateChanged(int playbackState)
-    {
-      if (playbackState == Player.StateEnded)
-      {
-        service._player.Pause();
-        service._player.SeekTo(0, 0);
-        service.OnIsPlayingChange();
-        service.OnPlaybackSongChange();
-      }
     }
 
     public void OnPlayerError(PlaybackException error)
