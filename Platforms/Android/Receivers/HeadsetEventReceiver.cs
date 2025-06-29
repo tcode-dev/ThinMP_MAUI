@@ -12,9 +12,10 @@ public class HeadsetEventReceiver : BroadcastReceiver
     this.callback = callback;
   }
 
-  public override void OnReceive(Context context, Intent intent)
+  public override void OnReceive(Context? context, Intent? intent)
   {
-    int state = intent.GetIntExtra("state", (int)ScoAudioState.Error);
+    int state = intent?.GetIntExtra("state", (int)ScoAudioState.Error) ?? (int)ScoAudioState.Error;
+
     if (state == (int)ScoAudioState.Disconnected)
     {
       callback?.Invoke();

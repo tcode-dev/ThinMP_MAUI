@@ -13,7 +13,7 @@ namespace ThinMPm.Platforms.Android.Notifications;
 
 public static class LocalNotificationHelper
 {
-  public static void Notify(Notification notification, Context context)
+  public static void Notify(Notification notification, Context? context)
   {
     if (ActivityCompat.CheckSelfPermission(context, Manifest.Permission.PostNotifications) != Permission.Granted)
     {
@@ -21,15 +21,15 @@ public static class LocalNotificationHelper
     }
 
     var notificationManager = NotificationManagerCompat.From(context);
-    notificationManager.Notify(NotificationConstant.NOTIFICATION_ID, notification);
+    notificationManager?.Notify(NotificationConstant.NOTIFICATION_ID, notification);
   }
 
   public static Notification CreateNotification(
-      Context context,
       MediaStyleNotificationHelper.MediaStyle mediaStyle,
       string title,
       string message,
-      Bitmap albumArtBitmap = null)
+      Context? context,
+      Bitmap? albumArtBitmap = null)
   {
     var builder = new NotificationCompat.Builder(context, NotificationConstant.CHANNEL_ID)
         // .SetSmallIcon(Resource.Drawable.round_audiotrack_24)
@@ -47,8 +47,13 @@ public static class LocalNotificationHelper
     return builder.Build();
   }
 
-  public static void CreateNotificationChannel(Context context)
+  public static void CreateNotificationChannel(Context? context)
   {
+    if (context == null)
+    {
+      return;
+    }
+
     var channel = new NotificationChannel(
         NotificationConstant.CHANNEL_ID,
         "Lock screen media controls",
@@ -58,7 +63,7 @@ public static class LocalNotificationHelper
     notificationManager.CreateNotificationChannel(channel);
   }
 
-  public static void CancelAll(Context context)
+  public static void CancelAll(Context? context)
   {
     NotificationManagerCompat.From(context).CancelAll();
   }

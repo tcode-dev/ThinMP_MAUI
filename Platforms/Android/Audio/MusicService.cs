@@ -160,7 +160,7 @@ public class MusicService : Service
     Play();
   }
 
-  private ISongModel GetCurrentSong()
+  private ISongModel? GetCurrentSong()
   {
     if (_player.CurrentMediaItem == null)
     {
@@ -187,7 +187,7 @@ public class MusicService : Service
     _player.ShuffleModeEnabled = _shuffleMode == ShuffleMode.On;
   }
 
-  private Notification CreateNotification()
+  private Notification? CreateNotification()
   {
     var song = GetCurrentSong();
     if (song == null)
@@ -195,15 +195,19 @@ public class MusicService : Service
       return null;
     }
 
-    Bitmap albumArtBitmap = null;
+    Bitmap? albumArtBitmap = null;
     try
     {
-      var source = ImageDecoder.CreateSource(ContentResolver, song.ImageUri);
-      albumArtBitmap = ImageDecoder.DecodeBitmap(source);
+      if (ContentResolver != null)
+      {
+        var source = ImageDecoder.CreateSource(ContentResolver, song.ImageUri);
+
+        albumArtBitmap = ImageDecoder.DecodeBitmap(source);
+      }
     }
     catch (Java.Lang.Exception) { }
 
-    return LocalNotificationHelper.CreateNotification(ApplicationContext, _mediaStyle, song.Name, song.ArtistName, albumArtBitmap);
+    return LocalNotificationHelper.CreateNotification(_mediaStyle, song.Name, song.ArtistName, ApplicationContext, albumArtBitmap);
   }
 
   private void Notification()
@@ -225,7 +229,7 @@ public class MusicService : Service
       _sendPlaybackSongChange?.Invoke(song);
   }
 
-  private void OnError(string message)
+  private void OnError(string? message)
   {
     Retry();
   }
@@ -260,12 +264,12 @@ public class MusicService : Service
     _mediaSession.Release();
   }
 
-  public override IBinder OnBind(Intent intent)
+  public override IBinder OnBind(Intent? intent)
   {
     return _binder;
   }
 
-  public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
+  public override StartCommandResult OnStartCommand(Intent? intent, StartCommandFlags flags, int startId)
   {
     return StartCommandResult.NotSticky;
   }
@@ -305,16 +309,16 @@ public class MusicService : Service
       Console.WriteLine($"OnPlayWhenReadyChanged: playWhenReady={playWhenReady}, reason={reason}");
     }
 
-    public void OnTracksChanged(Tracks tracks)
+    public void OnTracksChanged(Tracks? tracks)
     {
       service.OnPlaybackSongChange();
       service.Notification();
       service._isStarting = false;
     }
 
-    public void OnPlayerError(PlaybackException error)
+    public void OnPlayerError(PlaybackException? error)
     {
-      if (error.ErrorCode == PlaybackException.ErrorCodeIoFileNotFound)
+      if (error?.ErrorCode == PlaybackException.ErrorCodeIoFileNotFound)
       {
         service.OnError(error.Message);
       }
