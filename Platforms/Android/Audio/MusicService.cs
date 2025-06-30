@@ -167,7 +167,6 @@ public class MusicService : Service
       return null;
     }
 
-
     return _playingList.FirstOrDefault(song => MediaItem.FromUri(song.MediaUri).ToString() == _player.CurrentMediaItem.ToString());
   }
 
@@ -177,7 +176,11 @@ public class MusicService : Service
     _mediaSession = new MediaSession.Builder(ApplicationContext, _player).Build();
     _mediaStyle = new MediaStyleNotificationHelper.MediaStyle(_mediaSession);
 
-    var mediaItems = _playingList.Select(song => MediaItem.FromUri(song.MediaUri)).ToList();
+    var mediaItems = _playingList
+        .Select(song => MediaItem.FromUri(song.MediaUri))
+        .Where(item => item != null)
+        .Cast<MediaItem>()
+        .ToList();
     _player.SetMediaItems(mediaItems);
     _player.Prepare();
     _player.SeekTo(index, 0);
@@ -213,8 +216,11 @@ public class MusicService : Service
   private void Notification()
   {
     var notification = CreateNotification();
+
     if (notification != null)
+    {
       LocalNotificationHelper.Notify(notification, ApplicationContext);
+    }
   }
 
   private void OnIsPlayingChange()
@@ -309,12 +315,12 @@ public class MusicService : Service
       Console.WriteLine($"OnPlayWhenReadyChanged: playWhenReady={playWhenReady}, reason={reason}");
     }
 
-    public void OnTracksChanged(Tracks? tracks)
-    {
-      service.OnPlaybackSongChange();
-      service.Notification();
-      service._isStarting = false;
-    }
+    // public void OnTracksChanged(Tracks? tracks)
+    // {
+    //   service.OnPlaybackSongChange();
+    //   service.Notification();
+    //   service._isStarting = false;
+    // }
 
     public void OnPlayerError(PlaybackException? error)
     {
