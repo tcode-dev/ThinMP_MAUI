@@ -232,7 +232,9 @@ public class MusicService : Service
   {
     var song = GetCurrentSong();
     if (song != null)
+    {
       _sendPlaybackSongChange?.Invoke(song);
+    }
   }
 
   private void OnError(string? message)
@@ -300,8 +302,8 @@ public class MusicService : Service
 
     public void OnPlayerStateChanged(bool playWhenReady, int playbackState)
     {
-      Console.WriteLine($"OnPlayerStateChanged: playWhenReady={playWhenReady}, playbackState={playbackState}");
-      if (playbackState == MediaConstant.STATE_ENDED) // STATE_ENDED
+      Console.WriteLine($"called OnPlayerStateChanged: playWhenReady={playWhenReady}, playbackState={playbackState}");
+      if (playbackState == MediaConstant.STATE_ENDED)
       {
         service._player.Pause();
         service._player.SeekTo(0, 0);
@@ -312,15 +314,16 @@ public class MusicService : Service
 
     public void OnPlayWhenReadyChanged(bool playWhenReady, int reason)
     {
-      Console.WriteLine($"OnPlayWhenReadyChanged: playWhenReady={playWhenReady}, reason={reason}");
+      Console.WriteLine($"called OnPlayWhenReadyChanged: playWhenReady={playWhenReady}, reason={reason}");
     }
 
-    // public void OnTracksChanged(Tracks? tracks)
-    // {
-    //   service.OnPlaybackSongChange();
-    //   service.Notification();
-    //   service._isStarting = false;
-    // }
+    public void OnTracksChanged(Tracks? tracks)
+    {
+      Console.WriteLine("called OnTracksChanged");
+      // service.OnPlaybackSongChange();
+      // service.Notification();
+      // service._isStarting = false;
+    }
 
     public void OnPlayerError(PlaybackException? error)
     {
