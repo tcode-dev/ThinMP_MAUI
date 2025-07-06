@@ -28,9 +28,13 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-		builder.Services.AddTransient<ISongRepository, SongRepository>();
-		builder.Services.AddTransient<ISongService, SongService>();
-		builder.Services.AddTransient<IPlayerService, PlayerService>();
+#if ANDROID || IOS
+    builder.Services.AddTransient<ISongRepository, SongRepository>();
+    builder.Services.AddTransient<ISongService, SongService>();
+    builder.Services.AddSingleton<IAlbumArtService, AlbumArtService>();
+    builder.Services.AddTransient<IPlayerService, PlayerService>();
+#endif
+
 		builder.Services.AddSingleton<SongViewModel>();
 		builder.Services.AddSingleton<SongsPage>();
 
