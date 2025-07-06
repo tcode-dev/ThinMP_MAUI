@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Markup;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.ViewModels;
+using ThinMPm.Views.Img;
 
 namespace ThinMPm.Views.Page;
 
@@ -32,9 +33,14 @@ class SongsPage : ContentPage
                     },
                     Children =
                     {
-                        new Image()
-                            .Bind(Image.SourceProperty, "ImageId")
+                        new ArtworkImg()
+                        {
+                            WidthRequest = 44,
+                            HeightRequest = 44
+                        }
+                            .Bind(ArtworkImg.IdProperty, "ImageId")
                             .Row(0).RowSpan(2).Column(0),
+
                         new Label()
                             .Bind(Label.TextProperty, "Name")
                             .Row(0).Column(1),

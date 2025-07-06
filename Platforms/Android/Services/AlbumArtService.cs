@@ -14,12 +14,15 @@ public class AlbumArtService : IAlbumArtService
             var context = Platform.AppContext;
             var albumArtUri = Uri.Parse($"{MediaConstant.ALBUM_ART}/{id}");
             var source = ImageDecoder.CreateSource(context.ContentResolver, albumArtUri);
-            var bitmap = await Task.Run(() => ImageDecoder.DecodeBitmap(source));
-            var stream = new MemoryStream();
 
-            bitmap.Compress(Bitmap.CompressFormat.Png, 90, stream);
+            return await Task.Run(() =>
+            {
+                var bitmap = ImageDecoder.DecodeBitmap(source);
+                using var stream = new MemoryStream();
+                bitmap.Compress(Bitmap.CompressFormat.Png, 90, stream);
 
-            return Convert.ToBase64String(stream.ToArray());
+                return Convert.ToBase64String(stream.ToArray());
+            });
         }
         catch
         {
