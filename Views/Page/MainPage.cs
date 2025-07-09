@@ -39,16 +39,7 @@ class MainPage : ContentPage
                  .TextColor(Colors.Black)
                  .Height(44)
                  .Margin(5, 5)
-                 .Bind(Entry.TextProperty, static (ViewModel vm) => vm.RegistrationCode, static (ViewModel vm, string text) => vm.RegistrationCode = text),
-
-                // new Button()
-                //     .Text("Go to Second Page")
-                //     .Row(Row.Navigate).ColumnSpan(All<Column>())
-                //     .CenterHorizontal()
-                //     .Invoke(b => b.Clicked += async (s, e) =>
-                //     {
-                //         await Navigation.PushAsync(new SecondPage());
-                //     }),
+                 .Bind(Entry.TextProperty, static (ViewModel vm) => vm.RegistrationCode, static (vm, text) => vm.RegistrationCode = text),
 
                 new Button()
                     .Text("Go to Songs Page")
@@ -57,17 +48,8 @@ class MainPage : ContentPage
                     .Invoke(b => b.Clicked += async (s, e) =>
                     {
                         var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<SongsPage>();
-                        await Navigation.PushAsync(page);
-                        // var serviceProvider = Application.Current?.Handler?.MauiContext?.Services;
-                        // if (serviceProvider is not null)
-                        // {
-                        //     var songsPage = serviceProvider.GetRequiredService<SongsPage>();
-                        //     if (songsPage is not null)
-                        //     {
 
-                        //         await Navigation.PushAsync(songsPage);
-                        //     }
-                        // }
+                        await Navigation.PushAsync(page);
                     }),
             }
         };
