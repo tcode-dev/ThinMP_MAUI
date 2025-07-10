@@ -38,11 +38,11 @@ public class ArtworkImg : Image
     if (!string.IsNullOrEmpty(id))
     {
 
-      var albumArtService = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<IAlbumArtService>();
+      var artworkService = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<IArtworkService>();
 
-      if (albumArtService != null)
+      if (artworkService != null)
       {
-        var base64 = await albumArtService.GetArtwork(id);
+        var base64 = await artworkService.GetArtwork(id);
 
         control.Base64Source = base64;
       }

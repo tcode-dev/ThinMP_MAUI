@@ -1,6 +1,6 @@
 namespace ThinMPm.Contracts.Services;
 
-public interface IAlbumArtService
+public interface IArtworkService
 {
     Task<string?> GetArtwork(string id);
 }

@@ -5,7 +5,7 @@ using Android.Graphics;
 
 namespace ThinMPm.Platforms.Android.Services;
 
-public class AlbumArtService : IAlbumArtService
+public class ArtworkService : IArtworkService
 {
     public async Task<string?> GetArtwork(string id)
     {

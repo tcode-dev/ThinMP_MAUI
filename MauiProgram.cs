@@ -31,7 +31,7 @@ public static class MauiProgram
 #if ANDROID || IOS
     builder.Services.AddTransient<ISongRepository, SongRepository>();
     builder.Services.AddTransient<ISongService, SongService>();
-    builder.Services.AddSingleton<IAlbumArtService, AlbumArtService>();
+    builder.Services.AddSingleton<IArtworkService, ArtworkService>();
     builder.Services.AddTransient<IPlayerService, PlayerService>();
 #endif
 
