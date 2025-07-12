@@ -1,2 +1,3 @@
 # ThinMP_MAUI
-Music Player
+
+This app is a simple music player for Android and iOS.
