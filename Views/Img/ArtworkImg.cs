@@ -17,17 +17,17 @@ public class ArtworkImg : Image
     set => SetValue(IdProperty, value);
   }
 
-  public static readonly BindableProperty Base64SourceProperty =
+  public static readonly BindableProperty ArtworkProperty =
       BindableProperty.Create(
-          nameof(Base64Source),
-          typeof(string),
+          nameof(Artwork),
+          typeof(byte[]),
           typeof(ArtworkImg),
-          propertyChanged: OnBase64SourceChanged);
+          propertyChanged: OnArtworkChanged);
 
-  public string? Base64Source
+  public byte[]? Artwork
   {
-    get => (string?)GetValue(Base64SourceProperty);
-    set => SetValue(Base64SourceProperty, value);
+    get => (byte[])GetValue(ArtworkProperty);
+    set => SetValue(ArtworkProperty, value);
   }
 
   private static async void OnIdChanged(BindableObject bindable, object oldValue, object newValue)
@@ -37,44 +37,32 @@ public class ArtworkImg : Image
 
     if (!string.IsNullOrEmpty(id))
     {
-
       var artworkService = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<IArtworkService>();
 
       if (artworkService != null)
       {
-        var base64 = await artworkService.GetArtwork(id);
-
-        control.Base64Source = base64;
+        control.Artwork = await artworkService.GetArtwork(id);
       }
       else
       {
-        control.Base64Source = null;
+        control.Artwork = null;
       }
     }
     else
     {
-      control.Base64Source = null;
+      control.Artwork = null;
     }
   }
 
-  private static void OnBase64SourceChanged(BindableObject bindable, object oldValue, object newValue)
+  private static void OnArtworkChanged(BindableObject bindable, object oldValue, object newValue)
   {
     var control = (ArtworkImg)bindable;
-    var base64String = newValue as string;
 
-    if (!string.IsNullOrEmpty(base64String))
+    try
     {
-      try
-      {
-        byte[] imageBytes = Convert.FromBase64String(base64String);
-        control.Source = ImageSource.FromStream(() => new MemoryStream(imageBytes));
-      }
-      catch
-      {
-        control.Source = null;
-      }
+      control.Source = newValue is byte[] image ? ImageSource.FromStream(() => new MemoryStream(image)) : null;
     }
-    else
+    catch
     {
       control.Source = null;
     }

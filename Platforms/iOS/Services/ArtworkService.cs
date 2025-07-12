@@ -6,18 +6,13 @@ namespace ThinMPm.Platforms.iOS.Services;
 
 public class ArtworkService : IArtworkService
 {
-    public async Task<string?> GetArtwork(string id)
+    public async Task<byte[]?> GetArtwork(string id)
     {
         var repository = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<ISongRepository>();
         var song = repository?.FindBySongId(id);
         var image = song?.Artwork?.ImageWithSize(new CGSize(100, 100));
         var data = image?.AsPNG();
 
-        if (data == null)
-        {
-            return null;
-        }
-
-        return Convert.ToBase64String(data.ToArray());
+        return data?.ToArray();
     }
 }

@@ -7,7 +7,7 @@ namespace ThinMPm.Platforms.Android.Services;
 
 public class ArtworkService : IArtworkService
 {
-    public async Task<string?> GetArtwork(string id)
+    public async Task<byte[]?> GetArtwork(string id)
     {
         try
         {
@@ -21,7 +21,7 @@ public class ArtworkService : IArtworkService
                 using var stream = new MemoryStream();
                 bitmap.Compress(Bitmap.CompressFormat.Png, 90, stream);
 
-                return Convert.ToBase64String(stream.ToArray());
+                return stream.ToArray();
             });
         }
         catch
