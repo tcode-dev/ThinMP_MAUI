@@ -17,19 +17,6 @@ public class ArtworkImg : Image
     set => SetValue(IdProperty, value);
   }
 
-  public static readonly BindableProperty ArtworkProperty =
-      BindableProperty.Create(
-          nameof(Artwork),
-          typeof(byte[]),
-          typeof(ArtworkImg),
-          propertyChanged: OnArtworkChanged);
-
-  public byte[]? Artwork
-  {
-    get => (byte[])GetValue(ArtworkProperty);
-    set => SetValue(ArtworkProperty, value);
-  }
-
   private static async void OnIdChanged(BindableObject bindable, object oldValue, object newValue)
   {
     var control = (ArtworkImg)bindable;
@@ -41,28 +28,24 @@ public class ArtworkImg : Image
 
       if (artworkService != null)
       {
-        control.Artwork = await artworkService.GetArtwork(id);
+        try
+        {
+          var imageBytes = await artworkService.GetArtwork(id);
+          control.Source = imageBytes != null
+              ? ImageSource.FromStream(() => new MemoryStream(imageBytes))
+              : null;
+        }
+        catch
+        {
+          control.Source = null;
+        }
       }
       else
       {
-        control.Artwork = null;
+        control.Source = null;
       }
     }
     else
-    {
-      control.Artwork = null;
-    }
-  }
-
-  private static void OnArtworkChanged(BindableObject bindable, object oldValue, object newValue)
-  {
-    var control = (ArtworkImg)bindable;
-
-    try
-    {
-      control.Source = newValue is byte[] image ? ImageSource.FromStream(() => new MemoryStream(image)) : null;
-    }
-    catch
     {
       control.Source = null;
     }
