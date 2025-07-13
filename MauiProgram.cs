@@ -29,14 +29,14 @@ public static class MauiProgram
 			});
 
 #if ANDROID || IOS
-    builder.Services.AddTransient<ISongRepository, SongRepository>();
-    builder.Services.AddTransient<ISongService, SongService>();
+    builder.Services.AddSingleton<ISongRepository, SongRepository>();
+    builder.Services.AddSingleton<ISongService, SongService>();
     builder.Services.AddSingleton<IArtworkService, ArtworkService>();
-    builder.Services.AddTransient<IPlayerService, PlayerService>();
+    builder.Services.AddSingleton<IPlayerService, PlayerService>();
 #endif
 
-		builder.Services.AddSingleton<SongViewModel>();
-		builder.Services.AddSingleton<SongsPage>();
+		builder.Services.AddTransient<SongViewModel>();
+		builder.Services.AddTransient<SongsPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();
