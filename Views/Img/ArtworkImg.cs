@@ -11,9 +11,9 @@ public class ArtworkImg : Image
           typeof(ArtworkImg),
           propertyChanged: OnIdChanged);
 
-  public string? Id
+  public string Id
   {
-    get => (string?)GetValue(IdProperty);
+    get => (string)GetValue(IdProperty);
     set => SetValue(IdProperty, value);
   }
 
@@ -22,30 +22,26 @@ public class ArtworkImg : Image
     var control = (ArtworkImg)bindable;
     var id = newValue as string;
 
-    if (!string.IsNullOrEmpty(id))
+    if (string.IsNullOrEmpty(id))
     {
-      var artworkService = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<IArtworkService>();
-
-      if (artworkService != null)
-      {
-        try
-        {
-          var imageBytes = await artworkService.GetArtwork(id);
-          control.Source = imageBytes != null
-              ? ImageSource.FromStream(() => new MemoryStream(imageBytes))
-              : null;
-        }
-        catch
-        {
-          control.Source = null;
-        }
-      }
-      else
-      {
-        control.Source = null;
-      }
+      return;
     }
-    else
+
+    var artworkService = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<IArtworkService>();
+
+    if (artworkService == null)
+    {
+      return;
+    }
+
+    try
+    {
+      var artwork = await artworkService.GetArtwork(id);
+      control.Source = artwork != null
+          ? ImageSource.FromStream(() => new MemoryStream(artwork))
+          : null;
+    }
+    catch
     {
       control.Source = null;
     }
