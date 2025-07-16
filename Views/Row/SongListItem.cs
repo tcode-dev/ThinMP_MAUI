@@ -19,6 +19,10 @@ public class SongListItem : Grid
 
         RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
         RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        RowDefinitions.Add(new RowDefinition { Height = 1 });
+
+        var isDark = Application.Current?.RequestedTheme == AppTheme.Dark;
+        var lineColor = isDark ? Colors.DarkGray : Colors.LightGray;
 
         Children.Add(
             new ArtworkImg
@@ -42,6 +46,15 @@ public class SongListItem : Grid
                 .Bind(Label.TextProperty, "ArtistName")
                 .Row(1).Column(1)
                 .Margin(new Thickness(10, 0, 0, 0))
+        );
+
+        Children.Add(
+            new BoxView
+            {
+                HeightRequest = 1,
+                BackgroundColor = lineColor
+            }
+            .Row(2).ColumnSpan(2)
         );
     }
 }
