@@ -5,8 +5,12 @@ namespace ThinMPm.Views.Row;
 
 public class SongListItem : Grid
 {
-    public SongListItem()
+    public SongListItem(EventHandler<TappedEventArgs> tappedHandler)
     {
+        var tapGesture = new TapGestureRecognizer();
+        tapGesture.Tapped += tappedHandler;
+        GestureRecognizers.Add(tapGesture);
+
         ColumnDefinitions.Add(new ColumnDefinition { Width = 40 });
         ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
 

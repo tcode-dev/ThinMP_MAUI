@@ -17,15 +17,7 @@ class SongsPage : ContentPage
 
         Content = new CollectionView
         {
-            ItemTemplate = new DataTemplate(() =>
-            {
-                var itemView = new SongListItem();
-                var tapGesture = new TapGestureRecognizer();
-                tapGesture.Tapped += OnSongTapped;
-                itemView.GestureRecognizers.Add(tapGesture);
-
-                return itemView;
-            })
+            ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
         }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs));
     }
 
