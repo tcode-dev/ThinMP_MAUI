@@ -21,17 +21,7 @@ class SongsPage : ContentPage
             {
                 var itemView = new SongListItem();
                 var tapGesture = new TapGestureRecognizer();
-                tapGesture.Tapped += (s, e) =>
-                {
-                    if (s is BindableObject bindable && BindingContext is SongViewModel vm)
-                    {
-                        if (bindable.BindingContext is ISongModel item)
-                        {
-                            int index = vm.Songs.IndexOf(item);
-                            _playerService.StartAllSongs(index);
-                        }
-                    }
-                };
+                tapGesture.Tapped += OnSongTapped;
                 itemView.GestureRecognizers.Add(tapGesture);
 
                 return itemView;
@@ -46,6 +36,18 @@ class SongsPage : ContentPage
         if (BindingContext is SongViewModel vm)
         {
             vm.Load();
+        }
+    }
+
+    private void OnSongTapped(object? sender, EventArgs e)
+    {
+        if (sender is BindableObject bindable && BindingContext is SongViewModel vm)
+        {
+            if (bindable.BindingContext is ISongModel item)
+            {
+                int index = vm.Songs.IndexOf(item);
+                _playerService.StartAllSongs(index);
+            }
         }
     }
 }
