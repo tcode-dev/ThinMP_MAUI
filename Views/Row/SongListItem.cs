@@ -38,7 +38,7 @@ public class SongListItem : Grid
             new Label()
                 .Bind(Label.TextProperty, "Name")
                 .Row(0).Column(1)
-                .Margin(new Thickness(10, 0, 0, 0))
+                .Margin(new Thickness(10, 5, 0, 0))
                 .CenterVertical()
         );
 
@@ -46,7 +46,7 @@ public class SongListItem : Grid
             new Label()
                 .Bind(Label.TextProperty, "ArtistName")
                 .Row(1).Column(1)
-                .Margin(new Thickness(10, 0, 0, 0))
+                .Margin(new Thickness(10, 0, 0, 5))
                 .CenterVertical()
         );
 
