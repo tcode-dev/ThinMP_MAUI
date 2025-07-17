@@ -12,7 +12,9 @@ class MainPage : ContentPage
 {
     public MainPage()
     {
-        BindingContext = new ViewModel(); // 追加
+        NavigationPage.SetHasNavigationBar(this, false);
+
+        BindingContext = new ViewModel();
 
         Content = new Grid
         {

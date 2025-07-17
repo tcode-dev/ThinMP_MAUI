@@ -12,6 +12,8 @@ class SongsPage : ContentPage
     private readonly IPlayerService _playerService;
     public SongsPage(SongViewModel vm, IPlayerService playerService)
     {
+        NavigationPage.SetHasNavigationBar(this, false);
+
         BindingContext = vm;
         _playerService = playerService;
 
