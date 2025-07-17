@@ -11,14 +11,14 @@ public class SongListItem : Grid
         tapGesture.Tapped += tappedHandler;
         GestureRecognizers.Add(tapGesture);
 
-        HeightRequest = 50;
+        HeightRequest = 51;
         Padding = new Thickness(20, 0, 0, 0);
 
         ColumnDefinitions.Add(new ColumnDefinition { Width = 40 });
         ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
 
-        RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-        RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        RowDefinitions.Add(new RowDefinition { Height = 25 });
+        RowDefinitions.Add(new RowDefinition { Height = 25 });
         RowDefinitions.Add(new RowDefinition { Height = 1 });
 
         var isDark = Application.Current?.RequestedTheme == AppTheme.Dark;
@@ -39,6 +39,7 @@ public class SongListItem : Grid
                 .Bind(Label.TextProperty, "Name")
                 .Row(0).Column(1)
                 .Margin(new Thickness(10, 0, 0, 0))
+                .CenterVertical()
         );
 
         Children.Add(
@@ -46,6 +47,7 @@ public class SongListItem : Grid
                 .Bind(Label.TextProperty, "ArtistName")
                 .Row(1).Column(1)
                 .Margin(new Thickness(10, 0, 0, 0))
+                .CenterVertical()
         );
 
         Children.Add(
