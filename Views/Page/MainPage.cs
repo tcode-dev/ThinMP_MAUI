@@ -19,7 +19,7 @@ class MainPage : ContentPage
         Content = new Grid
         {
             RowDefinitions = Rows.Define(
-                (Row.TextEntry, 36), (Row.Navigate, 60)),
+                (Row.TextEntry, 36), (Row.Songs, 60), (Row.Albums, 60)),
 
             ColumnDefinitions = Columns.Define(
                 (Column.Description, Star),
@@ -45,7 +45,7 @@ class MainPage : ContentPage
 
                 new Button()
                     .Text("Go to Songs Page")
-                    .Row(Row.Navigate).ColumnSpan(All<Column>())
+                    .Row(Row.Songs).ColumnSpan(All<Column>())
                     .CenterHorizontal()
                     .Invoke(b => b.Clicked += async (s, e) =>
                     {
@@ -53,10 +53,21 @@ class MainPage : ContentPage
 
                         await Navigation.PushAsync(page);
                     }),
+
+                new Button()
+                    .Text("Go to Albums Page")
+                    .Row(Row.Albums).ColumnSpan(All<Column>())
+                    .CenterHorizontal()
+                    .Invoke(b => b.Clicked += async (s, e) =>
+                    {
+                        var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<AlbumsPage>();
+
+                        await Navigation.PushAsync(page);
+                    }),
             }
         };
     }
 
-    enum Row { TextEntry, Navigate }
+    enum Row { TextEntry, Songs, Albums }
     enum Column { Description, Input }
 }
