@@ -15,6 +15,7 @@ class AlbumsPage : ContentPage
 
         Content = new CollectionView
         {
+            ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
             ItemTemplate = new DataTemplate(() => new Label().Bind(Label.TextProperty, nameof(IAlbumModel.Name)))
         }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums));
     }
