@@ -1,18 +1,31 @@
-using ThinMPm.Contracts.Services;
+using CommunityToolkit.Maui.Markup;
+using ThinMPm.Contracts.Models;
+using ThinMPm.ViewModels;
 
 namespace ThinMPm.Views.Page;
 
 class AlbumsPage : ContentPage
 {
 
-    private readonly IPlayerService _playerService;
-    public AlbumsPage()
+    public AlbumsPage(AlbumViewModel vm)
     {
         NavigationPage.SetHasNavigationBar(this, false);
 
-        Content = new Label()
+        BindingContext = vm;
+
+        Content = new CollectionView
         {
-            Text = "Albums"
-        };
+            ItemTemplate = new DataTemplate(() => new Label().Bind(Label.TextProperty, nameof(IAlbumModel.Name)))
+        }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums));
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is AlbumViewModel vm)
+        {
+            vm.Load();
+        }
     }
 }
