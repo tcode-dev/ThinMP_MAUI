@@ -8,7 +8,6 @@ namespace ThinMPm.Views.Page;
 
 class SongsPage : ContentPage
 {
-
     private readonly IPlayerService _playerService;
     public SongsPage(SongViewModel vm, IPlayerService playerService)
     {

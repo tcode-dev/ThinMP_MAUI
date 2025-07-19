@@ -6,7 +6,6 @@ namespace ThinMPm.Views.Page;
 
 class AlbumsPage : ContentPage
 {
-
     public AlbumsPage(AlbumViewModel vm)
     {
         NavigationPage.SetHasNavigationBar(this, false);
