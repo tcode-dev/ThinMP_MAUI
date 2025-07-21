@@ -13,8 +13,6 @@ public class AlbumGridItem : ContentView
 
         Padding = new Thickness(10, 20, 10, 0);
 
-        var isDark = Application.Current?.RequestedTheme == AppTheme.Dark;
-
         Content = new VerticalStackLayout
         {
             Spacing = 4,
