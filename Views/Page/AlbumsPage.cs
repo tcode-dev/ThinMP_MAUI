@@ -1,6 +1,6 @@
 using CommunityToolkit.Maui.Markup;
-using ThinMPm.Contracts.Models;
 using ThinMPm.ViewModels;
+using ThinMPm.Views.GridItem;
 
 namespace ThinMPm.Views.Page;
 
@@ -15,7 +15,7 @@ class AlbumsPage : ContentPage
         Content = new CollectionView
         {
             ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
-            ItemTemplate = new DataTemplate(() => new Label().Bind(Label.TextProperty, nameof(IAlbumModel.Name)))
+            ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnSongTapped))
         }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums));
     }
 
@@ -27,5 +27,9 @@ class AlbumsPage : ContentPage
         {
             vm.Load();
         }
+    }
+
+    private void OnSongTapped(object? sender, EventArgs e)
+    {
     }
 }
