@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Markup;
+using ThinMPm.Contracts.Models;
 using ThinMPm.Views.Img;
 
 namespace ThinMPm.Views.Row;
@@ -30,13 +31,13 @@ public class SongListItem : Grid
                 WidthRequest = 40,
                 HeightRequest = 40
             }
-            .Bind(ArtworkImg.IdProperty, "ImageId")
+            .Bind(ArtworkImg.IdProperty, nameof(ISongModel.ImageId))
             .Row(0).RowSpan(2).Column(0)
         );
 
         Children.Add(
             new Label()
-                .Bind(Label.TextProperty, "Name")
+                .Bind(Label.TextProperty, nameof(ISongModel.Name))
                 .Row(0).Column(1)
                 .Margin(new Thickness(10, 5, 0, 0))
                 .CenterVertical()
@@ -44,7 +45,7 @@ public class SongListItem : Grid
 
         Children.Add(
             new Label()
-                .Bind(Label.TextProperty, "ArtistName")
+                .Bind(Label.TextProperty, nameof(ISongModel.ArtistName))
                 .Row(1).Column(1)
                 .Margin(new Thickness(10, 0, 0, 5))
                 .CenterVertical()

@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Markup;
+using ThinMPm.Contracts.Models;
 using ThinMPm.Views.Img;
 
 namespace ThinMPm.Views.GridItem;
@@ -19,13 +20,13 @@ public class AlbumGridItem : ContentView
             Children =
             {
                 new ArtworkImg()
-                    .Bind(ArtworkImg.IdProperty, "ImageId"),
+                    .Bind(ArtworkImg.IdProperty, nameof(IAlbumModel.ImageId)),
 
                 new Label()
-                    .Bind(Label.TextProperty, "Name"),
+                    .Bind(Label.TextProperty, nameof(IAlbumModel.Name)),
 
                 new Label()
-                    .Bind(Label.TextProperty, "ArtistName")
+                    .Bind(Label.TextProperty, nameof(IAlbumModel.ArtistName))
             }
         };
     }
