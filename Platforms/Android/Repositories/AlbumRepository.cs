@@ -12,7 +12,7 @@ public class AlbumRepository : MediaStoreRepository<IAlbumModel>, IAlbumReposito
             MediaStore.Audio.Albums.ExternalContentUri,
             new[]
             {
-              MediaStore.Audio.Albums.InterfaceConsts.Id,
+              MediaStore.Audio.Albums.InterfaceConsts.AlbumId,
               MediaStore.Audio.Albums.InterfaceConsts.Album,
               MediaStore.Audio.Albums.InterfaceConsts.ArtistId,
               MediaStore.Audio.Albums.InterfaceConsts.Artist,
