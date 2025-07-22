@@ -3,6 +3,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Row;
+using ThinMPm.Views.Header;
 
 namespace ThinMPm.Views.Page;
 
@@ -15,11 +16,17 @@ class SongsPage : ContentPage
 
         BindingContext = vm;
         _playerService = playerService;
-
-        Content = new CollectionView
+        Content = new VerticalStackLayout
         {
-            ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
-        }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs));
+            Children = {
+                new SongsHeader(),
+                new CollectionView
+                {
+                    ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
+                }
+                .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
+            }
+        };
     }
 
     protected override void OnAppearing()
