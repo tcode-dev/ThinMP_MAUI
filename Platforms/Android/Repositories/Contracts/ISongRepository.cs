@@ -1,5 +1,3 @@
-
-
 using ThinMPm.Platforms.Android.Models.Contracts;
 
 namespace ThinMPm.Platforms.Android.Repositories.Contracts;
