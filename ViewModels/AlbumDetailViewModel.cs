@@ -6,11 +6,13 @@ namespace ThinMPm.ViewModels;
 
 public class AlbumDetailViewModel
 {
+    readonly IAlbumService _albumService;
     readonly ISongService _songService;
     public ObservableCollection<ISongModel> Songs { get; } = new();
 
-    public AlbumDetailViewModel(ISongService songService)
+    public AlbumDetailViewModel(IAlbumService albumService, ISongService songService)
     {
+        _albumService = albumService;
         _songService = songService;
     }
 
