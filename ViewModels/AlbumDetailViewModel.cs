@@ -6,19 +6,21 @@ namespace ThinMPm.ViewModels;
 
 public class AlbumDetailViewModel
 {
+    private readonly string _id;
     readonly IAlbumService _albumService;
     readonly ISongService _songService;
     public ObservableCollection<ISongModel> Songs { get; } = new();
 
-    public AlbumDetailViewModel(IAlbumService albumService, ISongService songService)
+    public AlbumDetailViewModel(string id, IAlbumService albumService, ISongService songService)
     {
+        _id = id;
         _albumService = albumService;
         _songService = songService;
     }
 
     public void Load()
     {
-        var songs = _songService.FindAll();
+        var songs = _songService.FindByAlbumId(_id);
 
         Songs.Clear();
 
