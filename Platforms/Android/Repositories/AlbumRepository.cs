@@ -30,12 +30,17 @@ public class AlbumRepository : MediaStoreRepository<IAlbumModel>, IAlbumReposito
         return GetList();
     }
 
-    public IList<IAlbumModel> FindByArtistId(string artistId)
+    public IAlbumModel? FindById(string id)
     {
-        throw new NotImplementedException();
+        Selection = MediaStore.Audio.Albums.InterfaceConsts.AlbumId + " = ?";
+        SelectionArgs = new[] { id };
+        SortOrder = null;
+        Bundle = null;
+
+        return Get();
     }
 
-    public IAlbumModel? FindById(string albumId)
+    public IList<IAlbumModel> FindByArtistId(string artistId)
     {
         throw new NotImplementedException();
     }
