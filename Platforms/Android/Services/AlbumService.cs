@@ -19,15 +19,17 @@ public class AlbumService : IAlbumService
         return _albumRepository.FindAll().Select(album => album.ToHostModel()).ToList();
     }
 
+    public IAlbumModel? FindById(string id)
+    {
+        return _albumRepository.FindById(id)?.ToHostModel();
+    }
+
     public IList<IAlbumModel> FindByArtistId(string artistId)
     {
         throw new NotImplementedException();
     }
 
-    public IAlbumModel? FindById(string id)
-    {
-        throw new NotImplementedException();
-    }
+
 
     public IList<IAlbumModel> FindByRecent(int count)
     {
