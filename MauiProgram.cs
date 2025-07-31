@@ -40,9 +40,11 @@ public static class MauiProgram
 
 		builder.Services.AddTransient<SongViewModel>();
 		builder.Services.AddTransient<AlbumViewModel>();
+		builder.Services.AddTransient<AlbumDetailViewModel>();
 
 		builder.Services.AddTransient<SongsPage>();
-		builder.Services.AddTransient<AlbumsPage>();
+		// builder.Services.AddTransient<AlbumsPage>();
+		// builder.Services.AddTransient<AlbumDetailPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

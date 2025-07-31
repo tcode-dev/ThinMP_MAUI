@@ -1,26 +1,28 @@
 using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.ViewModels;
 
-public class AlbumDetailViewModel
+public class AlbumDetailViewModel : ObservableObject
 {
-    private readonly string _id;
     readonly IAlbumService _albumService;
     readonly ISongService _songService;
+    public IAlbumModel? Album;
     public ObservableCollection<ISongModel> Songs { get; } = new();
 
-    public AlbumDetailViewModel(string id, IAlbumService albumService, ISongService songService)
+    public AlbumDetailViewModel(IAlbumService albumService, ISongService songService)
     {
-        _id = id;
         _albumService = albumService;
         _songService = songService;
     }
 
-    public void Load()
+    public void Load(string id)
     {
-        var songs = _songService.FindByAlbumId(_id);
+        Album = _albumService.FindById(id);
+
+        var songs = _songService.FindByAlbumId(id);
 
         Songs.Clear();
 

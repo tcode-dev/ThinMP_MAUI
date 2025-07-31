@@ -7,10 +7,21 @@ using ThinMPm.Views.Header;
 
 namespace ThinMPm.Views.Page;
 
+[QueryProperty(nameof(AlbumId), "albumId")]
 class AlbumDetailPage : ContentPage
 {
+    public string AlbumId
+    {
+        get => _albumId;
+        set
+        {
+            _albumId = value;
+            Load();
+        }
+    }
+    string _albumId;
     private readonly IPlayerService _playerService;
-    public AlbumDetailPage(SongViewModel vm, IPlayerService playerService)
+    public AlbumDetailPage(AlbumDetailViewModel vm, IPlayerService playerService)
     {
         NavigationPage.SetHasNavigationBar(this, false);
 
@@ -19,7 +30,7 @@ class AlbumDetailPage : ContentPage
         Content = new VerticalStackLayout
         {
             Children = {
-                new SongsHeader(),
+                new AlbumDetailHeader(vm.Album?.Name ?? "Unknown Album"),
                 new CollectionView
                 {
                     ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
@@ -29,25 +40,31 @@ class AlbumDetailPage : ContentPage
         };
     }
 
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
+    // protected override void OnAppearing()
+    // {
+    //     base.OnAppearing();
 
-        if (BindingContext is SongViewModel vm)
+    //     if (BindingContext is AlbumDetailViewModel vm)
+    //     {
+    //         vm.Load();
+    //     }
+    // }
+    private void Load()
+    {
+        if (BindingContext is AlbumDetailViewModel vm)
         {
-            vm.Load();
+            vm.Load(AlbumId);
         }
     }
-
     private void OnSongTapped(object? sender, EventArgs e)
     {
-        if (sender is BindableObject bindable && BindingContext is SongViewModel vm)
-        {
-            if (bindable.BindingContext is ISongModel item)
-            {
-                int index = vm.Songs.IndexOf(item);
-                _playerService.StartAllSongs(index);
-            }
-        }
+        // if (sender is BindableObject bindable)
+        // {
+        //     if (bindable.BindingContext is ISongModel item)
+        //     {
+        //         int index = _vm.Songs.IndexOf(item);
+        //         _playerService.StartAllSongs(index);
+        //     }
+        // }
     }
 }
