@@ -1,6 +1,5 @@
 using CommunityToolkit.Maui.Markup;
 using ThinMPm.Contracts.Models;
-using ThinMPm.Contracts.Services;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.GridItem;
 
@@ -8,13 +7,11 @@ namespace ThinMPm.Views.Page;
 
 class AlbumsPage : ContentPage
 {
-    private readonly AlbumViewModel _vm;
     public AlbumsPage(AlbumViewModel vm)
     {
         NavigationPage.SetHasNavigationBar(this, false);
 
         BindingContext = vm;
-        // _vm = vm;
 
         Content = new CollectionView
         {
@@ -31,9 +28,6 @@ class AlbumsPage : ContentPage
         {
             vm.Load();
         }
-
-        // _vm.Load();
-
     }
 
     private async void OnSongTapped(object? sender, EventArgs e)
@@ -42,17 +36,16 @@ class AlbumsPage : ContentPage
         {
             if (bindable.BindingContext is IAlbumModel item)
             {
-                // var albumDetailViewModel = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<AlbumDetailViewModel>();
-                // // var playerService = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<IPlayerService>();
+                var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<AlbumDetailPage>();
 
-                // albumDetailViewModel.Id = item.Id;
+                if (page == null)
+                {
+                    return;
+                }
 
-                // var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<AlbumDetailPage>();
-                // page.BindingContext = item.Id;
+                page.AlbumId = item.Id;
 
-                // Navigation.PushAsync(page);
-
-                await Shell.Current.GoToAsync($"//AlbumDetailPage?albumId={item.Id}");
+                await Navigation.PushAsync(page);
             }
         }
     }

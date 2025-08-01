@@ -60,10 +60,9 @@ class MainPage : ContentPage
                     .CenterHorizontal()
                     .Invoke(b => b.Clicked += async (s, e) =>
                     {
-                        // var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<AlbumsPage>();
+                        var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<AlbumsPage>();
 
-                        // await Navigation.PushAsync(page);
-                        await Shell.Current.GoToAsync("//AlbumsPage");
+                        await Navigation.PushAsync(page);
                     }),
             }
         };

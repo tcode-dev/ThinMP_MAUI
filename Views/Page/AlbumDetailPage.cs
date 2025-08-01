@@ -7,19 +7,9 @@ using ThinMPm.Views.Header;
 
 namespace ThinMPm.Views.Page;
 
-[QueryProperty(nameof(AlbumId), "albumId")]
 class AlbumDetailPage : ContentPage
 {
-    public string AlbumId
-    {
-        get => _albumId;
-        set
-        {
-            _albumId = value;
-            Load();
-        }
-    }
-    string _albumId;
+    public string AlbumId { get; set; }
     private readonly IPlayerService _playerService;
     public AlbumDetailPage(AlbumDetailViewModel vm, IPlayerService playerService)
     {
@@ -40,31 +30,25 @@ class AlbumDetailPage : ContentPage
         };
     }
 
-    // protected override void OnAppearing()
-    // {
-    //     base.OnAppearing();
-
-    //     if (BindingContext is AlbumDetailViewModel vm)
-    //     {
-    //         vm.Load();
-    //     }
-    // }
-    private void Load()
+    protected override void OnAppearing()
     {
+        base.OnAppearing();
+
         if (BindingContext is AlbumDetailViewModel vm)
         {
             vm.Load(AlbumId);
         }
     }
+
     private void OnSongTapped(object? sender, EventArgs e)
     {
-        // if (sender is BindableObject bindable)
-        // {
-        //     if (bindable.BindingContext is ISongModel item)
-        //     {
-        //         int index = _vm.Songs.IndexOf(item);
-        //         _playerService.StartAllSongs(index);
-        //     }
-        // }
+        if (sender is BindableObject bindable && BindingContext is SongViewModel vm)
+        {
+            if (bindable.BindingContext is ISongModel item)
+            {
+                int index = vm.Songs.IndexOf(item);
+                _playerService.StartAllSongs(index);
+            }
+        }
     }
 }

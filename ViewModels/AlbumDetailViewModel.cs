@@ -1,11 +1,10 @@
 using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.ViewModels;
 
-public class AlbumDetailViewModel : ObservableObject
+public class AlbumDetailViewModel
 {
     readonly IAlbumService _albumService;
     readonly ISongService _songService;
