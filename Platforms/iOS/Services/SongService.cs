@@ -26,16 +26,16 @@ public class SongService : ISongService
 
     public IList<ISongModel> FindByArtistId(string artistId)
     {
-        throw new NotImplementedException();
+        return Array.Empty<ISongModel>();
     }
 
     public ISongModel? FindById(string songId)
     {
-        throw new NotImplementedException();
+        return null;
     }
 
     public IList<ISongModel> FindByIds(IList<string> songIds)
     {
-        throw new NotImplementedException();
+        return Array.Empty<ISongModel>();
     }
 }

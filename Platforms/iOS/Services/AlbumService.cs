@@ -26,11 +26,11 @@ public class AlbumService : IAlbumService
 
     public IList<IAlbumModel> FindByArtistId(string artistId)
     {
-        throw new NotImplementedException();
+        return _albumRepository.FindByArtistId(artistId).Select(album => album.ToHostModel()).ToList();
     }
 
     public IList<IAlbumModel> FindByRecent(int count)
     {
-        throw new NotImplementedException();
+        return _albumRepository.FindByRecent(count).Select(album => album.ToHostModel()).ToList();
     }
 }
