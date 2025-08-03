@@ -21,7 +21,7 @@ public class SongService : ISongService
 
     public IList<ISongModel> FindByAlbumId(string albumId)
     {
-        throw new NotImplementedException();
+        return _songRepository.FindByAlbumId(albumId).Select(song => song.ToHostModel()).ToList();
     }
 
     public IList<ISongModel> FindByArtistId(string artistId)
