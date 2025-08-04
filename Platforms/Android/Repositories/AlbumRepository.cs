@@ -42,7 +42,7 @@ public class AlbumRepository : MediaStoreRepository<IAlbumModel>, IAlbumReposito
 
     public IList<IAlbumModel> FindByArtistId(string artistId)
     {
-        throw new NotImplementedException();
+        return Array.Empty<IAlbumModel>();
     }
 
     private string? GetArtistId() =>
