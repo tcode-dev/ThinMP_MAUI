@@ -20,7 +20,8 @@ class AlbumDetailPage : ContentPage
         Content = new VerticalStackLayout
         {
             Children = {
-                new AlbumDetailHeader(vm.Album?.Name ?? "Unknown Album"),
+                new AlbumDetailHeader()
+                    .Bind(AlbumDetailHeader.TitleProperty, nameof(vm.Album.Name)),
                 new CollectionView
                 {
                     ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))

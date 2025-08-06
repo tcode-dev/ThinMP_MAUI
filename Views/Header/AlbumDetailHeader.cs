@@ -2,8 +2,20 @@ namespace ThinMPm.Views.Header;
 
 public class AlbumDetailHeader : ContentView
 {
-    public AlbumDetailHeader(string title)
+    public static readonly BindableProperty TitleProperty =
+        BindableProperty.Create(
+            nameof(Title),
+            typeof(string),
+            typeof(AlbumDetailHeader),
+            default(string));
+
+    public string? Title
     {
-        Content = new Header(title);
+        get => (string?)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+    public AlbumDetailHeader()
+    {
+        Content = new Header(Title);
     }
 }
