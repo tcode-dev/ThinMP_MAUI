@@ -17,16 +17,17 @@ class AlbumDetailPage : ContentPage
 
         BindingContext = vm;
         _playerService = playerService;
+        Console.WriteLine($"AlbumDetailPage Loading album with Name: {vm.Album?.Name}");
         Content = new VerticalStackLayout
         {
             Children = {
                 new AlbumDetailHeader()
-                    .Bind(AlbumDetailHeader.TitleProperty, nameof(vm.Album.Name)),
+                    .Bind(AlbumDetailHeader.TitleProperty, nameof(AlbumDetailViewModel.Album) + ".Name"),
                 new CollectionView
                 {
                     ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
                 }
-                .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
+                .Bind(ItemsView.ItemsSourceProperty, "Songs")
             }
         };
     }
