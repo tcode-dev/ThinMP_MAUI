@@ -17,7 +17,7 @@ class AlbumDetailPage : ContentPage
 
         BindingContext = vm;
         _playerService = playerService;
-        Console.WriteLine($"AlbumDetailPage Loading album with Name: {vm.Album?.Name}");
+
         Content = new VerticalStackLayout
         {
             Children = {

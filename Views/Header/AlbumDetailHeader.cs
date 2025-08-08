@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Markup;
+
 namespace ThinMPm.Views.Header;
 
 public class AlbumDetailHeader : ContentView
@@ -16,6 +18,7 @@ public class AlbumDetailHeader : ContentView
     }
     public AlbumDetailHeader()
     {
-        Content = new Header(Title);
+        Content = new Header()
+            .Bind(Header.TitleProperty, nameof(Title), source: this);
     }
 }

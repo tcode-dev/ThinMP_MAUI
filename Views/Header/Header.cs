@@ -1,8 +1,23 @@
+using CommunityToolkit.Maui.Markup;
+
 namespace ThinMPm.Views.Header;
 
 public class Header : ContentView
 {
-    public Header(string title)
+    public static readonly BindableProperty TitleProperty =
+        BindableProperty.Create(
+            nameof(Title),
+            typeof(string),
+            typeof(Header),
+            default(string));
+
+    public string Title
+    {
+        get => (string)GetValue(TitleProperty);
+        set => SetValue(TitleProperty, value);
+    }
+
+    public Header()
     {
         HeightRequest = 50;
 
@@ -10,10 +25,8 @@ public class Header : ContentView
         {
             Children =
             {
-                new Label
-                {
-                    Text = title
-                }
+                new Label()
+                    .Bind(Label.TextProperty, nameof(Title), source: this)
             }
         };
     }

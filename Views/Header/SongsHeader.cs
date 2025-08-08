@@ -4,6 +4,6 @@ public class SongsHeader : ContentView
 {
     public SongsHeader()
     {
-        Content = new Header("Songs");
+        Content = new Header { Title = "Songs" };
     }
 }
