@@ -22,7 +22,7 @@ public partial class AlbumDetailViewModel : ObservableObject
     public void Load(string id)
     {
         Album = _albumService.FindById(id);
-Console.WriteLine($"Loading album with Name: {Album?.Name}");
+
         var songs = _songService.FindByAlbumId(id);
 
         Songs.Clear();
