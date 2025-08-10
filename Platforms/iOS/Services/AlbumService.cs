@@ -21,12 +21,13 @@ public class AlbumService : IAlbumService
 
     public IAlbumModel? FindById(string id)
     {
-        return _albumRepository.FindById(id)?.ToHostModel();
+
+        return _albumRepository.FindById(ulong.Parse(id))?.ToHostModel();
     }
 
     public IList<IAlbumModel> FindByArtistId(string artistId)
     {
-        return _albumRepository.FindByArtistId(artistId).Select(album => album.ToHostModel()).ToList();
+        return _albumRepository.FindByArtistId(ulong.Parse(artistId)).Select(album => album.ToHostModel()).ToList();
     }
 
     public IList<IAlbumModel> FindByRecent(int count)

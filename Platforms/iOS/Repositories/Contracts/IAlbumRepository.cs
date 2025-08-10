@@ -6,9 +6,9 @@ public interface IAlbumRepository
 {
     IList<IAlbumModel> FindAll();
 
-    IAlbumModel? FindById(string id);
+    IAlbumModel? FindById(ulong id);
 
-    IList<IAlbumModel> FindByArtistId(string artistId);
+    IList<IAlbumModel> FindByArtistId(ulong artistId);
 
     IList<IAlbumModel> FindByRecent(int count);
 }

@@ -1,4 +1,6 @@
+using Foundation;
 using MediaPlayer;
+using ShazamKit;
 using ThinMPm.Platforms.iOS.Models;
 using ThinMPm.Platforms.iOS.Models.Contracts;
 using ThinMPm.Platforms.iOS.Repositories.Contracts;
@@ -23,9 +25,13 @@ public class AlbumRepository : IAlbumRepository
     return collections.Select(media => new AlbumModel(media)).Cast<IAlbumModel>().ToList();
   }
 
-  public IAlbumModel? FindById(string id)
+  public IAlbumModel? FindById(ulong id)
   {
-    var predicate = new MPMediaPropertyPredicate();
+    var predicate = MPMediaPropertyPredicate.PredicateWithValue(
+        NSNumber.FromUInt64(id),
+        MPMediaItem.AlbumPersistentIDProperty,
+        MPMediaPredicateComparison.EqualsTo
+    );
     var query = MPMediaQuery.AlbumsQuery;
 
     query.AddFilterPredicate(predicate);
@@ -33,7 +39,7 @@ public class AlbumRepository : IAlbumRepository
     return query.Collections!.Select(media => new AlbumModel(media)).FirstOrDefault();
   }
 
-  public IList<IAlbumModel> FindByArtistId(string artistId)
+  public IList<IAlbumModel> FindByArtistId(ulong artistId)
   {
     return Array.Empty<IAlbumModel>();
   }
