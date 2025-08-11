@@ -2,6 +2,7 @@ using MediaPlayer;
 using ThinMPm.Platforms.iOS.Models;
 using ThinMPm.Platforms.iOS.Models.Contracts;
 using ThinMPm.Platforms.iOS.Repositories.Contracts;
+using ThinMPm.Platforms.iOS.ValueObjects;
 
 namespace ThinMPm.Platforms.iOS.Repositories;
 
@@ -17,7 +18,7 @@ public class SongRepository : ISongRepository
         return collections.Select(c => new SongModel(c)).Cast<ISongModel>().ToList();
     }
 
-    public ISongModel? FindBySongId(string songId)
+    public ISongModel? FindById(Id id)
     {
         var property = new MPMediaPropertyPredicate();
         var query = new MPMediaQuery();
@@ -25,44 +26,48 @@ public class SongRepository : ISongRepository
 
         var collections = query.Collections;
         var song = collections?.FirstOrDefault(c =>
-            c.RepresentativeItem?.PersistentID.ToString() == songId);
+            c.RepresentativeItem?.PersistentID == id.Value);
 
         return song != null ? new SongModel(song) : null;
     }
 
-    public IList<ISongModel> FindBySongIds(IList<string> songIds)
+    public IList<ISongModel> FindByIds(IList<Id> ids)
     {
         var property = new MPMediaPropertyPredicate();
         var query = new MPMediaQuery();
         query.AddFilterPredicate(property);
 
-        var ids = songIds.ToHashSet();
+        var idSet = ids.Select(id => id.Value).ToHashSet();
         var collections = query.Collections ?? new MPMediaItemCollection[0];
         var filtered = collections
-            .Where(c => c.RepresentativeItem != null && ids.Contains(c.RepresentativeItem.PersistentID.ToString()))
+            .Where(c => c.RepresentativeItem != null && idSet.Contains(c.RepresentativeItem.PersistentID))
             .ToList();
 
-        // 保持する順序をsongIdsに合わせる
-        var result = songIds
-            .Where(id => filtered.Any(f => f.RepresentativeItem?.PersistentID.ToString() == id))
-            .Select(id => filtered.First(f => f.RepresentativeItem?.PersistentID.ToString() == id))
+        // 保持する順序をidsに合わせる
+        var result = ids
+            .Where(id => filtered.Any(f => f.RepresentativeItem?.PersistentID == id.Value
+        ))
+            .Select(id => filtered.First(f => f.RepresentativeItem?.PersistentID == id.Value))
             .Select(c => new SongModel(c) as ISongModel)
             .ToList();
 
         return result;
     }
 
-    public IList<ISongModel> FindByAlbumId(string albumId)
+    public IList<ISongModel> FindByAlbumId(Id albumId)
     {
-        var property = new MPMediaPropertyPredicate();
+        var predicate = MPMediaPropertyPredicate.PredicateWithValue(
+            albumId.AsNSNumber,
+            MPMediaItem.AlbumPersistentIDProperty,
+            MPMediaPredicateComparison.EqualsTo
+        );
         var query = new MPMediaQuery();
-        query.AddFilterPredicate(property);
-
+        query.AddFilterPredicate(predicate);
         var collections = query.Collections ?? new MPMediaItemCollection[0];
         return collections.Select(c => new SongModel(c)).Cast<ISongModel>().ToList();
     }
 
-    public IList<ISongModel> FindByAlbumIds(IList<string> albumIds)
+    public IList<ISongModel> FindByAlbumIds(IList<Id> albumIds)
     {
         var result = new List<ISongModel>();
         foreach (var albumId in albumIds)

@@ -1,4 +1,5 @@
 using ThinMPm.Platforms.iOS.Models.Contracts;
+using ThinMPm.Platforms.iOS.ValueObjects;
 
 namespace ThinMPm.Platforms.iOS.Repositories.Contracts;
 
@@ -6,11 +7,11 @@ public interface ISongRepository
 {
     IList<ISongModel> FindAll();
 
-    ISongModel? FindBySongId(string songId);
+    ISongModel? FindById(Id id);
 
-    IList<ISongModel> FindBySongIds(IList<string> songIds);
+    IList<ISongModel> FindByIds(IList<Id> songIds);
 
-    IList<ISongModel> FindByAlbumId(string albumId);
+    IList<ISongModel> FindByAlbumId(Id albumId);
 
-    IList<ISongModel> FindByAlbumIds(IList<string> albumIds);
+    IList<ISongModel> FindByAlbumIds(IList<Id> albumIds);
 }
