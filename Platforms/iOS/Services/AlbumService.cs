@@ -2,6 +2,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Platforms.iOS.Models.Extensions;
 using ThinMPm.Platforms.iOS.Repositories.Contracts;
+using ThinMPm.Platforms.iOS.ValueObjects;
 
 namespace ThinMPm.Platforms.iOS.Services;
 
@@ -22,12 +23,12 @@ public class AlbumService : IAlbumService
     public IAlbumModel? FindById(string id)
     {
 
-        return _albumRepository.FindById(ulong.Parse(id))?.ToHostModel();
+        return _albumRepository.FindById(new Id(id))?.ToHostModel();
     }
 
     public IList<IAlbumModel> FindByArtistId(string artistId)
     {
-        return _albumRepository.FindByArtistId(ulong.Parse(artistId)).Select(album => album.ToHostModel()).ToList();
+        return _albumRepository.FindByArtistId(new Id(artistId)).Select(album => album.ToHostModel()).ToList();
     }
 
     public IList<IAlbumModel> FindByRecent(int count)
