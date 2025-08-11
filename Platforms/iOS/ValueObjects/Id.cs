@@ -2,9 +2,15 @@ using Foundation;
 
 namespace ThinMPm.Platforms.iOS.ValueObjects;
 
-// Swift: MPMediaEntityPersistentID
-// C#: ulong
-public class Id(string id)
+public class Id
 {
-  public NSNumber Raw { get; } = NSNumber.FromUInt64(ulong.Parse(id));
+  // MPMediaEntityPersistentID
+  public ulong Value { get; }
+  public NSNumber AsNSNumber { get; }
+
+  public Id(string id)
+  {
+    Value = ulong.Parse(id);
+    AsNSNumber = NSNumber.FromUInt64(Value);
+  }
 }

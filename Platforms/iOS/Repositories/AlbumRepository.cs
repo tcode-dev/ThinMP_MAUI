@@ -27,7 +27,7 @@ public class AlbumRepository : IAlbumRepository
   public IAlbumModel? FindById(Id id)
   {
     var predicate = MPMediaPropertyPredicate.PredicateWithValue(
-        id.Raw,
+        id.AsNSNumber,
         MPMediaItem.AlbumPersistentIDProperty,
         MPMediaPredicateComparison.EqualsTo
     );
