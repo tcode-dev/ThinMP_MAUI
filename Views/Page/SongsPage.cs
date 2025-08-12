@@ -16,16 +16,27 @@ class SongsPage : ContentPage
 
         BindingContext = vm;
         _playerService = playerService;
-        Content = new VerticalStackLayout
+
+        var scrollView = new ScrollView
         {
-            Children = {
-                new SongsHeader(),
-                new CollectionView
-                {
-                    ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
+            VerticalOptions = LayoutOptions.FillAndExpand,
+            Content = new VerticalStackLayout
+            {
+                Children = {
+                    new SongsHeader(),
+                    new CollectionView
+                    {
+                        ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
+                    }
+                    .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
                 }
-                .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
             }
+        };
+        scrollView.Scrolled += (sender, e) =>
+        {
+            double x = e.ScrollX; // 横スクロール位置
+            double y = e.ScrollY; // 縦スクロール位置
+            Console.WriteLine($"Scrolled to position: ({x}, {y})");
         };
     }
 
