@@ -34,10 +34,12 @@ class SongsPage : ContentPage
         };
         scrollView.Scrolled += (sender, e) =>
         {
-            double x = e.ScrollX; // 横スクロール位置
-            double y = e.ScrollY; // 縦スクロール位置
+            double x = e.ScrollX;
+            double y = e.ScrollY;
             Console.WriteLine($"Scrolled to position: ({x}, {y})");
         };
+
+        Content = scrollView;
     }
 
     protected override void OnAppearing()
