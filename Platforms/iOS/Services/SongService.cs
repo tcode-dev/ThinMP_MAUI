@@ -6,14 +6,9 @@ using ThinMPm.Platforms.iOS.ValueObjects;
 
 namespace ThinMPm.Platforms.iOS.Services;
 
-public class SongService : ISongService
+public class SongService(ISongRepository songRepository) : ISongService
 {
-    private readonly ISongRepository _songRepository;
-
-    public SongService(ISongRepository songRepository)
-    {
-        _songRepository = songRepository;
-    }
+    private readonly ISongRepository _songRepository = songRepository;
 
     public IList<ISongModel> FindAll()
     {
