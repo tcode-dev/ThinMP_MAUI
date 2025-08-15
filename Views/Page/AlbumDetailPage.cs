@@ -4,6 +4,7 @@ using ThinMPm.Contracts.Services;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Row;
 using ThinMPm.Views.Header;
+using ThinMPm.Views.Img;
 
 namespace ThinMPm.Views.Page;
 
@@ -23,6 +24,8 @@ class AlbumDetailPage : ContentPage
             Children = {
                 new AlbumDetailHeader()
                     .Bind(AlbumDetailHeader.TitleProperty, nameof(AlbumDetailViewModel.Album) + ".Name"),
+                new ArtworkImg()
+                .Bind(ArtworkImg.IdProperty, nameof(AlbumDetailViewModel.Album) + ".ImageId"),
                 new CollectionView
                 {
                     ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
