@@ -19,7 +19,6 @@ class SongsPage : ContentPage
 
         var scrollView = new ScrollView
         {
-            VerticalOptions = LayoutOptions.FillAndExpand,
             Content = new VerticalStackLayout
             {
                 Children = {
