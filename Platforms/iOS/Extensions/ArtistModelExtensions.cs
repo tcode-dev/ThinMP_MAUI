@@ -10,8 +10,7 @@ public static class ArtistModelExtensions
     {
         return new HostArtistModel(
             native.Id,
-            native.Name,
-            native.ImageId
+            native.Name
         );
     }
 }

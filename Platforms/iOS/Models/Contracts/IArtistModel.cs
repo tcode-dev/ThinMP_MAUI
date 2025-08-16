@@ -7,6 +7,4 @@ public interface IArtistModel
     MPMediaItemCollection Media { get; }
     string Id { get; }
     string Name { get; }
-    string ImageId { get; }
-    MPMediaItemArtwork? Artwork { get; }
 }

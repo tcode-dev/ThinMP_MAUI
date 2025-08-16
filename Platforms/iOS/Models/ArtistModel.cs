@@ -13,17 +13,6 @@ public class ArtistModel : IArtistModel
         ? Media.RepresentativeItem.Artist
         : "undefined";
 
-    public string ImageId
-    {
-        get
-        {
-            var firstItem = Media.Items.FirstOrDefault();
-            return firstItem != null ? firstItem.PersistentID.ToString() : "0";
-        }
-    }
-
-    public MPMediaItemArtwork? Artwork => Media.RepresentativeItem?.Artwork;
-
     public ArtistModel(MPMediaItemCollection media)
     {
         Media = media;
