@@ -19,7 +19,7 @@ class MainPage : ContentPage
         Content = new Grid
         {
             RowDefinitions = Rows.Define(
-                (Row.TextEntry, 36), (Row.Songs, 60), (Row.Albums, 60)),
+                (Row.TextEntry, 36), (Row.Artists, 60), (Row.Albums, 60), (Row.Songs, 60)),
 
             ColumnDefinitions = Columns.Define(
                 (Column.Description, Star),
@@ -42,7 +42,26 @@ class MainPage : ContentPage
                  .Height(44)
                  .Margin(5, 5)
                  .Bind(Entry.TextProperty, static (ViewModel vm) => vm.RegistrationCode, static (vm, text) => vm.RegistrationCode = text),
+                new Button()
+                    .Text("Go to Artists Page")
+                    .Row(Row.Artists).ColumnSpan(All<Column>())
+                    .CenterHorizontal()
+                    .Invoke(b => b.Clicked += async (s, e) =>
+                    {
+                        var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<ArtistsPage>();
 
+                        await Navigation.PushAsync(page);
+                    }),
+                new Button()
+                    .Text("Go to Albums Page")
+                    .Row(Row.Albums).ColumnSpan(All<Column>())
+                    .CenterHorizontal()
+                    .Invoke(b => b.Clicked += async (s, e) =>
+                    {
+                        var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<AlbumsPage>();
+
+                        await Navigation.PushAsync(page);
+                    }),
                 new Button()
                     .Text("Go to Songs Page")
                     .Row(Row.Songs).ColumnSpan(All<Column>())
@@ -54,20 +73,11 @@ class MainPage : ContentPage
                         await Navigation.PushAsync(page);
                     }),
 
-                new Button()
-                    .Text("Go to Albums Page")
-                    .Row(Row.Albums).ColumnSpan(All<Column>())
-                    .CenterHorizontal()
-                    .Invoke(b => b.Clicked += async (s, e) =>
-                    {
-                        var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<AlbumsPage>();
 
-                        await Navigation.PushAsync(page);
-                    }),
             }
         };
     }
 
-    enum Row { TextEntry, Songs, Albums }
+    enum Row { TextEntry, Artists, Albums, Songs }
     enum Column { Description, Input }
 }
