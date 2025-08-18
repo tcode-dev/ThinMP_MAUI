@@ -2,6 +2,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Platforms.iOS.Models.Extensions;
 using ThinMPm.Platforms.iOS.Repositories.Contracts;
+using ThinMPm.Platforms.iOS.ValueObjects;
 
 namespace ThinMPm.Platforms.iOS.Services;
 
@@ -16,7 +17,7 @@ public class ArtistService(IArtistRepository artistRepository) : IArtistService
 
     public IArtistModel? FindById(string id)
     {
-        return null;
+        return _artistRepository.FindById(new Id(id))?.ToHostModel();
     }
 
     public IList<IArtistModel> FindByIds(IList<string> ids)

@@ -6,8 +6,9 @@ using ThinMPm.Platforms.iOS.ValueObjects;
 
 namespace ThinMPm.Platforms.iOS.Services;
 
-public class SongService(ISongRepository songRepository) : ISongService
+public class SongService(ISongRepository songRepository, IAlbumRepository albumRepository) : ISongService
 {
+    private readonly IAlbumRepository _albumRepository = albumRepository;
     private readonly ISongRepository _songRepository = songRepository;
 
     public IList<ISongModel> FindAll()
@@ -22,7 +23,10 @@ public class SongService(ISongRepository songRepository) : ISongService
 
     public IList<ISongModel> FindByArtistId(string artistId)
     {
-        return Array.Empty<ISongModel>();
+        var albums = _albumRepository.FindByArtistId(new Id(artistId)).Select(album => album.ToHostModel()).ToList();
+        var albumIds = albums.Select(album => new Id(album.Id)).ToList();
+
+        return _songRepository.FindByAlbumIds(albumIds).Select(song => song.ToHostModel()).ToList();
     }
 
     public ISongModel? FindById(string songId)

@@ -40,7 +40,16 @@ public class AlbumRepository : IAlbumRepository
 
   public IList<IAlbumModel> FindByArtistId(Id artistId)
   {
-    return Array.Empty<IAlbumModel>();
+    var predicate = MPMediaPropertyPredicate.PredicateWithValue(
+        artistId.AsNSNumber,
+        MPMediaItem.ArtistPersistentIDProperty,
+        MPMediaPredicateComparison.EqualsTo
+    );
+    var query = new MPMediaQuery();
+    query.AddFilterPredicate(predicate);
+    var collections = query.Collections ?? [];
+
+    return [.. collections.Select(c => new AlbumModel(c)).Cast<IAlbumModel>()];
   }
 
   public IList<IAlbumModel> FindByRecent(int count)
