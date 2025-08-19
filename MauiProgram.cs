@@ -40,14 +40,16 @@ public static class MauiProgram
     builder.Services.AddSingleton<IPlayerService, PlayerService>();
 #endif
 
-		builder.Services.AddTransient<SongViewModel>();
-		builder.Services.AddTransient<AlbumViewModel>();
 		builder.Services.AddTransient<ArtistViewModel>();
+		builder.Services.AddTransient<AlbumViewModel>();
+		builder.Services.AddTransient<SongViewModel>();
+		builder.Services.AddTransient<ArtistDetailViewModel>();
 		builder.Services.AddTransient<AlbumDetailViewModel>();
 
-		builder.Services.AddTransient<SongsPage>();
-		builder.Services.AddTransient<AlbumsPage>();
 		builder.Services.AddTransient<ArtistsPage>();
+		builder.Services.AddTransient<AlbumsPage>();
+		builder.Services.AddTransient<SongsPage>();
+		builder.Services.AddTransient<ArtistDetailPage>();
 		builder.Services.AddTransient<AlbumDetailPage>();
 
 #if DEBUG
