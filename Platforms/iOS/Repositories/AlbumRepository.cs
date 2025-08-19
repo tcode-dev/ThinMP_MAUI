@@ -45,7 +45,7 @@ public class AlbumRepository : IAlbumRepository
         MPMediaItem.ArtistPersistentIDProperty,
         MPMediaPredicateComparison.EqualsTo
     );
-    var query = new MPMediaQuery();
+    var query = MPMediaQuery.AlbumsQuery;
     query.AddFilterPredicate(predicate);
     var collections = query.Collections ?? [];
 
