@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Markup;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Row;
 using ThinMPm.Views.Header;
+using ThinMPm.Contracts.Models;
 
 namespace ThinMPm.Views.Page;
 
@@ -47,8 +48,23 @@ class ArtistsPage : ContentPage
         }
     }
 
-    private void OnTapped(object? sender, EventArgs e)
+    private async void OnTapped(object? sender, EventArgs e)
     {
+        if (sender is BindableObject bindable)
+        {
+            if (bindable.BindingContext is IArtistModel item)
+            {
+                var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<ArtistDetailPage>();
 
+                if (page == null)
+                {
+                    return;
+                }
+
+                page.ArtistId = item.Id;
+
+                await Navigation.PushAsync(page);
+            }
+        }
     }
 }
