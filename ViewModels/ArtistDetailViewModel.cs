@@ -22,7 +22,7 @@ public partial class ArtistDetailViewModel(IArtistService artistService, IAlbumS
         Artist = _artistService.FindById(id);
 
         var albums = _albumService.FindByArtistId(id);
-        Console.WriteLine(albums.Count);
+
         Albums.Clear();
 
         foreach (var album in albums)
