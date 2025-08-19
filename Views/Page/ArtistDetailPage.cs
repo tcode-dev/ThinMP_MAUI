@@ -24,7 +24,7 @@ class ArtistDetailPage : ContentPage
         {
             Children = {
                 new ArtistDetailHeader()
-                    .Bind(ArtistDetailHeader.TitleProperty, nameof(vm.Artist.Name)),
+                    .Bind(ArtistDetailHeader.TitleProperty, "Artist.Name"),
                 new ArtworkImg()
                     .Bind(ArtworkImg.IdProperty, nameof(vm.ImageId)),
                 new ArtistsHeader(),
