@@ -5,19 +5,13 @@ using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.ViewModels;
 
-public partial class AlbumDetailViewModel : ObservableObject
+public partial class AlbumDetailViewModel(IAlbumService albumService, ISongService songService) : ObservableObject
 {
-    readonly IAlbumService _albumService;
-    readonly ISongService _songService;
+    readonly IAlbumService _albumService = albumService;
+    readonly ISongService _songService = songService;
     [ObservableProperty]
     private IAlbumModel? album;
     public ObservableCollection<ISongModel> Songs { get; } = new();
-
-    public AlbumDetailViewModel(IAlbumService albumService, ISongService songService)
-    {
-        _albumService = albumService;
-        _songService = songService;
-    }
 
     public void Load(string id)
     {
