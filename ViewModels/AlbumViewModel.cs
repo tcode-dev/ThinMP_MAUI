@@ -4,15 +4,10 @@ using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.ViewModels;
 
-public class AlbumViewModel
+public class AlbumViewModel(IAlbumService albumService)
 {
-    readonly IAlbumService _albumService;
+    readonly IAlbumService _albumService = albumService;
     public ObservableCollection<IAlbumModel> Albums { get; } = new();
-
-    public AlbumViewModel(IAlbumService albumService)
-    {
-        _albumService = albumService;
-    }
 
     public void Load()
     {
