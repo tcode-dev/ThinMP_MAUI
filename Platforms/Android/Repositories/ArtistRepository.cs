@@ -56,7 +56,7 @@ public class ArtistRepository : MediaStoreRepository<IArtistModel>, IArtistRepos
     }
 
     private string? GetArtistId() =>
-        Cursor?.GetColumnIndex(MediaStore.Audio.Media.InterfaceConsts.ArtistId) is int idx && idx >= 0
+        Cursor?.GetColumnIndex(MediaStore.Audio.Artists.InterfaceConsts.Id) is int idx && idx >= 0
             ? Cursor.GetString(idx)
             : string.Empty;
 
