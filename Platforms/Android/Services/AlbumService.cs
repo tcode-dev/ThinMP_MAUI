@@ -26,7 +26,7 @@ public class AlbumService : IAlbumService
 
     public IList<IAlbumModel> FindByArtistId(string artistId)
     {
-        return Array.Empty<IAlbumModel>();
+        return [.. _albumRepository.FindByArtistId(artistId).Select(album => album.ToHostModel())];
     }
 
     public IList<IAlbumModel> FindByRecent(int count)

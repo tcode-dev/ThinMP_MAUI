@@ -42,7 +42,12 @@ public class AlbumRepository : MediaStoreRepository<IAlbumModel>, IAlbumReposito
 
     public IList<IAlbumModel> FindByArtistId(string artistId)
     {
-        return Array.Empty<IAlbumModel>();
+        Selection = MediaStore.Audio.Albums.InterfaceConsts.ArtistId + " = ?";
+        SelectionArgs = [artistId];
+        SortOrder = MediaStore.Audio.Media.InterfaceConsts.Album + " ASC";
+        Bundle = null;
+
+        return GetList();
     }
 
     private string? GetArtistId() =>
