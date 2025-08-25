@@ -20,9 +20,11 @@ class ArtistDetailPage : ContentPage
         BindingContext = vm;
         _playerService = playerService;
 
-        Content = new VerticalStackLayout
+        var scrollView = new ScrollView
         {
-            Children = {
+            Content = new VerticalStackLayout
+            {
+                Children = {
                 new ArtistDetailHeader()
                     .Bind(ArtistDetailHeader.TitleProperty, "Artist.Name"),
                 new ArtworkImg()
@@ -39,8 +41,17 @@ class ArtistDetailPage : ContentPage
                     ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
                 }
                 .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
+                }
             }
         };
+        scrollView.Scrolled += (sender, e) =>
+        {
+            double x = e.ScrollX;
+            double y = e.ScrollY;
+            Console.WriteLine($"Scrolled to position: ({x}, {y})");
+        };
+
+        Content = scrollView;
     }
 
     protected override void OnAppearing()
