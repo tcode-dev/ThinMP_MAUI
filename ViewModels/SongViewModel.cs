@@ -9,7 +9,7 @@ public class SongViewModel(ISongService songService)
     readonly ISongService _songService = songService;
     public ObservableCollection<ISongModel> Songs { get; } = new();
 
-  public void Load()
+    public void Load()
     {
         var songs = _songService.FindAll();
 
