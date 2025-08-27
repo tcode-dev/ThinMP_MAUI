@@ -6,6 +6,7 @@ using ThinMPm.Views.Row;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.GridItem;
+using Microsoft.Maui.Layouts;
 
 namespace ThinMPm.Views.Page;
 
@@ -20,13 +21,17 @@ class ArtistDetailPage : ContentPage
         BindingContext = vm;
         _playerService = playerService;
 
+        var layout = new AbsoluteLayout();
+        var header = new ArtistDetailHeader().Bind(ArtistDetailHeader.TitleProperty, "Artist.Name");
+
+        AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, 60));
+
         var scrollView = new ScrollView
         {
             Content = new VerticalStackLayout
             {
                 Children = {
-                new ArtistDetailHeader()
-                    .Bind(ArtistDetailHeader.TitleProperty, "Artist.Name"),
                 new ArtworkImg()
                     .Bind(ArtworkImg.IdProperty, nameof(vm.ImageId)),
                 new ArtistsHeader(),
@@ -51,7 +56,14 @@ class ArtistDetailPage : ContentPage
             Console.WriteLine($"Scrolled to position: ({x}, {y})");
         };
 
-        Content = scrollView;
+        AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 60, 1, 1));
+
+        // AbsoluteLayoutの重なり順はChildrenの追加順で決まる
+        layout.Children.Add(scrollView);
+        layout.Children.Add(header);
+
+        Content = layout;
     }
 
     protected override void OnAppearing()
