@@ -32,20 +32,20 @@ class ArtistDetailPage : ContentPage
             Content = new VerticalStackLayout
             {
                 Children = {
-                new ArtworkImg()
-                    .Bind(ArtworkImg.IdProperty, nameof(vm.ImageId)),
-                new ArtistsHeader(),
-                new CollectionView
-                {
-                    ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
-                    ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnAlbumTapped))
-                }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
-                new SongsHeader(),
-                new CollectionView
-                {
-                    ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
-                }
-                .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
+                    new ArtworkImg()
+                        .Bind(ArtworkImg.IdProperty, nameof(vm.ImageId)),
+                    new ArtistsHeader(),
+                    new CollectionView
+                    {
+                        ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
+                        ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnAlbumTapped))
+                    }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
+                    new SongsHeader(),
+                    new CollectionView
+                    {
+                        ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
+                    }
+                    .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
                 }
             }
         };
