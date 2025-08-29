@@ -25,12 +25,12 @@ class AlbumDetailPage : ContentPage
                 new AlbumDetailHeader()
                     .Bind(AlbumDetailHeader.TitleProperty, nameof(AlbumDetailViewModel.Album) + ".Name"),
                 new ArtworkImg()
-                .Bind(ArtworkImg.IdProperty, nameof(AlbumDetailViewModel.Album) + ".ImageId"),
+                    .Bind(ArtworkImg.IdProperty, nameof(AlbumDetailViewModel.Album) + ".ImageId"),
                 new CollectionView
                 {
                     ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
                 }
-                .Bind(ItemsView.ItemsSourceProperty, "Songs")
+                    .Bind(ItemsView.ItemsSourceProperty, "Songs")
             }
         };
     }
