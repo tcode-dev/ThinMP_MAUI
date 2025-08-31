@@ -2,7 +2,6 @@
 using ThinMPm.ViewModels;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Views.Page;
-using CommunityToolkit.Maui;
 
 #if ANDROID
 using ThinMPm.Platforms.Android.Repositories.Contracts;
@@ -28,7 +27,6 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
-    builder.UseMauiCommunityToolkit();
 
 #if ANDROID || IOS
 		builder.Services.AddSingleton<ISongRepository, SongRepository>();
