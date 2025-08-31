@@ -62,6 +62,8 @@ class ArtistDetailPage : ContentPage
         layout.Children.Add(scrollView);
         layout.Children.Add(header);
 
+        layout.IgnoreSafeArea = true;
+
         Content = layout;
     }
 
