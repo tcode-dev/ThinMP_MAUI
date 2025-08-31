@@ -23,9 +23,9 @@ class AlbumDetailPage : ContentPage
         {
             Children = {
                 new AlbumDetailHeader()
-                    .Bind(AlbumDetailHeader.TitleProperty, nameof(AlbumDetailViewModel.Album) + ".Name"),
+                    .Bind(AlbumDetailHeader.TitleProperty, "Album.Name"),
                 new ArtworkImg()
-                    .Bind(ArtworkImg.IdProperty, nameof(AlbumDetailViewModel.Album) + ".ImageId"),
+                    .Bind(ArtworkImg.IdProperty, "Album.ImageId"),
                 new CollectionView
                 {
                     ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
