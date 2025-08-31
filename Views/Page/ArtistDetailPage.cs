@@ -7,6 +7,8 @@ using ThinMPm.Views.Header;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.GridItem;
 using Microsoft.Maui.Layouts;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Behaviors;
 
 namespace ThinMPm.Views.Page;
 
@@ -17,7 +19,11 @@ class ArtistDetailPage : ContentPage
     public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService)
     {
         NavigationPage.SetHasNavigationBar(this, false);
-
+        this.Behaviors.Add(new StatusBarBehavior
+        {
+            StatusBarColor = Colors.Transparent,
+            StatusBarStyle = StatusBarStyle.LightContent
+        });
         BindingContext = vm;
         _playerService = playerService;
 
