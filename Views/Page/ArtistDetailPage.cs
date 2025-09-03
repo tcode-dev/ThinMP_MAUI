@@ -23,8 +23,8 @@ class ArtistDetailPage : ContentPage
         var layout = new AbsoluteLayout();
         var header = new ArtistDetailHeader().Bind(ArtistDetailHeader.TitleProperty, "Artist.Name");
 
-        // AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
-        // AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, 100));
+        AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, 100));
 
         var scrollView = new ScrollView
         {
@@ -56,16 +56,20 @@ class ArtistDetailPage : ContentPage
         };
 
         AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
-        // AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 500, 1, 1));
+        AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
 
         // AbsoluteLayoutの重なり順はChildrenの追加順で決まる
         layout.Children.Add(scrollView);
         layout.Children.Add(header);
 
         layout.IgnoreSafeArea = true;
+
         layout.BackgroundColor = Colors.Black;
-        // layout.Padding = 0;
-        // layout.Margin = 0;
+//         DeviceSafeInsetsService d = new DeviceSafeInsetsService(); 
+//         var insets = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity?.Window?.SafeAreaInsets;
+// double topInset = insets?.Top ?? 0;
+        layout.Padding = new Thickness(0, -40, 0, 0);
+
         BackgroundColor = Colors.White;
 
         Content = layout;
