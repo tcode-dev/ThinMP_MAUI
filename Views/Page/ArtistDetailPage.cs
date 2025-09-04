@@ -14,11 +14,13 @@ class ArtistDetailPage : ContentPage
 {
     public string ArtistId { get; set; }
     private readonly IPlayerService _playerService;
-    public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService)
+    private readonly IStatusBarService _statusBarService;
+    public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IStatusBarService statusBarService)
     {
         NavigationPage.SetHasNavigationBar(this, false);
         BindingContext = vm;
         _playerService = playerService;
+        _statusBarService = statusBarService;
 
         var layout = new AbsoluteLayout();
         var header = new ArtistDetailHeader().Bind(ArtistDetailHeader.TitleProperty, "Artist.Name");
@@ -65,11 +67,7 @@ class ArtistDetailPage : ContentPage
         layout.IgnoreSafeArea = true;
 
         layout.BackgroundColor = Colors.Black;
-//         DeviceSafeInsetsService d = new DeviceSafeInsetsService(); 
-//         var insets = Microsoft.Maui.ApplicationModel.Platform.CurrentActivity?.Window?.SafeAreaInsets;
-// double topInset = insets?.Top ?? 0;
-        layout.Padding = new Thickness(0, -40, 0, 0);
-
+        layout.Padding = new Thickness(0, -_statusBarService.GetStatusBarHeight(), 0, 0);
         BackgroundColor = Colors.White;
 
         Content = layout;

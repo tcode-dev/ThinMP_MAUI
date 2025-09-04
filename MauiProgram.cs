@@ -38,6 +38,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton<IArtistService, ArtistService>();
     builder.Services.AddSingleton<IArtworkService, ArtworkService>();
     builder.Services.AddSingleton<IPlayerService, PlayerService>();
+		builder.Services.AddSingleton<IStatusBarService, StatusBarService>();
 #endif
 
 		builder.Services.AddTransient<ArtistViewModel>();

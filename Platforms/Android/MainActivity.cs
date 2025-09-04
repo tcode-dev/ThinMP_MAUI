@@ -12,7 +12,7 @@ public class MainActivity : MauiAppCompatActivity
     {
         base.OnCreate(savedInstanceState);
 
-        Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
-        Window.DecorView.SystemUiVisibility = (StatusBarVisibility)(SystemUiFlags.LayoutStable | SystemUiFlags.LayoutFullscreen);
+        // Window.SetStatusBarColor(Android.Graphics.Color.Transparent);
+        // Window.DecorView.SystemUiVisibility = (StatusBarVisibility)(SystemUiFlags.LayoutStable | SystemUiFlags.LayoutFullscreen);
     }
 }
