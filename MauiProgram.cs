@@ -2,15 +2,19 @@
 using ThinMPm.ViewModels;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Views.Page;
+using ThinMPm.Contracts.Utils;
+
 
 #if ANDROID
 using ThinMPm.Platforms.Android.Repositories.Contracts;
 using ThinMPm.Platforms.Android.Repositories;
 using ThinMPm.Platforms.Android.Services;
+using ThinMPm.Platforms.Android.Utils;
 #elif IOS
 using ThinMPm.Platforms.iOS.Repositories.Contracts;
 using ThinMPm.Platforms.iOS.Repositories;
 using ThinMPm.Platforms.iOS.Services;
+using ThinMPm.Platforms.iOS.Utils;
 #endif
 
 namespace ThinMPm;
@@ -38,7 +42,8 @@ public static class MauiProgram
 		builder.Services.AddSingleton<IArtistService, ArtistService>();
     builder.Services.AddSingleton<IArtworkService, ArtworkService>();
     builder.Services.AddSingleton<IPlayerService, PlayerService>();
-		builder.Services.AddSingleton<IStatusBarService, StatusBarService>();
+
+		builder.Services.AddSingleton<IPlatformUtil, PlatformUtili>();
 #endif
 
 		builder.Services.AddTransient<ArtistViewModel>();

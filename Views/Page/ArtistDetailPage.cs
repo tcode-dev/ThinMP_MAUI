@@ -7,6 +7,7 @@ using ThinMPm.Views.Header;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.GridItem;
 using Microsoft.Maui.Layouts;
+using ThinMPm.Contracts.Utils;
 
 namespace ThinMPm.Views.Page;
 
@@ -14,13 +15,13 @@ class ArtistDetailPage : ContentPage
 {
     public string ArtistId { get; set; }
     private readonly IPlayerService _playerService;
-    private readonly IStatusBarService _statusBarService;
-    public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IStatusBarService statusBarService)
+    private readonly IPlatformUtil _platformUtil;
+    public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
     {
         NavigationPage.SetHasNavigationBar(this, false);
         BindingContext = vm;
         _playerService = playerService;
-        _statusBarService = statusBarService;
+        _platformUtil = platformUtil;
 
         var layout = new AbsoluteLayout();
         var header = new ArtistDetailHeader().Bind(ArtistDetailHeader.TitleProperty, "Artist.Name");
@@ -65,10 +66,7 @@ class ArtistDetailPage : ContentPage
         layout.Children.Add(header);
 
         layout.IgnoreSafeArea = true;
-
-        layout.BackgroundColor = Colors.Black;
-        layout.Padding = new Thickness(0, -_statusBarService.GetStatusBarHeight(), 0, 0);
-        BackgroundColor = Colors.White;
+        layout.Padding = new Thickness(0, _platformUtil.GetLayoutNegativeMargin(), 0, 0);
 
         Content = layout;
     }
