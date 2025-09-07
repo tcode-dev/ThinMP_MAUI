@@ -16,8 +16,7 @@ public class ArtistService(IArtistRepository artistRepository) : IArtistService
 
     public IArtistModel? FindById(string id)
     {
-        return null;
-        // return _artistRepository.FindById(id)?.ToHostModel();
+        return _artistRepository.FindById(id)?.ToHostModel();
     }
 
     public IList<IArtistModel> FindByIds(IList<string> ids)
