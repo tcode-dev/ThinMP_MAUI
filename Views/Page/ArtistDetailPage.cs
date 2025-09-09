@@ -51,12 +51,7 @@ class ArtistDetailPage : ContentPage
                 }
             }
         };
-        scrollView.Scrolled += (sender, e) =>
-        {
-            double x = e.ScrollX;
-            double y = e.ScrollY;
-            Console.WriteLine($"Scrolled to position: ({x}, {y})");
-        };
+        scrollView.Scrolled += OnScrolled;
 
         AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
@@ -96,5 +91,12 @@ class ArtistDetailPage : ContentPage
                 _playerService.StartAllSongs(index);
             }
         }
+    }
+
+    private void OnScrolled(object? sender, ScrolledEventArgs e)
+    {
+        double x = e.ScrollX;
+        double y = e.ScrollY;
+        Console.WriteLine($"Scrolled to position: ({x}, {y})");
     }
 }
