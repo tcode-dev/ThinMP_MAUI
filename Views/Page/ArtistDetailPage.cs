@@ -76,9 +76,24 @@ class ArtistDetailPage : ContentPage
         }
     }
 
-    private void OnAlbumTapped(object? sender, EventArgs e)
+    private async void OnAlbumTapped(object? sender, EventArgs e)
     {
+        if (sender is BindableObject bindable)
+        {
+            if (bindable.BindingContext is IAlbumModel item)
+            {
+                var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<AlbumDetailPage>();
 
+                if (page == null)
+                {
+                    return;
+                }
+
+                page.AlbumId = item.Id;
+
+                await Navigation.PushAsync(page);
+            }
+        }
     }
 
     private void OnSongTapped(object? sender, EventArgs e)
