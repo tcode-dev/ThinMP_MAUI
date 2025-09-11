@@ -16,7 +16,7 @@ class AlbumsPage : ContentPage
         Content = new CollectionView
         {
             ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
-            ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnSongTapped))
+            ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnAlbumTapped))
         }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums));
     }
 
@@ -30,7 +30,7 @@ class AlbumsPage : ContentPage
         }
     }
 
-    private async void OnSongTapped(object? sender, EventArgs e)
+    private async void OnAlbumTapped(object? sender, EventArgs e)
     {
         if (sender is BindableObject bindable)
         {
