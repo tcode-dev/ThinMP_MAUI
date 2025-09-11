@@ -31,12 +31,7 @@ class SongsPage : ContentPage
                 }
             }
         };
-        scrollView.Scrolled += (sender, e) =>
-        {
-            double x = e.ScrollX;
-            double y = e.ScrollY;
-            Console.WriteLine($"Scrolled to position: ({x}, {y})");
-        };
+        scrollView.Scrolled += OnScrolled;
 
         Content = scrollView;
     }
@@ -61,5 +56,12 @@ class SongsPage : ContentPage
                 _playerService.StartAllSongs(index);
             }
         }
+    }
+
+    private void OnScrolled(object? sender, ScrolledEventArgs e)
+    {
+        double x = e.ScrollX;
+        double y = e.ScrollY;
+        Console.WriteLine($"Scrolled to position: ({x}, {y})");
     }
 }
