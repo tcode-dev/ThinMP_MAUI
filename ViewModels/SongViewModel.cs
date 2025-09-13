@@ -7,7 +7,7 @@ namespace ThinMPm.ViewModels;
 public class SongViewModel(ISongService songService)
 {
     readonly ISongService _songService = songService;
-    public ObservableCollection<ISongModel> Songs { get; } = new();
+    public ObservableCollection<ISongModel> Songs { get; } = [];
 
     public void Load()
     {
