@@ -26,7 +26,7 @@ class AlbumDetailPage : ContentPage
         _platformUtil = platformUtil;
 
         var layout = new AbsoluteLayout();
-        var header = new ArtistDetailHeader().Bind(ArtistDetailHeader.TitleProperty, "Album.Name");
+        var header = new AlbumDetailHeader().Bind(AlbumDetailHeader.TitleProperty, "Album.Name");
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, 100));
@@ -52,7 +52,6 @@ class AlbumDetailPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
 
-        // AbsoluteLayoutの重なり順はChildrenの追加順で決まる
         layout.Children.Add(scrollView);
         layout.Children.Add(header);
 
