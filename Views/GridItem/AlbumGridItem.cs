@@ -20,7 +20,7 @@ public class AlbumGridItem : ContentView
             Children =
             {
                 new ArtworkImg()
-                    .Bind(ArtworkImg.IdProperty, nameof(IAlbumModel.ImageId)),
+                    .Bind(ArtworkImg.ImageIdProperty, nameof(IAlbumModel.ImageId)),
 
                 new Label()
                     .Bind(Label.TextProperty, nameof(IAlbumModel.Name)),

@@ -6,17 +6,17 @@ namespace ThinMPm.Views.Img;
 
 public class ArtworkImg : Image
 {
-  public static readonly BindableProperty IdProperty =
+  public static readonly BindableProperty ImageIdProperty =
     BindableProperty.Create(
-      nameof(Id),
+      nameof(ImageId),
       typeof(string),
       typeof(ArtworkImg),
-      propertyChanged: OnIdChanged);
+      propertyChanged: OnImageIdChanged);
 
-  public string Id
+  public string ImageId
   {
-    get => (string)GetValue(IdProperty);
-    set => SetValue(IdProperty, value);
+    get => (string)GetValue(ImageIdProperty);
+    set => SetValue(ImageIdProperty, value);
   }
 
   public double CornerRadius { get; set; }
@@ -43,12 +43,12 @@ public class ArtworkImg : Image
     }
   }
 
-  private static async void OnIdChanged(BindableObject bindable, object oldValue, object newValue)
+  private static async void OnImageIdChanged(BindableObject bindable, object oldValue, object newValue)
   {
     var control = (ArtworkImg)bindable;
-    var id = newValue as string;
+    var imageId = newValue as string;
 
-    if (string.IsNullOrEmpty(id))
+    if (string.IsNullOrEmpty(imageId))
     {
       return;
     }
@@ -62,7 +62,7 @@ public class ArtworkImg : Image
 
     try
     {
-      var artwork = await artworkService.GetArtwork(id);
+      var artwork = await artworkService.GetArtwork(imageId);
       control.Source = artwork != null
         ? ImageSource.FromStream(() => new MemoryStream(artwork))
         : null;

@@ -31,7 +31,7 @@ public class SongListItem : Grid
                 WidthRequest = 40,
                 HeightRequest = 40
             }
-            .Bind(ArtworkImg.IdProperty, nameof(ISongModel.ImageId))
+            .Bind(ArtworkImg.ImageIdProperty, nameof(ISongModel.ImageId))
             .Row(0).RowSpan(2).Column(0)
         );
 
