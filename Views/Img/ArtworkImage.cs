@@ -4,13 +4,13 @@ using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.Views.Img;
 
-public class ArtworkImg : Image
+public class ArtworkImage : Image
 {
   public static readonly BindableProperty ImageIdProperty =
     BindableProperty.Create(
       nameof(ImageId),
       typeof(string),
-      typeof(ArtworkImg),
+      typeof(ArtworkImage),
       propertyChanged: OnImageIdChanged);
 
   public string ImageId
@@ -21,7 +21,7 @@ public class ArtworkImg : Image
 
   public double CornerRadius { get; set; }
 
-  public ArtworkImg(double cornerRadius = 5)
+  public ArtworkImage(double cornerRadius = 5)
   {
     CornerRadius = cornerRadius;
     SizeChanged += OnSizeChanged;
@@ -45,7 +45,7 @@ public class ArtworkImg : Image
 
   private static async void OnImageIdChanged(BindableObject bindable, object oldValue, object newValue)
   {
-    var control = (ArtworkImg)bindable;
+    var control = (ArtworkImage)bindable;
     var imageId = newValue as string;
 
     if (string.IsNullOrEmpty(imageId))

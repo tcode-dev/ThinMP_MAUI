@@ -19,8 +19,8 @@ public class AlbumGridItem : ContentView
             Spacing = 4,
             Children =
             {
-                new ArtworkImg()
-                    .Bind(ArtworkImg.ImageIdProperty, nameof(IAlbumModel.ImageId)),
+                new ArtworkImage()
+                    .Bind(ArtworkImage.ImageIdProperty, nameof(IAlbumModel.ImageId)),
 
                 new Label()
                     .Bind(Label.TextProperty, nameof(IAlbumModel.Name)),

@@ -34,8 +34,8 @@ class ArtistDetailPage : ContentPage
             Content = new VerticalStackLayout
             {
                 Children = {
-                    new ArtworkImg()
-                        .Bind(ArtworkImg.ImageIdProperty, nameof(vm.ImageId)),
+                    new ArtworkImage()
+                        .Bind(ArtworkImage.ImageIdProperty, nameof(vm.ImageId)),
                     new ArtistsHeader(),
                     new CollectionView
                     {

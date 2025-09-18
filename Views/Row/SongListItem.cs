@@ -26,12 +26,12 @@ public class SongListItem : Grid
         var lineColor = isDark ? Colors.DarkGray : Colors.LightGray;
 
         Children.Add(
-            new ArtworkImg
+            new ArtworkImage
             {
                 WidthRequest = 40,
                 HeightRequest = 40
             }
-            .Bind(ArtworkImg.ImageIdProperty, nameof(ISongModel.ImageId))
+            .Bind(ArtworkImage.ImageIdProperty, nameof(ISongModel.ImageId))
             .Row(0).RowSpan(2).Column(0)
         );
 
