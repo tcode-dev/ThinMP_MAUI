@@ -3,6 +3,7 @@ using ThinMPm.ViewModels;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Views.Page;
 using ThinMPm.Contracts.Utils;
+using UraniumUI;
 
 
 #if ANDROID
@@ -26,6 +27,8 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseUraniumUI()
+			.UseUraniumUIBlurs()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -34,14 +37,14 @@ public static class MauiProgram
 
 #if ANDROID || IOS
 		builder.Services.AddSingleton<ISongRepository, SongRepository>();
-    builder.Services.AddSingleton<IAlbumRepository, AlbumRepository>();
-    builder.Services.AddSingleton<IArtistRepository, ArtistRepository>();
+		builder.Services.AddSingleton<IAlbumRepository, AlbumRepository>();
+		builder.Services.AddSingleton<IArtistRepository, ArtistRepository>();
 
-    builder.Services.AddSingleton<ISongService, SongService>();
+		builder.Services.AddSingleton<ISongService, SongService>();
 		builder.Services.AddSingleton<IAlbumService, AlbumService>();
 		builder.Services.AddSingleton<IArtistService, ArtistService>();
-    builder.Services.AddSingleton<IArtworkService, ArtworkService>();
-    builder.Services.AddSingleton<IPlayerService, PlayerService>();
+		builder.Services.AddSingleton<IArtworkService, ArtworkService>();
+		builder.Services.AddSingleton<IPlayerService, PlayerService>();
 
 		builder.Services.AddSingleton<IPlatformUtil, PlatformUtili>();
 #endif

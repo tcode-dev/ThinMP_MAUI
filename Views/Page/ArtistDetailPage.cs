@@ -8,6 +8,7 @@ using ThinMPm.Views.Img;
 using ThinMPm.Views.GridItem;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Utils;
+using UraniumUI.Blurs;
 
 namespace ThinMPm.Views.Page;
 
@@ -29,13 +30,16 @@ class ArtistDetailPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, 100));
 
+        var image = new ArtworkImage()
+            .Bind(ArtworkImage.ImageIdProperty, nameof(vm.ImageId));
+        image.Effects.Add(new BlurEffect{ AccentColor = Colors.Black.MultiplyAlpha(0.5f), AccentOpacity = 0.5f });
+
         var scrollView = new ScrollView
         {
             Content = new VerticalStackLayout
             {
                 Children = {
-                    new ArtworkImage()
-                        .Bind(ArtworkImage.ImageIdProperty, nameof(vm.ImageId)),
+                    image,
                     new ArtistsHeader(),
                     new CollectionView
                     {
