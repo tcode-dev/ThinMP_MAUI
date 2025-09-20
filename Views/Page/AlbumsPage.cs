@@ -13,11 +13,22 @@ class AlbumsPage : ContentPage
 
         BindingContext = vm;
 
-        Content = new CollectionView
+        var scrollView = new ScrollView
         {
-            ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
-            ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnAlbumTapped))
-        }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums));
+            Content = new VerticalStackLayout
+            {
+                Children = {
+                    new CollectionView
+                    {
+                        ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
+                        ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnAlbumTapped))
+                    }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums))
+                }
+            }
+        };
+        scrollView.Scrolled += OnScrolled;
+
+        Content = scrollView;
     }
 
     protected override void OnAppearing()
@@ -48,5 +59,12 @@ class AlbumsPage : ContentPage
                 await Navigation.PushAsync(page);
             }
         }
+    }
+
+    private void OnScrolled(object? sender, ScrolledEventArgs e)
+    {
+        double x = e.ScrollX;
+        double y = e.ScrollY;
+        Console.WriteLine($"Scrolled to position: ({x}, {y})");
     }
 }
