@@ -46,7 +46,7 @@ class ArtistDetailPage : ContentPage
             {
                 Children = {
                     image,
-                    new ArtistsHeader(),
+                    new AlbumsHeader(),
                     new CollectionView
                     {
                         ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
