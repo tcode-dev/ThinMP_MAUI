@@ -29,12 +29,22 @@ class ArtistDetailPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, 100));
 
+        var image = new ArtworkImage()
+            .Bind(ArtworkImage.ImageIdProperty, nameof(vm.ImageId));
+
+        this.SizeChanged += (s, e) =>
+        {
+            double size = this.Width / 3;
+            image.WidthRequest = size;
+            image.HeightRequest = size;
+            image.CornerRadius = size / 2;
+        };
         var scrollView = new ScrollView
         {
             Content = new VerticalStackLayout
             {
                 Children = {
-                    new ArtistDetailImage(vm.ImageId),
+                    image,
                     new AlbumsHeader(),
                     new CollectionView
                     {
