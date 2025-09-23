@@ -32,14 +32,22 @@ class ArtistDetailPage : ContentPage
 
         var image = new ArtworkImage()
             .Bind(ArtworkImage.ImageIdProperty, nameof(vm.ImageId));
-        image.Effects.Add(new BlurEffect{ AccentColor = Colors.Black.MultiplyAlpha(0.5f), AccentOpacity = 0.5f });
+        // image.Effects.Add(new BlurEffect{ AccentColor = Colors.Black.MultiplyAlpha(0.5f), AccentOpacity = 0.5f });
+        var firstView = new AbsoluteLayout();
+        var blur = new ContentView();
+        blur.HeightRequest = 200;
+        blur.WidthRequest = 200;
+        blur.Effects.Add(new BlurEffect{ AccentColor = Colors.Black.MultiplyAlpha(0.5f), AccentOpacity = 0.5f });
+        firstView.Add(image);
+        firstView.Add(blur);
 
         var scrollView = new ScrollView
         {
             Content = new VerticalStackLayout
             {
                 Children = {
-                    image,
+                    firstView,
+                    // image,
                     new ArtistsHeader(),
                     new CollectionView
                     {
