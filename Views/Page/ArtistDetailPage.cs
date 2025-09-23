@@ -8,7 +8,6 @@ using ThinMPm.Views.Img;
 using ThinMPm.Views.GridItem;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Utils;
-using UraniumUI.Blurs;
 
 namespace ThinMPm.Views.Page;
 
@@ -30,22 +29,12 @@ class ArtistDetailPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, 100));
 
-        var image = new ArtworkImage()
-            .Bind(ArtworkImage.ImageIdProperty, nameof(vm.ImageId));
-
-        this.SizeChanged += (s, e) =>
-        {
-            double size = this.Width / 3;
-            image.WidthRequest = size;
-            image.HeightRequest = size;
-            image.CornerRadius = size / 2;
-        };
         var scrollView = new ScrollView
         {
             Content = new VerticalStackLayout
             {
                 Children = {
-                    image,
+                    new ArtistDetailImage(vm.ImageId),
                     new AlbumsHeader(),
                     new CollectionView
                     {
