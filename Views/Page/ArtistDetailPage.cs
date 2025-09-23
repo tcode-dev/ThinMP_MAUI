@@ -35,10 +35,10 @@ class ArtistDetailPage : ContentPage
 
         this.SizeChanged += (s, e) =>
         {
-            double pageWidth = this.Width;
-            image.WidthRequest = pageWidth / 3;
-            image.HeightRequest = pageWidth / 3;
-            image.CornerRadius = (pageWidth / 3) / 2;
+            double size = this.Width / 3;
+            image.WidthRequest = size;
+            image.HeightRequest = size;
+            image.CornerRadius = size / 2;
         };
         var scrollView = new ScrollView
         {
