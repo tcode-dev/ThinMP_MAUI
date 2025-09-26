@@ -72,8 +72,6 @@ class MainPage : ContentPage
 
                         await Navigation.PushAsync(page);
                     }),
-
-
             }
         };
     }
