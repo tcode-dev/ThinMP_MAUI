@@ -23,10 +23,13 @@ public class Header : ContentView
 
         Content = new HorizontalStackLayout
         {
+            HorizontalOptions = LayoutOptions.Fill,
+            VerticalOptions = LayoutOptions.Center,
             Children =
             {
                 new Label()
                     .Bind(Label.TextProperty, nameof(Title), source: this)
+                    .Center()
             }
         };
     }
