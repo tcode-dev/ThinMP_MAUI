@@ -20,6 +20,7 @@ public class Header : ContentView
     public Header()
     {
         HeightRequest = 50;
+        BackgroundColor = Colors.White;
 
         Content = new HorizontalStackLayout
         {
