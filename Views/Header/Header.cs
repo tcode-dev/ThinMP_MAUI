@@ -31,6 +31,7 @@ public class Header : ContentView
                 new Label()
                     .Bind(Label.TextProperty, nameof(Title), source: this)
                     .Center()
+                    .Font(bold: true)
             }
         };
     }
