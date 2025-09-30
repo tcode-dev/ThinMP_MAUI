@@ -35,19 +35,51 @@ class ArtistDetailPage : ContentPage
         var image = new ArtworkImage()
             .Bind(ArtworkImage.ImageIdProperty, nameof(vm.ImageId));
 
+
+
+        var firstView = new Grid
+        {
+            RowDefinitions =
+            {
+                new RowDefinition(GridLength.Star),   // 上部の余白（画像を中央にするため）
+                new RowDefinition(GridLength.Auto),   // 画像領域
+                new RowDefinition(GridLength.Star),   // 下部の余白（画像を中央にするため）
+            },
+            Children =
+            {
+                image.Row(1).Center(), // 画像を2行目（上下中央）
+                new Label
+                {
+                    VerticalOptions = LayoutOptions.Start // 下部余白の上端に配置
+                }
+                    .Bind(Label.TextProperty, "Artist.Name")
+                    .Font(bold: true)
+                    .Center()
+                    .Row(2) // ラベルを3行目（下部余白エリア内）
+            }
+        };
+
         this.SizeChanged += (s, e) =>
         {
-            double size = this.Width / 3;
+            double width = this.Width;
+            
+            // firstViewを画面幅の正方形に設定
+            firstView.WidthRequest = width;
+            firstView.HeightRequest = width;
+            
+            // 画像サイズも調整
+            double size = width / 3;
             image.WidthRequest = size;
             image.HeightRequest = size;
             image.CornerRadius = size / 2;
         };
+
         var scrollView = new ScrollView
         {
             Content = new VerticalStackLayout
             {
                 Children = {
-                    image,
+                    firstView,
                     new AlbumsHeader(),
                     new CollectionView
                     {
