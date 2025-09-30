@@ -13,9 +13,11 @@ namespace ThinMPm.Views.Page;
 
 class ArtistDetailPage : ContentPage
 {
-    public string ArtistId { get; set; }
+    public required string ArtistId { get; set; }
     private readonly IPlayerService _playerService;
     private readonly IPlatformUtil _platformUtil;
+    private ArtistDetailHeader header;
+    private bool isHeaderVisible = false;
     public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
     {
         NavigationPage.SetHasNavigationBar(this, false);
@@ -24,7 +26,8 @@ class ArtistDetailPage : ContentPage
         _platformUtil = platformUtil;
 
         var layout = new AbsoluteLayout();
-        var header = new ArtistDetailHeader().Bind(ArtistDetailHeader.TitleProperty, "Artist.Name");
+        header = new ArtistDetailHeader().Bind(ArtistDetailHeader.TitleProperty, "Artist.Name");
+        header.Opacity = 0;
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, 100));
@@ -117,10 +120,17 @@ class ArtistDetailPage : ContentPage
         }
     }
 
-    private void OnScrolled(object? sender, ScrolledEventArgs e)
+    private async void OnScrolled(object? sender, ScrolledEventArgs e)
     {
-        double x = e.ScrollX;
-        double y = e.ScrollY;
-        Console.WriteLine($"Scrolled to position: ({x}, {y})");
+        if (e.ScrollY > this.Width && !isHeaderVisible)
+        {
+            isHeaderVisible = true;
+            await header.FadeTo(1, 300, Easing.CubicOut);
+        }
+        else if (e.ScrollY <= this.Width && isHeaderVisible)
+        {
+            isHeaderVisible = false;
+            await header.FadeTo(0, 300, Easing.CubicOut);
+        }
     }
 }
