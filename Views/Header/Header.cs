@@ -22,16 +22,28 @@ public class Header : ContentView
         HeightRequest = 50;
         BackgroundColor = Colors.White;
 
-        Content = new HorizontalStackLayout
+        Content = new Grid
         {
-            HorizontalOptions = LayoutOptions.Fill,
-            VerticalOptions = LayoutOptions.Center,
+            ColumnDefinitions =
+            {
+                new ColumnDefinition(50),
+                new ColumnDefinition(GridLength.Star),
+                new ColumnDefinition(50)
+            },
             Children =
             {
+                new Button
+                {
+                    Text = "←",
+                    FontSize = 18,
+                    BackgroundColor = Colors.Transparent
+                }.Column(0),
+
                 new Label()
                     .Bind(Label.TextProperty, nameof(Title), source: this)
-                    .Center()
                     .Font(bold: true)
+                    .Center()
+                    .Column(1),
             }
         };
     }
