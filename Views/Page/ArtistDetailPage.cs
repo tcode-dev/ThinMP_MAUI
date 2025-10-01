@@ -35,8 +35,6 @@ class ArtistDetailPage : ContentPage
         var image = new ArtworkImage()
             .Bind(ArtworkImage.ImageIdProperty, nameof(vm.ImageId));
 
-
-
         var firstView = new Grid
         {
             RowDefinitions =
@@ -48,14 +46,20 @@ class ArtistDetailPage : ContentPage
             Children =
             {
                 image.Row(1).Center(), // 画像を2行目（上下中央）
-                new Label
-                {
-                    VerticalOptions = LayoutOptions.Start // 下部余白の上端に配置
+                new VerticalStackLayout {
+                    VerticalOptions = LayoutOptions.Start,
+                    Children = {
+                        new Label()
+                            .Bind(Label.TextProperty, "Artist.Name")
+                            .Font(bold: true)
+                            .Center(),
+                        new Label()
+                            .Bind(Label.TextProperty, "SecondaryText")
+                            .Font(bold: true)
+                            .Center()
+                    }
                 }
-                    .Bind(Label.TextProperty, "Artist.Name")
-                    .Font(bold: true)
-                    .Center()
-                    .Row(2) // ラベルを3行目（下部余白エリア内）
+                .Row(2),
             }
         };
 

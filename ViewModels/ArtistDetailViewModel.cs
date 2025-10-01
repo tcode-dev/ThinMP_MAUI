@@ -16,6 +16,8 @@ public partial class ArtistDetailViewModel(IArtistService artistService, IAlbumS
     private string? imageId;
     public ObservableCollection<IAlbumModel> Albums { get; } = [];
     public ObservableCollection<ISongModel> Songs { get; } = [];
+    [ObservableProperty]
+    private string? secondaryText;
 
     public void Load(string id)
     {
@@ -40,5 +42,7 @@ public partial class ArtistDetailViewModel(IArtistService artistService, IAlbumS
         {
             Songs.Add(song);
         }
+
+        SecondaryText = $"{albums?.Count ?? 0} Albums, {songs?.Count ?? 0} Songs";
     }
 }
