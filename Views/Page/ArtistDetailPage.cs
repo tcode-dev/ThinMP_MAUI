@@ -16,7 +16,7 @@ class ArtistDetailPage : ContentPage
     public required string ArtistId { get; set; }
     private readonly IPlayerService _playerService;
     private readonly IPlatformUtil _platformUtil;
-    private ArtistDetailHeader header;
+    private readonly ArtistDetailHeader header;
     private bool isHeaderVisible = false;
     public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
     {
