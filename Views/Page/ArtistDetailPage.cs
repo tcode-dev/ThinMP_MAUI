@@ -39,13 +39,13 @@ class ArtistDetailPage : ContentPage
         {
             RowDefinitions =
             {
-                new RowDefinition(GridLength.Star),   // 上部の余白（画像を中央にするため）
-                new RowDefinition(GridLength.Auto),   // 画像領域
-                new RowDefinition(GridLength.Star),   // 下部の余白（画像を中央にするため）
+                new RowDefinition(GridLength.Star),
+                new RowDefinition(GridLength.Auto),
+                new RowDefinition(GridLength.Star),
             },
             Children =
             {
-                image.Row(1).Center(), // 画像を2行目（上下中央）
+                image.Row(1).Center(),
                 new VerticalStackLayout {
                     VerticalOptions = LayoutOptions.Start,
                     Children = {
