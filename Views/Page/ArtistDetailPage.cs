@@ -63,21 +63,6 @@ class ArtistDetailPage : ContentPage
             }
         };
 
-        this.SizeChanged += (s, e) =>
-        {
-            double width = this.Width;
-            
-            // firstViewを画面幅の正方形に設定
-            firstView.WidthRequest = width;
-            firstView.HeightRequest = width;
-            
-            // 画像サイズも調整
-            double size = width / 3;
-            image.WidthRequest = size;
-            image.HeightRequest = size;
-            image.CornerRadius = size / 2;
-        };
-
         var scrollView = new ScrollView
         {
             Content = new VerticalStackLayout
@@ -104,7 +89,6 @@ class ArtistDetailPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
 
-        // AbsoluteLayoutの重なり順はChildrenの追加順で決まる
         layout.Children.Add(scrollView);
         layout.Children.Add(header);
 
@@ -112,6 +96,19 @@ class ArtistDetailPage : ContentPage
         layout.Padding = new Thickness(0, _platformUtil.GetLayoutNegativeMargin(), 0, 0);
 
         Content = layout;
+
+        this.SizeChanged += (s, e) =>
+        {
+            double width = this.Width;
+
+            firstView.WidthRequest = width;
+            firstView.HeightRequest = width;
+
+            double size = width / 3;
+            image.WidthRequest = size;
+            image.HeightRequest = size;
+            image.CornerRadius = size / 2;
+        };
     }
 
     protected override void OnAppearing()
