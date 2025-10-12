@@ -5,39 +5,27 @@ using ThinMPm.Platforms.Android.Models.Contracts;
 
 namespace ThinMPm.Platforms.Android.Models;
 
-public class SongModel : ISongModel
+public class SongModel(
+    string id,
+    string name,
+    string albumId,
+    string albumName,
+    string artistId,
+    string artistName,
+    int duration,
+    string trackNumber) : ISongModel
 {
-    private readonly string trackNumberRaw;
+    private readonly string trackNumberRaw = trackNumber;
 
-    public string Id { get; }
-    public string Name { get; }
-    public string AlbumId { get; }
-    public string AlbumName { get; }
-    public string ArtistId { get; }
-    public string ArtistName { get; }
-    public int Duration { get; }
+  public string Id { get; } = id;
+  public string Name { get; } = name;
+  public string AlbumId { get; } = albumId;
+  public string AlbumName { get; } = albumName;
+  public string ArtistId { get; } = artistId;
+  public string ArtistName { get; } = artistName;
+  public int Duration { get; } = duration;
 
-    public SongModel(
-        string id,
-        string name,
-        string albumId,
-        string albumName,
-        string artistId,
-        string artistName,
-        int duration,
-        string trackNumber)
-    {
-        trackNumberRaw = trackNumber;
-        Id = id;
-        Name = name;
-        AlbumId = albumId;
-        AlbumName = albumName;
-        ArtistId = artistId;
-        ArtistName = artistName;
-        Duration = duration;
-    }
-
-    public string ImageId => AlbumId;
+  public string ImageId => AlbumId;
 
     public Uri ImageUri => Uri.Parse($"{MediaConstant.ALBUM_ART}/{AlbumId}");
 
