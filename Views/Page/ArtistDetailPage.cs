@@ -18,6 +18,7 @@ class ArtistDetailPage : ContentPage
     private readonly IPlatformUtil _platformUtil;
     private readonly ArtistDetailHeader header;
     private bool isHeaderVisible = false;
+    private double headerShowPosition = 0;
     public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
     {
         NavigationPage.SetHasNavigationBar(this, false);
@@ -108,6 +109,8 @@ class ArtistDetailPage : ContentPage
             image.WidthRequest = size;
             image.HeightRequest = size;
             image.CornerRadius = size / 2;
+
+            headerShowPosition = width / 3;
         };
     }
 
@@ -155,12 +158,12 @@ class ArtistDetailPage : ContentPage
 
     private async void OnScrolled(object? sender, ScrolledEventArgs e)
     {
-        if (e.ScrollY > this.Width && !isHeaderVisible)
+        if (e.ScrollY > headerShowPosition && !isHeaderVisible)
         {
             isHeaderVisible = true;
             await header.FadeTo(1, 300, Easing.CubicOut);
         }
-        else if (e.ScrollY <= this.Width && isHeaderVisible)
+        else if (e.ScrollY <= headerShowPosition && isHeaderVisible)
         {
             isHeaderVisible = false;
             await header.FadeTo(0, 300, Easing.CubicOut);
