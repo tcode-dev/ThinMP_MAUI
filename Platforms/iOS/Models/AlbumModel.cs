@@ -3,11 +3,11 @@ using ThinMPm.Platforms.iOS.Models.Contracts;
 
 namespace ThinMPm.Platforms.iOS.Models;
 
-public class AlbumModel : IAlbumModel
+public class AlbumModel(MPMediaItemCollection media) : IAlbumModel
 {
-    public MPMediaItemCollection Media { get; }
+  public MPMediaItemCollection Media { get; } = media;
 
-    public string Id => (Media.RepresentativeItem?.AlbumPersistentID ?? 0).ToString();
+  public string Id => (Media.RepresentativeItem?.AlbumPersistentID ?? 0).ToString();
 
     public string Name => !string.IsNullOrEmpty(Media.RepresentativeItem?.AlbumTitle)
         ? Media.RepresentativeItem.Title
@@ -29,9 +29,4 @@ public class AlbumModel : IAlbumModel
     }
 
     public MPMediaItemArtwork? Artwork => Media.RepresentativeItem?.Artwork;
-
-    public AlbumModel(MPMediaItemCollection media)
-    {
-        Media = media;
-    }
 }
