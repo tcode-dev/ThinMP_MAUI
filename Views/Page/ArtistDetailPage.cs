@@ -110,7 +110,7 @@ class ArtistDetailPage : ContentPage
             image.HeightRequest = size;
             image.CornerRadius = size / 2;
 
-            headerShowPosition = width / 3;
+            headerShowPosition = width * 0.7;
         };
     }
 
