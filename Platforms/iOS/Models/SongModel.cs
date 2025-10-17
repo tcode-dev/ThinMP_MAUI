@@ -3,11 +3,11 @@ using ThinMPm.Platforms.iOS.Models.Contracts;
 
 namespace ThinMPm.Platforms.iOS.Models;
 
-public class SongModel : ISongModel
+public class SongModel(MPMediaItemCollection media) : ISongModel
 {
-    public MPMediaItemCollection Media { get; }
+  public MPMediaItemCollection Media { get; } = media;
 
-    public string Id => (Media.RepresentativeItem?.PersistentID ?? 0).ToString();
+  public string Id => (Media.RepresentativeItem?.PersistentID ?? 0).ToString();
 
     public string Name => !string.IsNullOrEmpty(Media.RepresentativeItem?.Title)
         ? Media.RepresentativeItem.Title
@@ -49,9 +49,4 @@ public class SongModel : ISongModel
     public double Duration => Media.RepresentativeItem?.PlaybackDuration ?? 0.0;
 
     public int TrackNumber => (int)(Media.RepresentativeItem?.AlbumTrackNumber ?? 0);
-
-    public SongModel(MPMediaItemCollection media)
-    {
-        Media = media;
-    }
 }
