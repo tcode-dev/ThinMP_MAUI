@@ -6,6 +6,7 @@ using ThinMPm.Views.Row;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.GridItem;
+using ThinMPm.Views.Title;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Utils;
 
@@ -70,7 +71,7 @@ class ArtistDetailPage : ContentPage
             {
                 Children = {
                     firstView,
-                    new AlbumsHeader(),
+                    new SectionTitle("Albums"),
                     new CollectionView
                     {
                         ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
