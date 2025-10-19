@@ -77,7 +77,7 @@ class ArtistDetailPage : ContentPage
                         ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
                         ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnAlbumTapped))
                     }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
-                    new SongsHeader(),
+                    new SectionTitle("Songs"),
                     new CollectionView
                     {
                         ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
