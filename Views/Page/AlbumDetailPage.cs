@@ -16,7 +16,9 @@ class AlbumDetailPage : ContentPage
     private readonly IPlayerService _playerService;
 
     private readonly IPlatformUtil _platformUtil;
-
+    private readonly AlbumDetailHeader header;
+    private bool isHeaderVisible = false;
+    private double headerShowPosition = 0;
     public AlbumDetailPage(AlbumDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
     {
         NavigationPage.SetHasNavigationBar(this, false);
@@ -26,7 +28,7 @@ class AlbumDetailPage : ContentPage
         _platformUtil = platformUtil;
 
         var layout = new AbsoluteLayout();
-        var header = new AlbumDetailHeader().Bind(AlbumDetailHeader.TitleProperty, "Album.Name");
+        header = new AlbumDetailHeader().Bind(AlbumDetailHeader.TitleProperty, "Album.Name");
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, 100));
@@ -58,6 +60,13 @@ class AlbumDetailPage : ContentPage
         layout.Padding = new Thickness(0, _platformUtil.GetLayoutNegativeMargin(), 0, 0);
 
         Content = layout;
+
+        this.SizeChanged += (s, e) =>
+        {
+            double width = this.Width;
+
+            headerShowPosition = width * 0.7;
+        };
     }
 
     protected override void OnAppearing()
@@ -82,10 +91,17 @@ class AlbumDetailPage : ContentPage
         }
     }
 
-    private void OnScrolled(object? sender, ScrolledEventArgs e)
+    private async void OnScrolled(object? sender, ScrolledEventArgs e)
     {
-        double x = e.ScrollX;
-        double y = e.ScrollY;
-        Console.WriteLine($"Scrolled to position: ({x}, {y})");
+        if (e.ScrollY > headerShowPosition && !isHeaderVisible)
+        {
+            isHeaderVisible = true;
+            await header.FadeTo(1, 300, Easing.CubicOut);
+        }
+        else if (e.ScrollY <= headerShowPosition && isHeaderVisible)
+        {
+            isHeaderVisible = false;
+            await header.FadeTo(0, 300, Easing.CubicOut);
+        }
     }
 }
