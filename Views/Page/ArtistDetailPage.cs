@@ -1,14 +1,14 @@
 using CommunityToolkit.Maui.Markup;
+using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
+using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
-using ThinMPm.Views.Row;
+using ThinMPm.Views.GridItem;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.Img;
-using ThinMPm.Views.GridItem;
+using ThinMPm.Views.Row;
 using ThinMPm.Views.Title;
-using Microsoft.Maui.Layouts;
-using ThinMPm.Contracts.Utils;
 
 namespace ThinMPm.Views.Page;
 
