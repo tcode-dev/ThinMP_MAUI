@@ -4,9 +4,9 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
+using ThinMPm.Views.FirstView;
 using ThinMPm.Views.GridItem;
 using ThinMPm.Views.Header;
-using ThinMPm.Views.Img;
 using ThinMPm.Views.Row;
 using ThinMPm.Views.Title;
 
@@ -34,43 +34,12 @@ class ArtistDetailPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, 50));
 
-        var image = new ArtworkImage()
-            .Bind(ArtworkImage.ImageIdProperty, nameof(vm.ImageId));
-
-        var firstView = new Grid
-        {
-            RowDefinitions =
-            {
-                new RowDefinition(GridLength.Star),
-                new RowDefinition(GridLength.Auto),
-                new RowDefinition(GridLength.Star),
-            },
-            Children =
-            {
-                image.Row(1).Center(),
-                new VerticalStackLayout {
-                    VerticalOptions = LayoutOptions.Start,
-                    Children = {
-                        new Label()
-                            .Bind(Label.TextProperty, "Artist.Name")
-                            .Font(bold: true)
-                            .Center(),
-                        new Label()
-                            .Bind(Label.TextProperty, "SecondaryText")
-                            .Font(bold: true)
-                            .Center()
-                    }
-                }
-                .Row(2),
-            }
-        };
-
         var scrollView = new ScrollView
         {
             Content = new VerticalStackLayout
             {
                 Children = {
-                    firstView,
+                    new ArtistDetailFirstView{ BindingContext = vm },
                     new SectionTitle("Albums"),
                     new CollectionView
                     {
@@ -101,17 +70,8 @@ class ArtistDetailPage : ContentPage
 
         this.SizeChanged += (s, e) =>
         {
-            double width = this.Width;
-
-            firstView.WidthRequest = width;
-            firstView.HeightRequest = width;
-
-            double size = width / 3;
-            image.WidthRequest = size;
-            image.HeightRequest = size;
-            image.CornerRadius = size / 2;
-
-            headerShowPosition = width * 0.7;
+            var statusBarHeight = platformUtil?.GetStatusBarHeight() ?? 0;
+            headerShowPosition = this.Width * 0.8 - statusBarHeight;
         };
     }
 
