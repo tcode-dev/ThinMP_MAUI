@@ -12,7 +12,6 @@ namespace ThinMPm.Views.Page;
 
 class AlbumDetailPage : ContentPage
 {
-    public string AlbumId { get; set; }
     private readonly IPlayerService _playerService;
 
     private readonly IPlatformUtil _platformUtil;
@@ -75,7 +74,7 @@ class AlbumDetailPage : ContentPage
 
         if (BindingContext is AlbumDetailViewModel vm)
         {
-            vm.Load(AlbumId);
+            vm.Load();
         }
     }
 
