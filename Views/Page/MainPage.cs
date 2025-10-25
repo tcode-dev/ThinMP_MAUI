@@ -48,9 +48,7 @@ class MainPage : ContentPage
                     .CenterHorizontal()
                     .Invoke(b => b.Clicked += async (s, e) =>
                     {
-                        var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<ArtistsPage>();
-
-                        await Navigation.PushAsync(page);
+                        await Shell.Current.GoToAsync(nameof(ArtistsPage));
                     }),
                 new Button()
                     .Text("Go to Albums Page")
@@ -58,9 +56,7 @@ class MainPage : ContentPage
                     .CenterHorizontal()
                     .Invoke(b => b.Clicked += async (s, e) =>
                     {
-                        var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<AlbumsPage>();
-
-                        await Navigation.PushAsync(page);
+                        await Shell.Current.GoToAsync(nameof(AlbumsPage));
                     }),
                 new Button()
                     .Text("Go to Songs Page")
@@ -68,9 +64,7 @@ class MainPage : ContentPage
                     .CenterHorizontal()
                     .Invoke(b => b.Clicked += async (s, e) =>
                     {
-                        var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<SongsPage>();
-
-                        await Navigation.PushAsync(page);
+                        await Shell.Current.GoToAsync(nameof(SongsPage));
                     }),
             }
         };
