@@ -49,16 +49,7 @@ class ArtistsPage : ContentPage
         {
             if (bindable.BindingContext is IArtistModel item)
             {
-                var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<ArtistDetailPage>();
-
-                if (page == null)
-                {
-                    return;
-                }
-
-                page.ArtistId = item.Id;
-
-                await Navigation.PushAsync(page);
+                await Shell.Current.GoToAsync($"{nameof(ArtistDetailPage)}?ArtistId={item.Id}");
             }
         }
     }

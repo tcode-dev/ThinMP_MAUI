@@ -14,7 +14,6 @@ namespace ThinMPm.Views.Page;
 
 class ArtistDetailPage : ContentPage
 {
-    public required string ArtistId { get; set; }
     private readonly IPlayerService _playerService;
     private readonly IPlatformUtil _platformUtil;
     private readonly ArtistDetailHeader header;
@@ -81,7 +80,7 @@ class ArtistDetailPage : ContentPage
 
         if (BindingContext is ArtistDetailViewModel vm)
         {
-            vm.Load(ArtistId);
+            vm.Load();
         }
     }
 
@@ -91,16 +90,7 @@ class ArtistDetailPage : ContentPage
         {
             if (bindable.BindingContext is IAlbumModel item)
             {
-                var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<AlbumDetailPage>();
-
-                if (page == null)
-                {
-                    return;
-                }
-
-                page.AlbumId = item.Id;
-
-                await Navigation.PushAsync(page);
+                await Shell.Current.GoToAsync($"{nameof(AlbumDetailPage)}?AlbumId={item.Id}");
             }
         }
     }

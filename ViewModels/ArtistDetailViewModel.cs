@@ -5,8 +5,10 @@ using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.ViewModels;
 
+[QueryProperty(nameof(ArtistId), "ArtistId")]
 public partial class ArtistDetailViewModel(IArtistService artistService, IAlbumService albumService, ISongService songService) : ObservableObject
 {
+    public string ArtistId { get; set; } = string.Empty;
     readonly IArtistService _artistService = artistService;
     readonly IAlbumService _albumService = albumService;
     readonly ISongService _songService = songService;
@@ -19,11 +21,11 @@ public partial class ArtistDetailViewModel(IArtistService artistService, IAlbumS
     [ObservableProperty]
     private string? secondaryText;
 
-    public void Load(string id)
+    public void Load()
     {
-        Artist = _artistService.FindById(id);
+        Artist = _artistService.FindById(ArtistId);
 
-        var albums = _albumService.FindByArtistId(id);
+        var albums = _albumService.FindByArtistId(ArtistId);
 
         Albums.Clear();
 
@@ -34,7 +36,7 @@ public partial class ArtistDetailViewModel(IArtistService artistService, IAlbumS
 
         ImageId = albums.FirstOrDefault()?.ImageId;
 
-        var songs = _songService.FindByArtistId(id);
+        var songs = _songService.FindByArtistId(ArtistId);
 
         Songs.Clear();
 
