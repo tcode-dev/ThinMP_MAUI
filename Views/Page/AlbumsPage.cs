@@ -47,16 +47,7 @@ class AlbumsPage : ContentPage
         {
             if (bindable.BindingContext is IAlbumModel item)
             {
-                var page = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<AlbumDetailPage>();
-
-                if (page == null)
-                {
-                    return;
-                }
-
-                page.AlbumId = item.Id;
-
-                await Navigation.PushAsync(page);
+                await Shell.Current.GoToAsync($"{nameof(AlbumDetailPage)}?AlbumId={item.Id}");
             }
         }
     }

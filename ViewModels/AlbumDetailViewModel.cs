@@ -5,19 +5,21 @@ using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.ViewModels;
 
+[QueryProperty(nameof(AlbumId), "AlbumId")]
 public partial class AlbumDetailViewModel(IAlbumService albumService, ISongService songService) : ObservableObject
 {
+    public string AlbumId { get; set; } = string.Empty;
     readonly IAlbumService _albumService = albumService;
     readonly ISongService _songService = songService;
     [ObservableProperty]
     private IAlbumModel? album;
     public ObservableCollection<ISongModel> Songs { get; } = new();
 
-    public void Load(string id)
+    public void Load()
     {
-        Album = _albumService.FindById(id);
+        Album = _albumService.FindById(AlbumId);
 
-        var songs = _songService.FindByAlbumId(id);
+        var songs = _songService.FindByAlbumId(AlbumId);
 
         Songs.Clear();
 
