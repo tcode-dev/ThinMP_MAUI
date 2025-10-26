@@ -48,9 +48,13 @@ public class Header : ContentView
                 }.Column(0),
 
                 new Label()
+                {
+                    HeightRequest = 50,
+                    FontAttributes = FontAttributes.Bold,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                    VerticalTextAlignment = TextAlignment.Center
+                }
                     .Bind(Label.TextProperty, nameof(Title), source: this)
-                    .Font(bold: true)
-                    .Center()
                     .Column(1),
             }
         };
