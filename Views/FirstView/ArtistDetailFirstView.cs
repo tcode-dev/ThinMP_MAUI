@@ -6,7 +6,7 @@ namespace ThinMPm.Views.FirstView;
 
 class ArtistDetailFirstView : AbsoluteLayout
 {
-    private double size;
+    private double imageSize;
     public ArtistDetailFirstView()
     {
         NavigationPage.SetHasNavigationBar(this, false);
@@ -27,7 +27,7 @@ class ArtistDetailFirstView : AbsoluteLayout
             .Center();
 
         AbsoluteLayout.SetLayoutFlags(image, AbsoluteLayoutFlags.PositionProportional);
-        AbsoluteLayout.SetLayoutBounds(image, new Rect(0.5, 0.5, size, size));
+        AbsoluteLayout.SetLayoutBounds(image, new Rect(0.5, 0.5, imageSize, imageSize));
 
         AbsoluteLayout.SetLayoutFlags(primaryText, AbsoluteLayoutFlags.PositionProportional);
         AbsoluteLayout.SetLayoutBounds(primaryText, new Rect(0.5, 0.8, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
@@ -41,16 +41,11 @@ class ArtistDetailFirstView : AbsoluteLayout
 
         this.SizeChanged += (s, e) =>
         {
-            double width = this.Width;
-
-            WidthRequest = width;
-            HeightRequest = width;
-
-            this.size = width / 3;
-
-            image.WidthRequest = size;
-            image.HeightRequest = size;
-            image.CornerRadius = size / 2;
+            HeightRequest = this.Width;
+            imageSize = this.Width / 3;
+            image.WidthRequest = imageSize;
+            image.HeightRequest = imageSize;
+            image.CornerRadius = imageSize / 2;
         };
     }
 }
