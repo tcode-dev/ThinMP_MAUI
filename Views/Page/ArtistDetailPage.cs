@@ -69,7 +69,7 @@ class ArtistDetailPage : ContentPage
 
         this.SizeChanged += (s, e) =>
         {
-            var statusBarHeight = platformUtil?.GetStatusBarHeight() ?? 0;
+            var statusBarHeight = _platformUtil.GetStatusBarHeight();
             headerShowPosition = this.Width * 0.8 - statusBarHeight;
         };
     }
