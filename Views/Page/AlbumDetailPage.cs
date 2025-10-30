@@ -13,7 +13,6 @@ namespace ThinMPm.Views.Page;
 class AlbumDetailPage : ContentPage
 {
     private readonly IPlayerService _playerService;
-
     private readonly IPlatformUtil _platformUtil;
     private readonly AlbumDetailHeader header;
     private bool isHeaderVisible = false;
