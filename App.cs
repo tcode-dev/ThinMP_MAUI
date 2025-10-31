@@ -1,6 +1,4 @@
-﻿using ThinMPm.Views.Page;
-
-namespace ThinMPm;
+﻿namespace ThinMPm;
 
 public partial class App : Application
 {
