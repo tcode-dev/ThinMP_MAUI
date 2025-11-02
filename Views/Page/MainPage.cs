@@ -12,7 +12,7 @@ class MainPage : ContentPage
 {
     public MainPage()
     {
-        NavigationPage.SetHasNavigationBar(this, false);
+        Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = new ViewModel();
 

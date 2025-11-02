@@ -19,7 +19,7 @@ class AlbumDetailPage : ContentPage
     private double headerShowPosition = 0;
     public AlbumDetailPage(AlbumDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
     {
-        NavigationPage.SetHasNavigationBar(this, false);
+        Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
         _playerService = playerService;

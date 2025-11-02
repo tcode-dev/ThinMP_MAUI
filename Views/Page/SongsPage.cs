@@ -12,7 +12,7 @@ class SongsPage : ContentPage
     private readonly IPlayerService _playerService;
     public SongsPage(SongViewModel vm, IPlayerService playerService)
     {
-        NavigationPage.SetHasNavigationBar(this, false);
+        Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
         _playerService = playerService;

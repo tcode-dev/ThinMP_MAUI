@@ -9,7 +9,7 @@ class AlbumsPage : ContentPage
 {
     public AlbumsPage(AlbumViewModel vm)
     {
-        NavigationPage.SetHasNavigationBar(this, false);
+        Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
 

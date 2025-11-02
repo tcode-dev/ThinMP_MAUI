@@ -21,7 +21,8 @@ class ArtistDetailPage : ContentPage
     private double headerShowPosition = 0;
     public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
     {
-        NavigationPage.SetHasNavigationBar(this, false);
+        Shell.SetNavBarIsVisible(this, false);
+
         BindingContext = vm;
         _playerService = playerService;
         _platformUtil = platformUtil;

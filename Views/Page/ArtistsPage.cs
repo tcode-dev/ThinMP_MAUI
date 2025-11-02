@@ -10,7 +10,7 @@ class ArtistsPage : ContentPage
 {
     public ArtistsPage(ArtistViewModel vm)
     {
-        NavigationPage.SetHasNavigationBar(this, false);
+        Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
 
