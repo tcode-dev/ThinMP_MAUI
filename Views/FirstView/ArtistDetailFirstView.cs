@@ -9,8 +9,6 @@ class ArtistDetailFirstView : AbsoluteLayout
     private double imageSize;
     public ArtistDetailFirstView()
     {
-        NavigationPage.SetHasNavigationBar(this, false);
-
         var image = new ArtworkImage()
             .Bind(ArtworkImage.ImageIdProperty, "ImageId");
         var primaryText = new Label
