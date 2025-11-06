@@ -8,8 +8,7 @@ class AlbumDetailFirstView : AbsoluteLayout
 {
     public AlbumDetailFirstView()
     {
-        var image = new ArtworkImage()
-            .Bind(ArtworkImage.ImageIdProperty, "ImageId");
+        var image = new ArtworkImage().Bind(ArtworkImage.ImageIdProperty, "Album.ImageId");
         var primaryText = new Label
         {
             HeightRequest = 50,
@@ -36,6 +35,9 @@ class AlbumDetailFirstView : AbsoluteLayout
         this.SizeChanged += (s, e) =>
         {
             HeightRequest = this.Width;
+            image.WidthRequest = this.Width;
+            image.HeightRequest = this.Width;
+            image.CornerRadius = 0;
         };
     }
 }

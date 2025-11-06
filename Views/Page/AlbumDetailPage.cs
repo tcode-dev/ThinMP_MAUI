@@ -4,9 +4,9 @@ using ThinMPm.Contracts.Services;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Row;
 using ThinMPm.Views.Header;
-using ThinMPm.Views.Img;
 using ThinMPm.Contracts.Utils;
 using Microsoft.Maui.Layouts;
+using ThinMPm.Views.FirstView;
 
 namespace ThinMPm.Views.Page;
 
@@ -36,8 +36,7 @@ class AlbumDetailPage : ContentPage
             Content = new VerticalStackLayout
             {
                 Children = {
-                new ArtworkImage().Bind(ArtworkImage.ImageIdProperty, "Album.ImageId"),
-                new SongsHeader(),
+                new AlbumDetailFirstView{ BindingContext = vm },
                 new CollectionView
                 {
                     ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
