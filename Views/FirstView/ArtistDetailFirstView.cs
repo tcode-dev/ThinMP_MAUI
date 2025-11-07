@@ -9,8 +9,7 @@ class ArtistDetailFirstView : AbsoluteLayout
     private double imageSize;
     public ArtistDetailFirstView()
     {
-        var image = new ArtworkImage()
-            .Bind(ArtworkImage.ImageIdProperty, "ImageId");
+        var image = new ArtworkImage().Bind(ArtworkImage.ImageIdProperty, "ImageId");
         var primaryText = new Label
         {
             HeightRequest = 50,
