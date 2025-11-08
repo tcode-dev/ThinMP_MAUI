@@ -27,6 +27,7 @@ class AlbumDetailPage : ContentPage
 
         var layout = new AbsoluteLayout();
         header = new AlbumDetailHeader().Bind(AlbumDetailHeader.TitleProperty, "Album.Name");
+        header.Opacity = 0;
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, 100));
