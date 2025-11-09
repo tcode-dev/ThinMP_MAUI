@@ -61,9 +61,8 @@ class AlbumDetailPage : ContentPage
 
         this.SizeChanged += (s, e) =>
         {
-            double width = this.Width;
-
-            headerShowPosition = width * 0.7;
+            var statusBarHeight = _platformUtil.GetStatusBarHeight();
+            headerShowPosition = this.Width * 0.8 - statusBarHeight;
         };
     }
 
