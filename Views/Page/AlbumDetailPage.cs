@@ -58,12 +58,6 @@ class AlbumDetailPage : ContentPage
         layout.Padding = new Thickness(0, _platformUtil.GetLayoutNegativeMargin(), 0, 0);
 
         Content = layout;
-
-        this.SizeChanged += (s, e) =>
-        {
-            var statusBarHeight = _platformUtil.GetStatusBarHeight();
-            headerShowPosition = this.Width * 0.8 - statusBarHeight;
-        };
     }
 
     protected override void OnAppearing()
@@ -74,6 +68,14 @@ class AlbumDetailPage : ContentPage
         {
             vm.Load();
         }
+    }
+
+    protected override void OnSizeAllocated(double width, double height)
+    {
+        base.OnSizeAllocated(width, height);
+
+        var statusBarHeight = _platformUtil.GetStatusBarHeight();
+        headerShowPosition = this.Width * 0.8 - statusBarHeight;
     }
 
     private void OnSongTapped(object? sender, EventArgs e)
