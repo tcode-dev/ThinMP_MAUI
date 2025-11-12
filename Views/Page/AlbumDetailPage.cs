@@ -1,12 +1,12 @@
 using CommunityToolkit.Maui.Markup;
+using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
-using ThinMPm.ViewModels;
-using ThinMPm.Views.Row;
-using ThinMPm.Views.Header;
 using ThinMPm.Contracts.Utils;
-using Microsoft.Maui.Layouts;
+using ThinMPm.ViewModels;
 using ThinMPm.Views.FirstView;
+using ThinMPm.Views.Header;
+using ThinMPm.Views.Row;
 
 namespace ThinMPm.Views.Page;
 
