@@ -1,12 +1,10 @@
 ﻿using CommunityToolkit.Maui.Markup;
-using static CommunityToolkit.Maui.Markup.GridRowsColumns;
+using ThinMPm.Contracts.Models;
+using ThinMPm.Models;
+using ThinMPm.Views.Header;
+using ThinMPm.Views.Row;
 
 namespace ThinMPm.Views.Page;
-
-public class ViewModel
-{
-    public string RegistrationCode { get; set; }
-}
 
 class MainPage : ContentPage
 {
@@ -14,62 +12,39 @@ class MainPage : ContentPage
     {
         Shell.SetNavBarIsVisible(this, false);
 
-        BindingContext = new ViewModel();
-
-        Content = new Grid
+        var menu = new List<IMenuModel>
         {
-            RowDefinitions = Rows.Define(
-                (Row.TextEntry, 36), (Row.Artists, 60), (Row.Albums, 60), (Row.Songs, 60)),
+            new MenuModel("Artists", nameof(ArtistsPage)),
+            new MenuModel("Albums", nameof(AlbumsPage)),
+            new MenuModel("Songs", nameof(SongsPage)),
+        };
 
-            ColumnDefinitions = Columns.Define(
-                (Column.Description, Star),
-                (Column.Input, Stars(2))),
-
-            Children =
+        var scrollView = new ScrollView
+        {
+            Content = new VerticalStackLayout
             {
-                new Label()
-                    .Text("Code:")
-                    .Row(Row.TextEntry).Column(Column.Description),
-
-                new Entry
-                {
-                    Keyboard = Keyboard.Numeric,
-                }.Row(Row.TextEntry).Column(Column.Input)
-                 .BackgroundColor(Colors.AliceBlue)
-                 .FontSize(15)
-                 .Placeholder("Enter number")
-                 .TextColor(Colors.Black)
-                 .Height(44)
-                 .Margin(5, 5)
-                 .Bind(Entry.TextProperty, static (ViewModel vm) => vm.RegistrationCode, static (vm, text) => vm.RegistrationCode = text),
-                new Button()
-                    .Text("Go to Artists Page")
-                    .Row(Row.Artists).ColumnSpan(All<Column>())
-                    .CenterHorizontal()
-                    .Invoke(b => b.Clicked += async (s, e) =>
+                Children = {
+                    new MainHeader(),
+                    new CollectionView
                     {
-                        await Shell.Current.GoToAsync(nameof(ArtistsPage));
-                    }),
-                new Button()
-                    .Text("Go to Albums Page")
-                    .Row(Row.Albums).ColumnSpan(All<Column>())
-                    .CenterHorizontal()
-                    .Invoke(b => b.Clicked += async (s, e) =>
-                    {
-                        await Shell.Current.GoToAsync(nameof(AlbumsPage));
-                    }),
-                new Button()
-                    .Text("Go to Songs Page")
-                    .Row(Row.Songs).ColumnSpan(All<Column>())
-                    .CenterHorizontal()
-                    .Invoke(b => b.Clicked += async (s, e) =>
-                    {
-                        await Shell.Current.GoToAsync(nameof(SongsPage));
-                    }),
+                        ItemTemplate = new DataTemplate(() => new MenuListItem(OnTapped)),
+                        ItemsSource = menu
+                    }
+                }
             }
         };
+
+        Content = scrollView;
     }
 
-    enum Row { TextEntry, Artists, Albums, Songs }
-    enum Column { Description, Input }
+    private async void OnTapped(object? sender, EventArgs e)
+    {
+        if (sender is BindableObject bindable)
+        {
+            if (bindable.BindingContext is IMenuModel item)
+            {
+                await Shell.Current.GoToAsync(item.Page);
+            }
+        }
+    }
 }
