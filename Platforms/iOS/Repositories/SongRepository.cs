@@ -45,8 +45,7 @@ public class SongRepository : ISongRepository
 
         // 保持する順序をidsに合わせる
         var result = ids
-            .Where(id => filtered.Any(f => f.RepresentativeItem?.PersistentID == id.Value
-        ))
+            .Where(id => filtered.Any(f => f.RepresentativeItem?.PersistentID == id.Value))
             .Select(id => filtered.First(f => f.RepresentativeItem?.PersistentID == id.Value))
             .Select(c => new SongModel(c) as ISongModel)
             .ToList();
