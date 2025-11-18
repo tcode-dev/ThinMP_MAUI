@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Maui.Markup;
 using ThinMPm.Contracts.Models;
-using ThinMPm.Models;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.Row;
 using ThinMPm.ViewModels;
@@ -9,8 +8,6 @@ namespace ThinMPm.Views.Page;
 
 class MainPage : ContentPage
 {
-    private readonly MainViewModel _viewModel;
-
     public MainPage(MainViewModel vm)
     {
         Shell.SetNavBarIsVisible(this, false);
