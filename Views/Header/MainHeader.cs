@@ -10,8 +10,6 @@ public class MainHeader : ContentView
         var platformUtil = Application.Current?.Handler?.MauiContext?.Services
             .GetRequiredService<IPlatformUtil>();
 
-        BackgroundColor = Colors.White;
-
         var statusBarHeight = platformUtil?.GetStatusBarHeight() ?? 0;
 
         HeightRequest = 60 + statusBarHeight;
@@ -31,7 +29,6 @@ public class MainHeader : ContentView
                 {
                     HeightRequest = 50,
                     FontAttributes = FontAttributes.Bold,
-                    TextColor = Colors.Black,
                     FontSize = 32,
                     VerticalTextAlignment = TextAlignment.Center,
                     Text = "Library"

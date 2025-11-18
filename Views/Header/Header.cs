@@ -23,8 +23,6 @@ public class Header : ContentView
         var platformUtil = Application.Current?.Handler?.MauiContext?.Services
             .GetRequiredService<IPlatformUtil>();
 
-        BackgroundColor = Colors.White;
-
         var statusBarHeight = platformUtil?.GetStatusBarHeight() ?? 0;
 
         HeightRequest = 50 + statusBarHeight;
