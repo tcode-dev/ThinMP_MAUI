@@ -1,3 +1,4 @@
+using ThinMPm.ViewModels;
 using ThinMPm.Views.Page;
 
 namespace ThinMPm;
@@ -16,7 +17,7 @@ public partial class AppShell : Shell
         Items.Add(new ShellContent
         {
             Title = "Home",
-            Content = new MainPage(),
+            Content = new MainPage(new MainViewModel()),
             Route = "MainPage"
         });
     }
