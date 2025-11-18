@@ -3,21 +3,19 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Models;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.Row;
+using ThinMPm.ViewModels;
 
 namespace ThinMPm.Views.Page;
 
 class MainPage : ContentPage
 {
-    public MainPage()
+    private readonly MainViewModel _viewModel;
+
+    public MainPage(MainViewModel vm)
     {
         Shell.SetNavBarIsVisible(this, false);
 
-        var menu = new List<IMenuModel>
-        {
-            new MenuModel("Artists", nameof(ArtistsPage)),
-            new MenuModel("Albums", nameof(AlbumsPage)),
-            new MenuModel("Songs", nameof(SongsPage)),
-        };
+        BindingContext = vm;
 
         var scrollView = new ScrollView
         {
@@ -28,8 +26,8 @@ class MainPage : ContentPage
                     new CollectionView
                     {
                         ItemTemplate = new DataTemplate(() => new MenuListItem(OnTapped)),
-                        ItemsSource = menu
                     }
+                    .Bind(ItemsView.ItemsSourceProperty, nameof(vm.MenuItems))
                 }
             }
         };
