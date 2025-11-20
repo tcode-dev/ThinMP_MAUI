@@ -21,6 +21,7 @@ class AlbumDetailPage : ContentPage
     {
         Shell.SetNavBarIsVisible(this, false);
 
+        SafeAreaEdges = SafeAreaEdges.None;
         BindingContext = vm;
         _playerService = playerService;
         _platformUtil = platformUtil;
@@ -54,7 +55,6 @@ class AlbumDetailPage : ContentPage
         layout.Children.Add(scrollView);
         layout.Children.Add(header);
 
-        layout.IgnoreSafeArea = true;
         layout.Padding = new Thickness(0, _platformUtil.GetLayoutNegativeMargin(), 0, 0);
 
         Content = layout;
