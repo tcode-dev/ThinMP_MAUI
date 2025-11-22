@@ -6,7 +6,7 @@ public class PlatformUtili : IPlatformUtil
 {
   public double GetLayoutNegativeMargin()
   {
-    return 0;
+    return -GetStatusBarHeight();
   }
 
   public double GetStatusBarHeight()

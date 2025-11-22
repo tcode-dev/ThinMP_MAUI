@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Behaviors;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Models;
@@ -22,7 +24,11 @@ class ArtistDetailPage : ContentPage
     public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
-
+        this.Behaviors.Add(new StatusBarBehavior
+        {
+            StatusBarColor = Colors.Transparent,
+            // StatusBarStyle = StatusBarStyle.LightContent
+        });
         BindingContext = vm;
         _playerService = playerService;
         _platformUtil = platformUtil;

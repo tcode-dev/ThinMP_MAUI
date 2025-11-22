@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Behaviors;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Models;
@@ -21,10 +23,16 @@ class AlbumDetailPage : ContentPage
     {
         Shell.SetNavBarIsVisible(this, false);
 
+        this.Behaviors.Add(new StatusBarBehavior
+        {
+            StatusBarColor = Colors.Transparent,
+            StatusBarStyle = StatusBarStyle.LightContent
+        });
+
         BindingContext = vm;
         _playerService = playerService;
         _platformUtil = platformUtil;
-
+        SafeAreaEdges = SafeAreaEdges.None;
         var layout = new AbsoluteLayout();
         header = new AlbumDetailHeader().Bind(AlbumDetailHeader.TitleProperty, "Album.Name");
         header.Opacity = 0;
@@ -53,7 +61,6 @@ class AlbumDetailPage : ContentPage
 
         layout.Children.Add(scrollView);
         layout.Children.Add(header);
-        layout.IgnoreSafeArea = true;
         layout.Padding = new Thickness(0, _platformUtil.GetLayoutNegativeMargin(), 0, 0);
 
         Content = layout;

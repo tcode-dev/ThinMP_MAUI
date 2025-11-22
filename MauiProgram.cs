@@ -3,6 +3,8 @@ using ThinMPm.ViewModels;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Views.Page;
 using ThinMPm.Contracts.Utils;
+using CommunityToolkit.Maui;
+
 
 #if ANDROID
 using ThinMPm.Platforms.Android.Repositories.Contracts;
@@ -25,6 +27,7 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
