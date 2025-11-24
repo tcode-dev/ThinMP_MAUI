@@ -54,6 +54,21 @@ public class AlbumRepository : IAlbumRepository
 
   public IList<IAlbumModel> FindByRecent(int count)
   {
-    return Array.Empty<IAlbumModel>();
+    var predicate = new MPMediaPropertyPredicate();
+    var query = MPMediaQuery.AlbumsQuery;
+
+    query.AddFilterPredicate(predicate);
+
+    var collections = query.Collections;
+    if (collections == null)
+    {
+      return new List<IAlbumModel>();
+    }
+
+    return [.. collections
+        .OrderByDescending(c => c.RepresentativeItem?.DateAdded)
+        .Take(count)
+        .Select(c => new AlbumModel(c))
+        .Cast<IAlbumModel>()];
   }
 }
