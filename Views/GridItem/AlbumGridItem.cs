@@ -6,21 +6,29 @@ namespace ThinMPm.Views.GridItem;
 
 public class AlbumGridItem : ContentView
 {
+    private Grid _imageGrid;
+
     public AlbumGridItem(EventHandler<TappedEventArgs> tappedHandler)
     {
         var tapGesture = new TapGestureRecognizer();
         tapGesture.Tapped += tappedHandler;
         GestureRecognizers.Add(tapGesture);
 
-        Padding = new Thickness(10, 20, 10, 0);
+        _imageGrid = new Grid
+        {
+            Children =
+            {
+                new ArtworkImage()
+                    .Bind(ArtworkImage.ImageIdProperty, nameof(IAlbumModel.ImageId))
+            }
+        };
 
         Content = new VerticalStackLayout
         {
             Spacing = 4,
             Children =
             {
-                new ArtworkImage()
-                    .Bind(ArtworkImage.ImageIdProperty, nameof(IAlbumModel.ImageId)),
+                _imageGrid,
 
                 new Label()
                     .Bind(Label.TextProperty, nameof(IAlbumModel.Name)),
@@ -29,5 +37,16 @@ public class AlbumGridItem : ContentView
                     .Bind(Label.TextProperty, nameof(IAlbumModel.ArtistName))
             }
         };
+
+        SizeChanged += OnSizeChanged;
+    }
+
+    private void OnSizeChanged(object? sender, EventArgs e)
+    {
+        if (Width > 0)
+        {
+            _imageGrid.WidthRequest = Width;
+            _imageGrid.HeightRequest = Width;
+        }
     }
 }
