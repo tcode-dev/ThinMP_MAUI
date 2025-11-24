@@ -8,9 +8,9 @@ public class SectionTitle : ContentView
         {
             Text = text,
             FontAttributes = FontAttributes.Bold,
-            FontSize = 16,
+            FontSize = 24,
             VerticalTextAlignment = TextAlignment.Center,
-            Margin = new Thickness(20, 0)
+            Margin = new Thickness(20, 20)
         };
     }
 }
