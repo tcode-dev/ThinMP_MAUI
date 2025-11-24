@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Markup;
 using ThinMPm.Contracts.Models;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.GridItem;
+using ThinMPm.Views.List;
 
 namespace ThinMPm.Views.Page;
 
@@ -18,11 +19,7 @@ class AlbumsPage : ContentPage
             Content = new VerticalStackLayout
             {
                 Children = {
-                    new CollectionView
-                    {
-                        ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
-                        ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnAlbumTapped))
-                    }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums))
+                    new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
                 }
             }
         };

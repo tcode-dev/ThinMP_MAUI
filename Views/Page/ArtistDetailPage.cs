@@ -7,8 +7,8 @@ using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.FirstView;
-using ThinMPm.Views.GridItem;
 using ThinMPm.Views.Header;
+using ThinMPm.Views.List;
 using ThinMPm.Views.Row;
 using ThinMPm.Views.Title;
 
@@ -47,11 +47,7 @@ class ArtistDetailPage : ContentPage
                 Children = {
                     new ArtistDetailFirstView{ BindingContext = vm },
                     new SectionTitle("Albums"),
-                    new CollectionView
-                    {
-                        ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical),
-                        ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnAlbumTapped))
-                    }.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
+                    new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
                     new SectionTitle("Songs"),
                     new CollectionView
                     {
@@ -91,17 +87,6 @@ class ArtistDetailPage : ContentPage
 
         var statusBarHeight = _platformUtil.GetStatusBarHeight();
         headerShowPosition = this.Width * 0.8 - statusBarHeight;
-    }
-
-    private async void OnAlbumTapped(object? sender, EventArgs e)
-    {
-        if (sender is BindableObject bindable)
-        {
-            if (bindable.BindingContext is IAlbumModel item)
-            {
-                await Shell.Current.GoToAsync($"{nameof(AlbumDetailPage)}?AlbumId={item.Id}");
-            }
-        }
     }
 
     private void OnSongTapped(object? sender, EventArgs e)
