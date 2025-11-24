@@ -30,11 +30,15 @@ public class AlbumGridItem : ContentView
             {
                 _imageGrid,
 
-                new Label()
-                    .Bind(Label.TextProperty, nameof(IAlbumModel.Name)),
+                new Label{
+                    HorizontalTextAlignment = TextAlignment.Center,
+                }
+                .Bind(Label.TextProperty, nameof(IAlbumModel.Name)),
 
-                new Label()
-                    .Bind(Label.TextProperty, nameof(IAlbumModel.ArtistName))
+                new Label{
+                    HorizontalTextAlignment = TextAlignment.Center,
+                }
+                .Bind(Label.TextProperty, nameof(IAlbumModel.ArtistName))
             }
         };
 
