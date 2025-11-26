@@ -9,4 +9,6 @@ public interface IAlbumRepository
     IAlbumModel? FindById(string id);
 
     IList<IAlbumModel> FindByArtistId(string artistId);
+
+    IList<IAlbumModel> FindByRecent(int count);
 }

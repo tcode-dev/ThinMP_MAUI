@@ -31,6 +31,6 @@ public class AlbumService : IAlbumService
 
     public IList<IAlbumModel> FindByRecent(int count)
     {
-        return Array.Empty<IAlbumModel>();
+        return _albumRepository.FindByRecent(count).Select(album => album.ToHostModel()).ToList();
     }
 }

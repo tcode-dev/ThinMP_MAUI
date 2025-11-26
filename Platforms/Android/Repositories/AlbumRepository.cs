@@ -49,6 +49,17 @@ public class AlbumRepository : MediaStoreRepository<IAlbumModel>, IAlbumReposito
         return GetList();
     }
 
+    public IList<IAlbumModel> FindByRecent(int count)
+    {
+        Selection = null;
+        SelectionArgs = null;
+        SortOrder = MediaStore.Audio.Media.InterfaceConsts.DateAdded + " DESC";
+        Bundle = new global::Android.OS.Bundle();
+        Bundle.PutInt(global::Android.Content.ContentResolver.QueryArgLimit, count);
+
+        return GetList();
+    }
+
     private string? GetArtistId() =>
         Cursor?.GetColumnIndex(MediaStore.Audio.Media.InterfaceConsts.ArtistId) is int idx && idx >= 0
             ? Cursor.GetString(idx)
