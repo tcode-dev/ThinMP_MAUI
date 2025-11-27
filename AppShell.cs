@@ -1,4 +1,3 @@
-using ThinMPm.ViewModels;
 using ThinMPm.Views.Page;
 
 namespace ThinMPm;
@@ -17,7 +16,10 @@ public partial class AppShell : Shell
         Items.Add(new ShellContent
         {
             Title = "Home",
-            Content = new MainPage(new MainViewModel()),
+            ContentTemplate = new DataTemplate(() =>
+            {
+                return Handler?.MauiContext?.Services?.GetRequiredService<MainPage>();
+            }),
             Route = "MainPage"
         });
     }
