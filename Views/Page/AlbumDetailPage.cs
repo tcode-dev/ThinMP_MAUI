@@ -32,8 +32,10 @@ class AlbumDetailPage : ContentPage
         BindingContext = vm;
         _playerService = playerService;
         _platformUtil = platformUtil;
-        SafeAreaEdges = SafeAreaEdges.None;
-        var layout = new AbsoluteLayout();
+
+        var layout = new AbsoluteLayout {
+            SafeAreaEdges = SafeAreaEdges.None,
+        };
         header = new AlbumDetailHeader().Bind(AlbumDetailHeader.TitleProperty, "Album.Name");
         header.Opacity = 0;
 
@@ -42,6 +44,7 @@ class AlbumDetailPage : ContentPage
 
         var scrollView = new ScrollView
         {
+            SafeAreaEdges = SafeAreaEdges.None,
             Content = new VerticalStackLayout
             {
                 Children = {
@@ -61,7 +64,6 @@ class AlbumDetailPage : ContentPage
 
         layout.Children.Add(scrollView);
         layout.Children.Add(header);
-        layout.Padding = new Thickness(0, _platformUtil.GetLayoutNegativeMargin(), 0, 0);
 
         Content = layout;
     }

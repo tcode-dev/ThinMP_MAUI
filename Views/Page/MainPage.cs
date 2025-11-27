@@ -25,6 +25,7 @@ class MainPage : ContentPage
 
         var scrollView = new ScrollView
         {
+            SafeAreaEdges = SafeAreaEdges.None,
             Content = new VerticalStackLayout
             {
                 Children = {
