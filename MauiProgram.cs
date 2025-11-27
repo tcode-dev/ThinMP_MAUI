@@ -3,8 +3,6 @@ using ThinMPm.ViewModels;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Views.Page;
 using ThinMPm.Contracts.Utils;
-using CommunityToolkit.Maui;
-
 
 #if ANDROID
 using ThinMPm.Platforms.Android.Repositories.Contracts;
@@ -27,7 +25,6 @@ public static class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
-            .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -48,14 +45,14 @@ public static class MauiProgram
         builder.Services.AddSingleton<IPlatformUtil, PlatformUtili>();
 #endif
 
-        builder.Services.AddSingleton<MainViewModel>();
+        builder.Services.AddTransient<MainViewModel>();
         builder.Services.AddTransient<ArtistViewModel>();
         builder.Services.AddTransient<AlbumViewModel>();
         builder.Services.AddTransient<SongViewModel>();
         builder.Services.AddTransient<ArtistDetailViewModel>();
         builder.Services.AddTransient<AlbumDetailViewModel>();
 
-        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<ArtistsPage>();
         builder.Services.AddTransient<AlbumsPage>();
         builder.Services.AddTransient<SongsPage>();
