@@ -4,11 +4,6 @@ namespace ThinMPm.Platforms.Android.Utils;
 
 public class PlatformUtili : IPlatformUtil
 {
-  public double GetLayoutNegativeMargin()
-  {
-    return -GetStatusBarHeight();
-  }
-
   public double GetStatusBarHeight()
   {
     var context = global::Android.App.Application.Context;
