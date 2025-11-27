@@ -24,7 +24,7 @@ public class Header : ContentView
             .GetRequiredService<IPlatformUtil>();
 
         var statusBarHeight = platformUtil?.GetStatusBarHeight() ?? 0;
-
+        BackgroundColor = Colors.White;
         HeightRequest = 50 + statusBarHeight;
         Padding = new Thickness(0, statusBarHeight, 0, 0);
 
