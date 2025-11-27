@@ -3,8 +3,8 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Views;
 using AndroidX.Core.Content;
-using AndroidX.Core.View;
-using Microsoft.Maui.Controls;
+// using AndroidX.Core.View;
+// using Microsoft.Maui.Controls;
 
 namespace ThinMPm;
 
@@ -25,7 +25,7 @@ public class MainActivity : MauiAppCompatActivity
         // Window.SetFlags(WindowManagerFlags.LayoutNoLimits, WindowManagerFlags.LayoutNoLimits);
 
         // ステータスバーを透過
-        // Window.SetStatusBarColor(new Android.Graphics.Color(ContextCompat.GetColor(this, Android.Resource.Color.Transparent)));
+        Window.SetStatusBarColor(new Android.Graphics.Color(ContextCompat.GetColor(this, Android.Resource.Color.Transparent)));
 
         // // display cutout領域にも表示
         // var attributes = Window.Attributes;
