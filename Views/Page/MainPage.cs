@@ -5,8 +5,6 @@ using ThinMPm.Views.Row;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Title;
 using ThinMPm.Views.List;
-using CommunityToolkit.Maui.Behaviors;
-using CommunityToolkit.Maui.Core;
 
 namespace ThinMPm.Views.Page;
 
@@ -15,11 +13,6 @@ class MainPage : ContentPage
     public MainPage(MainViewModel vm)
     {
         Shell.SetNavBarIsVisible(this, false);
-        this.Behaviors.Add(new StatusBarBehavior
-        {
-            StatusBarColor = Colors.Transparent,
-            StatusBarStyle = StatusBarStyle.LightContent
-        });
 
         BindingContext = vm;
 
