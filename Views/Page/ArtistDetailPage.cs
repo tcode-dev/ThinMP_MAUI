@@ -95,6 +95,7 @@ class ArtistDetailPage : ContentPage
         }
     }
 
+    [Obsolete]
     private async void OnScrolled(object? sender, ScrolledEventArgs e)
     {
         if (e.ScrollY > headerShowPosition && !isHeaderVisible)
