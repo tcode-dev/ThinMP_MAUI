@@ -1,29 +1,41 @@
 using CommunityToolkit.Maui.Markup;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
+using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Row;
 using ThinMPm.Views.Header;
+using Microsoft.Maui.Layouts;
 
 namespace ThinMPm.Views.Page;
 
 class SongsPage : ContentPage
 {
     private readonly IPlayerService _playerService;
-    public SongsPage(SongViewModel vm, IPlayerService playerService)
+    private readonly IPlatformUtil _platformUtil;
+    private readonly SongsHeader header;
+    public SongsPage(SongViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
         _playerService = playerService;
+        _platformUtil = platformUtil;
+        var layout = new AbsoluteLayout {
+            SafeAreaEdges = SafeAreaEdges.None,
+        };
+        var statusBarHeight = _platformUtil?.GetStatusBarHeight() ?? 0;
+        header = new SongsHeader();
 
+        AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, statusBarHeight + 50));
         var scrollView = new ScrollView
         {
             SafeAreaEdges = SafeAreaEdges.None,
             Content = new VerticalStackLayout
             {
                 Children = {
-                    new SongsHeader(),
+                    new EmptyHeader(),
                     new CollectionView
                     {
                         ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
@@ -32,9 +44,14 @@ class SongsPage : ContentPage
                 }
             }
         };
-        scrollView.Scrolled += OnScrolled;
 
-        Content = scrollView;
+        AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
+
+        layout.Children.Add(scrollView);
+        layout.Children.Add(header);
+
+        Content = layout;
     }
 
     protected override void OnAppearing()
@@ -57,12 +74,5 @@ class SongsPage : ContentPage
                 _playerService.StartAllSongs(index);
             }
         }
-    }
-
-    private void OnScrolled(object? sender, ScrolledEventArgs e)
-    {
-        double x = e.ScrollX;
-        double y = e.ScrollY;
-        Console.WriteLine($"Scrolled to position: ({x}, {y})");
     }
 }
