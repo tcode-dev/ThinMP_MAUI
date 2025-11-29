@@ -20,11 +20,9 @@ public class Header : ContentView
 
     public Header()
     {
-        var platformUtil = Application.Current?.Handler?.MauiContext?.Services
-            .GetRequiredService<IPlatformUtil>();
-
+        var platformUtil = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<IPlatformUtil>();
         var statusBarHeight = platformUtil?.GetStatusBarHeight() ?? 0;
-        BackgroundColor = Colors.White;
+        BackgroundColor = Colors.WhiteSmoke;
         HeightRequest = 50 + statusBarHeight;
         Padding = new Thickness(0, statusBarHeight, 0, 0);
 
