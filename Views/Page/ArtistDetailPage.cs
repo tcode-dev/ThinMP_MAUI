@@ -16,7 +16,7 @@ class ArtistDetailPage : ContentPage
 {
     private readonly IPlayerService _playerService;
     private readonly IPlatformUtil _platformUtil;
-    private readonly ArtistDetailHeader header;
+    private readonly DetailHeader header;
     private bool isHeaderVisible = false;
     private double headerShowPosition = 0;
     public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
@@ -30,7 +30,7 @@ class ArtistDetailPage : ContentPage
         var layout = new AbsoluteLayout {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        header = new ArtistDetailHeader().Bind(ArtistDetailHeader.TitleProperty, "Artist.Name");
+        header = new DetailHeader().Bind(DetailHeader.TitleProperty, "Artist.Name");
         header.Opacity = 0;
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);

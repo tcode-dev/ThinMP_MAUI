@@ -14,7 +14,7 @@ class AlbumDetailPage : ContentPage
 {
     private readonly IPlayerService _playerService;
     private readonly IPlatformUtil _platformUtil;
-    private readonly AlbumDetailHeader header;
+    private readonly DetailHeader header;
     private bool isHeaderVisible = false;
     private double headerShowPosition = 0;
     public AlbumDetailPage(AlbumDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
@@ -28,7 +28,7 @@ class AlbumDetailPage : ContentPage
         var layout = new AbsoluteLayout {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        header = new AlbumDetailHeader().Bind(AlbumDetailHeader.TitleProperty, "Album.Name");
+        header = new DetailHeader().Bind(DetailHeader.TitleProperty, "Album.Name");
         header.Opacity = 0;
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
