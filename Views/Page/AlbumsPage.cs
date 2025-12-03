@@ -1,5 +1,7 @@
 using CommunityToolkit.Maui.Markup;
+using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Models;
+using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.List;
@@ -8,11 +10,24 @@ namespace ThinMPm.Views.Page;
 
 class AlbumsPage : ContentPage
 {
-    public AlbumsPage(AlbumViewModel vm)
+    private readonly IPlatformUtil _platformUtil;
+    private readonly AlbumsHeader header;
+    public AlbumsPage(AlbumViewModel vm, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
+        _platformUtil = platformUtil;
+
+        var layout = new AbsoluteLayout
+        {
+            SafeAreaEdges = SafeAreaEdges.None,
+        };
+        var statusBarHeight = _platformUtil?.GetStatusBarHeight() ?? 0;
+        header = new AlbumsHeader();
+
+        AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, statusBarHeight + 50));
 
         var scrollView = new ScrollView
         {
@@ -20,7 +35,7 @@ class AlbumsPage : ContentPage
             Content = new VerticalStackLayout
             {
                 Children = {
-                    new AlbumsHeader(),
+                    new EmptyHeader(),
                     new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
                 }
             }
