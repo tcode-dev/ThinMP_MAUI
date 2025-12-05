@@ -1,5 +1,5 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
