@@ -6,14 +6,9 @@ using ThinMPm.Platforms.iOS.ValueObjects;
 
 namespace ThinMPm.Platforms.iOS.Services;
 
-public class AlbumService : IAlbumService
+public class AlbumService(IAlbumRepository albumRepository) : IAlbumService
 {
-    private readonly IAlbumRepository _albumRepository;
-
-    public AlbumService(IAlbumRepository albumRepository)
-    {
-        _albumRepository = albumRepository;
-    }
+    private readonly IAlbumRepository _albumRepository = albumRepository;
 
     public IList<IAlbumModel> FindAll()
     {
