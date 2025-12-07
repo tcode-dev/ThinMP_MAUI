@@ -4,14 +4,10 @@ using ThinMPM.Platforms.iOS.Player;
 
 namespace ThinMPm.Platforms.iOS.Services;
 
-public class PlayerService : IPlayerService
+public class PlayerService(ISongRepository songRepository) : IPlayerService
 {
-    private readonly ISongRepository _songRepository;
+    private readonly ISongRepository _songRepository = songRepository;
 
-    public PlayerService(ISongRepository songRepository)
-    {
-        _songRepository = songRepository;
-    }
     public void StartAllSongs(int index)
     {
         var songs = _songRepository.FindAll().ToArray();
