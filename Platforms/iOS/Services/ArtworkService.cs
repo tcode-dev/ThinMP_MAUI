@@ -5,16 +5,11 @@ using ThinMPm.Platforms.iOS.ValueObjects;
 
 namespace ThinMPm.Platforms.iOS.Services;
 
-public class ArtworkService : IArtworkService
+public class ArtworkService(ISongRepository songRepository) : IArtworkService
 {
-    private readonly ISongRepository _songRepository;
+    private readonly ISongRepository _songRepository = songRepository;
 
-    public ArtworkService(ISongRepository songRepository)
-    {
-        _songRepository = songRepository;
-    }
-
-    public async Task<byte[]?> GetArtwork(string id)
+  public async Task<byte[]?> GetArtwork(string id)
     {
         return await Task.Run(() =>
         {
