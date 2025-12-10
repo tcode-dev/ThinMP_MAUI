@@ -9,6 +9,14 @@ class ArtistDetailFirstView : AbsoluteLayout
     private double imageSize;
     public ArtistDetailFirstView()
     {
+        var backgroundImage = new BlurredImageView
+        {
+            BlurRadius = 25f
+        }.Bind(BlurredImageView.ImageIdProperty, "ImageId");
+
+        AbsoluteLayout.SetLayoutFlags(backgroundImage, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(backgroundImage, new Rect(0, 0, 1, 1));
+
         var image = new ArtworkImage().Bind(ArtworkImage.ImageIdProperty, "ImageId");
         var primaryText = new Label
         {
@@ -32,6 +40,7 @@ class ArtistDetailFirstView : AbsoluteLayout
         AbsoluteLayout.SetLayoutFlags(secondaryText, AbsoluteLayoutFlags.PositionProportional);
         AbsoluteLayout.SetLayoutBounds(secondaryText, new Rect(0.5, 0.9, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
+        Children.Add(backgroundImage);
         Children.Add(image);
         Children.Add(primaryText);
         Children.Add(secondaryText);

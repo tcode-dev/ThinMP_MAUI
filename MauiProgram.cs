@@ -3,17 +3,20 @@ using ThinMPm.ViewModels;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Views.Page;
 using ThinMPm.Contracts.Utils;
+using ThinMPm.Views.Img;
 
 #if ANDROID
 using ThinMPm.Platforms.Android.Repositories.Contracts;
 using ThinMPm.Platforms.Android.Repositories;
 using ThinMPm.Platforms.Android.Services;
 using ThinMPm.Platforms.Android.Utils;
+using ThinMPm.Platforms.Android.Handlers;
 #elif IOS
 using ThinMPm.Platforms.iOS.Repositories.Contracts;
 using ThinMPm.Platforms.iOS.Repositories;
 using ThinMPm.Platforms.iOS.Services;
 using ThinMPm.Platforms.iOS.Utils;
+using ThinMPm.Platforms.iOS.Handlers;
 #endif
 
 namespace ThinMPm;
@@ -29,6 +32,12 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            })
+            .ConfigureMauiHandlers(handlers =>
+            {
+#if ANDROID || IOS
+                handlers.AddHandler<BlurredImageView, BlurredImageViewHandler>();
+#endif
             });
 
 #if ANDROID || IOS
