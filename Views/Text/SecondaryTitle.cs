@@ -1,13 +1,10 @@
-using ThinMPm.Constants;
-
 namespace ThinMPm.Views.Text;
 
-public class SecondaryTitle : Label
+public class SecondaryTitle : SecondaryText
 {
     public SecondaryTitle()
     {
         HorizontalTextAlignment = TextAlignment.Center;
         VerticalTextAlignment = TextAlignment.Center;
-        TextColor = ColorConstants.GetTextColor();
     }
 }

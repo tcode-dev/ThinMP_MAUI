@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Markup;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
+using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Row;
 
@@ -18,7 +19,7 @@ public class ArtistListItem : Grid
         RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.LineHeight });
 
         Children.Add(
-            new Label()
+            new PrimaryText()
                 .Bind(Label.TextProperty, nameof(IArtistModel.Name))
                 .Row(0).Column(1)
                 .Margin(new Thickness(10, 5, 0, 0))

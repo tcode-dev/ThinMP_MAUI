@@ -2,7 +2,7 @@ using ThinMPm.Constants;
 
 namespace ThinMPm.Views.Text;
 
-public class PrimaryTitle : Label
+public class PrimaryTitle : PrimaryText
 {
     public PrimaryTitle()
     {
@@ -10,6 +10,5 @@ public class PrimaryTitle : Label
         FontAttributes = FontAttributes.Bold;
         HorizontalTextAlignment = TextAlignment.Center;
         VerticalTextAlignment = TextAlignment.Center;
-        TextColor = ColorConstants.GetTextColor();
     }
 }
