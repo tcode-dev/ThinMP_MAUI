@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Markup;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Utils;
+using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Header;
 
@@ -26,14 +27,14 @@ public class MainHeader : ContentView
             },
             Children =
             {
-                new Label()
+                new PrimaryText
                 {
-                    FontAttributes = FontAttributes.Bold,
+                    Text = "Library",
                     FontSize = 32,
-                    VerticalTextAlignment = TextAlignment.Center,
-                    Text = "Library"
+                    FontAttributes = FontAttributes.Bold,
+                    VerticalTextAlignment = TextAlignment.Center
                 }
-                .Column(1)
+                    .Column(1)
             }
         };
     }
