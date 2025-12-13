@@ -23,11 +23,9 @@ public class SongListItem : Grid
         RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.LineHeight });
 
         Children.Add(
-            new ArtworkImage
-            {
-                WidthRequest = 40,
-                HeightRequest = 40
-            }
+            new ArtworkImage()
+                .Width(40)
+                .Height(40)
                 .Bind(ArtworkImage.ImageIdProperty, nameof(ISongModel.ImageId))
                 .Row(0)
                 .RowSpan(2)
@@ -39,7 +37,7 @@ public class SongListItem : Grid
                 .Bind(Label.TextProperty, nameof(ISongModel.Name))
                 .Row(0)
                 .Column(1)
-                .Margin(new Thickness(10, 5, 0, 0))
+                .Margin(new Thickness(LayoutConstants.SpacingMedium, LayoutConstants.SpacingSmall, 0, 0))
                 .CenterVertical()
         );
 
@@ -48,7 +46,7 @@ public class SongListItem : Grid
                 .Bind(Label.TextProperty, nameof(ISongModel.ArtistName))
                 .Row(1)
                 .Column(1)
-                .Margin(new Thickness(10, 0, 0, 5))
+                .Margin(new Thickness(LayoutConstants.SpacingMedium, 0, 0, LayoutConstants.SpacingSmall))
                 .CenterVertical()
         );
 

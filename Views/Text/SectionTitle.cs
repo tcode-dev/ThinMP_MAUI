@@ -1,3 +1,5 @@
+using ThinMPm.Constants;
+
 namespace ThinMPm.Views.Text;
 
 public class SectionTitle : ContentView
@@ -10,7 +12,7 @@ public class SectionTitle : ContentView
             FontAttributes = FontAttributes.Bold,
             FontSize = 24,
             VerticalTextAlignment = TextAlignment.Center,
-            Margin = new Thickness(20)
+            Margin = new Thickness(LayoutConstants.SpacingLarge)
         };
     }
 }

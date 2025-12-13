@@ -8,4 +8,7 @@ public static class LayoutConstants
     public const double RowHalfHeight = 25;
     public const double LeadingMargin = 20;
     public const double LineHeight = 1;
+    public const double SpacingSmall = 5;
+    public const double SpacingMedium = 10;
+    public const double SpacingLarge = 20;
 }

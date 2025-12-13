@@ -23,7 +23,7 @@ public class ArtistListItem : Grid
                 .Bind(Label.TextProperty, nameof(IArtistModel.Name))
                 .Row(0)
                 .Column(1)
-                .Margin(new Thickness(10, 5, 0, 0))
+                .Margin(new Thickness(LayoutConstants.SpacingMedium, LayoutConstants.SpacingSmall, 0, 0))
                 .CenterVertical()
         );
 

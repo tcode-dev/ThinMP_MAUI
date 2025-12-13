@@ -1,3 +1,4 @@
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Views.GridItem;
 using ThinMPm.Views.Page;
@@ -8,11 +9,11 @@ public class AlbumList : CollectionView
 {
     public AlbumList()
     {
-        Margin = new Thickness(20, 0, 20, 0);
+        Margin = new Thickness(LayoutConstants.SpacingLarge, 0, LayoutConstants.SpacingLarge, 0);
         ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical)
         {
-            VerticalItemSpacing = 20,
-            HorizontalItemSpacing = 20
+            VerticalItemSpacing = LayoutConstants.SpacingLarge,
+            HorizontalItemSpacing = LayoutConstants.SpacingLarge
         };
         ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnAlbumTapped));
     }
