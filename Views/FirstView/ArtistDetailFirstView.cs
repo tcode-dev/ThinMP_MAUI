@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
+using ThinMPm.Extensions;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Text;
 
@@ -14,10 +15,9 @@ class ArtistDetailFirstView : AbsoluteLayout
 
     public ArtistDetailFirstView()
     {
-        var backgroundImage = new BlurredImageView
-        {
-            BlurRadius = 25f
-        }.Bind(BlurredImageView.ImageIdProperty, "ImageId");
+        var backgroundImage = new BlurredImageView()
+            .BlurRadius(25f)
+            .Bind(BlurredImageView.ImageIdProperty, "ImageId");
 
         AbsoluteLayout.SetLayoutFlags(backgroundImage, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(backgroundImage, new Rect(0, 0, 1, 1));
@@ -55,7 +55,7 @@ class ArtistDetailFirstView : AbsoluteLayout
             image.HeightRequest = imageSize;
             image.CornerRadius = imageSize / 2;
 
-            // primaryTitle の Y 位置を計算: 75%
+            // primaryTitle の Y 位置を計算
             var primaryTitleY = this.Height * PrimaryTitleYPosition;
             AbsoluteLayout.SetLayoutBounds(primaryTitle, new Rect(0.5, primaryTitleY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
