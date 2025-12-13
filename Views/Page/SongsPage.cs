@@ -3,7 +3,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
-using ThinMPm.Views.Row;
+using ThinMPm.Views.List;
 using ThinMPm.Views.Header;
 using Microsoft.Maui.Layouts;
 
@@ -35,10 +35,7 @@ class SongsPage : ContentPage
             {
                 Children = {
                     new EmptyHeader(),
-                    new CollectionView
-                    {
-                        ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
-                    }
+                    new SongList(OnSongTapped)
                     .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
                 }
             }

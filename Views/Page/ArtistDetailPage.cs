@@ -8,7 +8,6 @@ using ThinMPm.ViewModels;
 using ThinMPm.Views.FirstView;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.List;
-using ThinMPm.Views.Row;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Page;
@@ -47,10 +46,7 @@ class ArtistDetailPage : ContentPage
                     new SectionTitle("Albums"),
                     new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
                     new SectionTitle("Songs"),
-                    new CollectionView
-                    {
-                        ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
-                    }
+                    new SongList(OnSongTapped)
                     .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
                 }
             }

@@ -7,7 +7,7 @@ using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.FirstView;
 using ThinMPm.Views.Header;
-using ThinMPm.Views.Row;
+using ThinMPm.Views.List;
 
 namespace ThinMPm.Views.Page;
 
@@ -42,10 +42,7 @@ class AlbumDetailPage : ContentPage
             {
                 Children = {
                 new AlbumDetailFirstView{ BindingContext = vm },
-                new CollectionView
-                {
-                    ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped))
-                }
+                new SongList(OnSongTapped)
                     .Bind(ItemsView.ItemsSourceProperty, "Songs")
                 }
             }
