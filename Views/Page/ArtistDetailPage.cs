@@ -9,7 +9,7 @@ using ThinMPm.Views.FirstView;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.List;
 using ThinMPm.Views.Row;
-using ThinMPm.Views.Title;
+using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Page;
 

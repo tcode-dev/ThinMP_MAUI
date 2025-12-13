@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui.Markup;
 using ThinMPm.Views.Header;
 using ThinMPm.ViewModels;
-using ThinMPm.Views.Title;
+using ThinMPm.Views.Text;
 using ThinMPm.Views.List;
 
 namespace ThinMPm.Views.Page;
