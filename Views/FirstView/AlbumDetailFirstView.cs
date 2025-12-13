@@ -45,11 +45,13 @@ class AlbumDetailFirstView : AbsoluteLayout
             TextColor = textColor
         }
         .Bind(Label.TextProperty, "Album.Name");
-        secondaryText = new Label()
-            .Bind(Label.TextProperty, "Album.ArtistName")
-            .Font(bold: true)
-            .Center()
-            .TextColor(textColor);
+        secondaryText = new Label
+        {
+            HorizontalTextAlignment = TextAlignment.Center,
+            VerticalTextAlignment = TextAlignment.Center,
+            TextColor = textColor
+        }
+        .Bind(Label.TextProperty, "Album.ArtistName");
 
         // primaryText は X のみ比例、Y は固定ピクセルで配置
         AbsoluteLayout.SetLayoutFlags(primaryText, AbsoluteLayoutFlags.XProportional);
