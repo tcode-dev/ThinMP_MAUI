@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Markup;
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Utils;
 
 namespace ThinMPm.Views.Header;
@@ -12,7 +13,7 @@ public class MainHeader : ContentView
 
         var statusBarHeight = platformUtil?.GetStatusBarHeight() ?? 0;
 
-        HeightRequest = 60 + statusBarHeight;
+        HeightRequest = LayoutConstants.MainHeaderHeight + statusBarHeight;
         Padding = new Thickness(0, statusBarHeight, 0, 0);
 
         Content = new Grid
