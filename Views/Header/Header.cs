@@ -22,10 +22,10 @@ public class Header : ContentView
 
     public Header()
     {
-        var platformUtil = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<IPlatformUtil>();
-        var statusBarHeight = platformUtil?.GetStatusBarHeight() ?? 0;
+        var platformUtil = Application.Current!.Handler!.MauiContext!.Services.GetRequiredService<IPlatformUtil>();
+        var statusBarHeight = platformUtil.GetStatusBarHeight();
         BackgroundColor = Colors.WhiteSmoke;
-        HeightRequest = platformUtil?.GetAppBarHeight() ?? LayoutConstants.HeaderHeight;
+        HeightRequest = platformUtil.GetAppBarHeight();
         Padding = new Thickness(0, statusBarHeight, 0, 0);
 
         Content = new Grid

@@ -26,7 +26,7 @@ class ArtistsPage : ContentPage
         };
         header = new ArtistsHeader();
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, _platformUtil?.GetAppBarHeight() ?? LayoutConstants.HeaderHeight));
+        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, _platformUtil.GetAppBarHeight()));
 
         var scrollView = new ScrollView
         {

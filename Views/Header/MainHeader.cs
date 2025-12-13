@@ -8,12 +8,12 @@ public class MainHeader : ContentView
 {
     public MainHeader()
     {
-        var platformUtil = Application.Current?.Handler?.MauiContext?.Services
+        var platformUtil = Application.Current!.Handler!.MauiContext!.Services
             .GetRequiredService<IPlatformUtil>();
 
-        var statusBarHeight = platformUtil?.GetStatusBarHeight() ?? 0;
+        var statusBarHeight = platformUtil.GetStatusBarHeight();
 
-        HeightRequest = platformUtil?.GetMainAppBarHeight() ?? LayoutConstants.MainHeaderHeight;
+        HeightRequest = platformUtil.GetMainAppBarHeight();
         Padding = new Thickness(0, statusBarHeight, 0, 0);
 
         Content = new Grid
