@@ -14,6 +14,7 @@ paths: Views/**/*
 - **プロパティ設定 → メソッドチェーン**（`.Width()`, `.Height()`, `.Text()`など）
 - **コレクション初期化 → `{}`のまま**（Children, ItemsSource, RowDefinitions, ColumnDefinitionsなど）
 - **1プロパティでもメソッドチェーンを使用**
+- **継承したコンポーネント内では、`{}`でプロパティ初期化する**（`this`からのメソッドチェーンは使わない）
 
 ```csharp
 // Good - メソッドチェーン
