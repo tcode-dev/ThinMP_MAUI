@@ -7,9 +7,9 @@ namespace ThinMPm.Views.FirstView;
 
 class AlbumDetailFirstView : AbsoluteLayout
 {
-    private const double PrimaryTextYPosition = 0.75;
-    private readonly PrimaryTitle primaryText;
-    private readonly SecondaryTitle secondaryText;
+    private const double PrimaryTitleYPosition = 0.75;
+    private readonly PrimaryTitle primaryTitle;
+    private readonly SecondaryTitle secondaryTitle;
 
     public AlbumDetailFirstView()
     {
@@ -36,21 +36,21 @@ class AlbumDetailFirstView : AbsoluteLayout
         AbsoluteLayout.SetLayoutFlags(gradientOverlay, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(gradientOverlay, new Rect(0, 0, 1, 1));
 
-        primaryText = new PrimaryTitle().Bind(Label.TextProperty, "Album.Name");
-        secondaryText = new SecondaryTitle().Bind(Label.TextProperty, "Album.ArtistName");
+        primaryTitle = new PrimaryTitle().Bind(Label.TextProperty, "Album.Name");
+        secondaryTitle = new SecondaryTitle().Bind(Label.TextProperty, "Album.ArtistName");
 
-        // primaryText は X のみ比例、Y は固定ピクセルで配置
-        AbsoluteLayout.SetLayoutFlags(primaryText, AbsoluteLayoutFlags.XProportional);
-        AbsoluteLayout.SetLayoutBounds(primaryText, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+        // primaryTitle は X のみ比例、Y は固定ピクセルで配置
+        AbsoluteLayout.SetLayoutFlags(primaryTitle, AbsoluteLayoutFlags.XProportional);
+        AbsoluteLayout.SetLayoutBounds(primaryTitle, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
-        // secondaryText は X のみ比例、Y は固定ピクセルで配置
-        AbsoluteLayout.SetLayoutFlags(secondaryText, AbsoluteLayoutFlags.XProportional);
-        AbsoluteLayout.SetLayoutBounds(secondaryText, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+        // secondaryTitle は X のみ比例、Y は固定ピクセルで配置
+        AbsoluteLayout.SetLayoutFlags(secondaryTitle, AbsoluteLayoutFlags.XProportional);
+        AbsoluteLayout.SetLayoutBounds(secondaryTitle, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
         Children.Add(image);
         Children.Add(gradientOverlay);
-        Children.Add(primaryText);
-        Children.Add(secondaryText);
+        Children.Add(primaryTitle);
+        Children.Add(secondaryTitle);
 
         this.SizeChanged += (s, e) =>
         {
@@ -59,13 +59,13 @@ class AlbumDetailFirstView : AbsoluteLayout
             image.HeightRequest = this.Width;
             image.CornerRadius = 0;
 
-            // primaryText の Y 位置を計算: 75%
-            var primaryTextY = this.Height * PrimaryTextYPosition;
-            AbsoluteLayout.SetLayoutBounds(primaryText, new Rect(0.5, primaryTextY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            // primaryTitle の Y 位置を計算: 75%
+            var primaryTitleY = this.Height * PrimaryTitleYPosition;
+            AbsoluteLayout.SetLayoutBounds(primaryTitle, new Rect(0.5, primaryTitleY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
-            // secondaryText の Y 位置を計算: primaryText の位置 + 40px
-            var secondaryTextY = primaryTextY + 40;
-            AbsoluteLayout.SetLayoutBounds(secondaryText, new Rect(0.5, secondaryTextY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            // secondaryTitle の Y 位置を計算: primaryTitle の位置 + 40px
+            var secondaryTitleY = primaryTitleY + 40;
+            AbsoluteLayout.SetLayoutBounds(secondaryTitle, new Rect(0.5, secondaryTitleY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
         };
     }
 }

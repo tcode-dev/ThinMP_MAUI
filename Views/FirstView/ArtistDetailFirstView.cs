@@ -7,10 +7,10 @@ namespace ThinMPm.Views.FirstView;
 
 class ArtistDetailFirstView : AbsoluteLayout
 {
-    private const double PrimaryTextYPosition = 0.75;
+    private const double PrimaryTitleYPosition = 0.75;
     private double imageSize;
-    private PrimaryTitle primaryText;
-    private SecondaryTitle secondaryText;
+    private PrimaryTitle primaryTitle;
+    private SecondaryTitle secondaryTitle;
 
     public ArtistDetailFirstView()
     {
@@ -44,25 +44,25 @@ class ArtistDetailFirstView : AbsoluteLayout
         AbsoluteLayout.SetLayoutBounds(gradientOverlay, new Rect(0, 0, 1, 1));
 
         var image = new ArtworkImage().Bind(ArtworkImage.ImageIdProperty, "ImageId");
-        primaryText = new PrimaryTitle().Bind(Label.TextProperty, "Artist.Name");
-        secondaryText = new SecondaryTitle().Bind(Label.TextProperty, "SecondaryText");
+        primaryTitle = new PrimaryTitle().Bind(Label.TextProperty, "Artist.Name");
+        secondaryTitle = new SecondaryTitle().Bind(Label.TextProperty, "SecondaryText");
 
         AbsoluteLayout.SetLayoutFlags(image, AbsoluteLayoutFlags.PositionProportional);
         AbsoluteLayout.SetLayoutBounds(image, new Rect(0.5, 0.5, imageSize, imageSize));
 
-        // primaryText は X のみ比例、Y は固定ピクセルで配置
-        AbsoluteLayout.SetLayoutFlags(primaryText, AbsoluteLayoutFlags.XProportional);
-        AbsoluteLayout.SetLayoutBounds(primaryText, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+        // primaryTitle は X のみ比例、Y は固定ピクセルで配置
+        AbsoluteLayout.SetLayoutFlags(primaryTitle, AbsoluteLayoutFlags.XProportional);
+        AbsoluteLayout.SetLayoutBounds(primaryTitle, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
-        // secondaryText は X のみ比例、Y は固定ピクセルで配置
-        AbsoluteLayout.SetLayoutFlags(secondaryText, AbsoluteLayoutFlags.XProportional);
-        AbsoluteLayout.SetLayoutBounds(secondaryText, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+        // secondaryTitle は X のみ比例、Y は固定ピクセルで配置
+        AbsoluteLayout.SetLayoutFlags(secondaryTitle, AbsoluteLayoutFlags.XProportional);
+        AbsoluteLayout.SetLayoutBounds(secondaryTitle, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
         Children.Add(backgroundImage);
         Children.Add(gradientOverlay);
         Children.Add(image);
-        Children.Add(primaryText);
-        Children.Add(secondaryText);
+        Children.Add(primaryTitle);
+        Children.Add(secondaryTitle);
 
         this.SizeChanged += (s, e) =>
         {
@@ -72,13 +72,13 @@ class ArtistDetailFirstView : AbsoluteLayout
             image.HeightRequest = imageSize;
             image.CornerRadius = imageSize / 2;
 
-            // primaryText の Y 位置を計算: 75%
-            var primaryTextY = this.Height * PrimaryTextYPosition;
-            AbsoluteLayout.SetLayoutBounds(primaryText, new Rect(0.5, primaryTextY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            // primaryTitle の Y 位置を計算: 75%
+            var primaryTitleY = this.Height * PrimaryTitleYPosition;
+            AbsoluteLayout.SetLayoutBounds(primaryTitle, new Rect(0.5, primaryTitleY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
-            // secondaryText の Y 位置を計算: primaryText の位置 + 40px
-            var secondaryTextY = primaryTextY + 40;
-            AbsoluteLayout.SetLayoutBounds(secondaryText, new Rect(0.5, secondaryTextY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
+            // secondaryTitle の Y 位置を計算: primaryTitle の位置 + 40px
+            var secondaryTitleY = primaryTitleY + 40;
+            AbsoluteLayout.SetLayoutBounds(secondaryTitle, new Rect(0.5, secondaryTitleY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
         };
     }
 }
