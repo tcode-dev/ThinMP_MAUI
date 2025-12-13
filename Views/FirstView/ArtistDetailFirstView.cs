@@ -22,19 +22,42 @@ class ArtistDetailFirstView : AbsoluteLayout
         AbsoluteLayout.SetLayoutFlags(backgroundImage, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(backgroundImage, new Rect(0, 0, 1, 1));
 
+        var isDark = Application.Current?.RequestedTheme == AppTheme.Dark;
+        var gradientColor = isDark ? Colors.Black : Colors.White;
+        var textColor = isDark ? Colors.White : Colors.Black;
+
+        var gradientOverlay = new BoxView
+        {
+            Background = new LinearGradientBrush
+            {
+                StartPoint = new Point(0, 0),
+                EndPoint = new Point(0, 1),
+                GradientStops = new GradientStopCollection
+                {
+                    new GradientStop { Color = Colors.Transparent, Offset = 0.0f },
+                    new GradientStop { Color = Colors.Transparent, Offset = 0.5f },
+                    new GradientStop { Color = gradientColor, Offset = 1.0f }
+                }
+            }
+        };
+        AbsoluteLayout.SetLayoutFlags(gradientOverlay, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(gradientOverlay, new Rect(0, 0, 1, 1));
+
         var image = new ArtworkImage().Bind(ArtworkImage.ImageIdProperty, "ImageId");
         primaryText = new Label
         {
             HeightRequest = PrimaryTextHeight,
             FontAttributes = FontAttributes.Bold,
             HorizontalTextAlignment = TextAlignment.Center,
-            VerticalTextAlignment = TextAlignment.Center
+            VerticalTextAlignment = TextAlignment.Center,
+            TextColor = textColor
         }
         .Bind(Label.TextProperty, "Artist.Name");
         secondaryText = new Label
         {
             HorizontalTextAlignment = TextAlignment.Center,
-            VerticalTextAlignment = TextAlignment.Center
+            VerticalTextAlignment = TextAlignment.Center,
+            TextColor = textColor
         }
         .Bind(Label.TextProperty, "SecondaryText");
 
@@ -50,6 +73,7 @@ class ArtistDetailFirstView : AbsoluteLayout
         AbsoluteLayout.SetLayoutBounds(secondaryText, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
         Children.Add(backgroundImage);
+        Children.Add(gradientOverlay);
         Children.Add(image);
         Children.Add(primaryText);
         Children.Add(secondaryText);
