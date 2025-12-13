@@ -2,7 +2,6 @@ using Microsoft.Maui.Handlers;
 using ThinMPm.Views.Img;
 using ThinMPm.Contracts.Services;
 using UIKit;
-using CoreGraphics;
 
 namespace ThinMPm.Platforms.iOS.Handlers;
 
@@ -10,8 +9,7 @@ public class BlurredImageViewHandler : ViewHandler<BlurredImageView, UIView>
 {
     public static IPropertyMapper<BlurredImageView, BlurredImageViewHandler> PropertyMapper = new PropertyMapper<BlurredImageView, BlurredImageViewHandler>(ViewHandler.ViewMapper)
     {
-        [nameof(BlurredImageView.ImageId)] = MapImageId,
-        [nameof(BlurredImageView.BlurRadius)] = MapBlurRadius
+        [nameof(BlurredImageView.ImageId)] = MapImageId
     };
 
     private UIImageView? imageView;
@@ -43,7 +41,6 @@ public class BlurredImageViewHandler : ViewHandler<BlurredImageView, UIView>
     protected override void ConnectHandler(UIView platformView)
     {
         base.ConnectHandler(platformView);
-        UpdateImage();
     }
 
     protected override void DisconnectHandler(UIView platformView)
@@ -58,23 +55,6 @@ public class BlurredImageViewHandler : ViewHandler<BlurredImageView, UIView>
     public static void MapImageId(BlurredImageViewHandler handler, BlurredImageView view)
     {
         handler.UpdateImage();
-    }
-
-    public static void MapBlurRadius(BlurredImageViewHandler handler, BlurredImageView view)
-    {
-        // UIVisualEffectViewはblur radiusを直接設定できないため、
-        // ここでは異なるblur styleを選択することで対応
-        if (handler.blurView != null)
-        {
-            UIBlurEffectStyle style = view.BlurRadius switch
-            {
-                < 10 => UIBlurEffectStyle.Light,
-                < 20 => UIBlurEffectStyle.Regular,
-                _ => UIBlurEffectStyle.Dark
-            };
-            var blurEffect = UIBlurEffect.FromStyle(style);
-            handler.blurView.Effect = blurEffect;
-        }
     }
 
     private async void UpdateImage()
