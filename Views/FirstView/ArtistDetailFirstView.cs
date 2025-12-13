@@ -1,16 +1,16 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Views.Img;
+using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.FirstView;
 
 class ArtistDetailFirstView : AbsoluteLayout
 {
     private const double PrimaryTextYPosition = 0.75;
-    private const double PrimaryTextHeight = 50;
     private double imageSize;
-    private Label primaryText;
-    private Label secondaryText;
+    private PrimaryTitle primaryText;
+    private SecondaryTitle secondaryText;
 
     public ArtistDetailFirstView()
     {
@@ -44,22 +44,8 @@ class ArtistDetailFirstView : AbsoluteLayout
         AbsoluteLayout.SetLayoutBounds(gradientOverlay, new Rect(0, 0, 1, 1));
 
         var image = new ArtworkImage().Bind(ArtworkImage.ImageIdProperty, "ImageId");
-        primaryText = new Label
-        {
-            HeightRequest = PrimaryTextHeight,
-            FontAttributes = FontAttributes.Bold,
-            HorizontalTextAlignment = TextAlignment.Center,
-            VerticalTextAlignment = TextAlignment.Center,
-            TextColor = textColor
-        }
-        .Bind(Label.TextProperty, "Artist.Name");
-        secondaryText = new Label
-        {
-            HorizontalTextAlignment = TextAlignment.Center,
-            VerticalTextAlignment = TextAlignment.Center,
-            TextColor = textColor
-        }
-        .Bind(Label.TextProperty, "SecondaryText");
+        primaryText = new PrimaryTitle().Bind(Label.TextProperty, "Artist.Name");
+        secondaryText = new SecondaryTitle().Bind(Label.TextProperty, "SecondaryText");
 
         AbsoluteLayout.SetLayoutFlags(image, AbsoluteLayoutFlags.PositionProportional);
         AbsoluteLayout.SetLayoutBounds(image, new Rect(0.5, 0.5, imageSize, imageSize));

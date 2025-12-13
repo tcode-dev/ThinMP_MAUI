@@ -1,15 +1,15 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Views.Img;
+using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.FirstView;
 
 class AlbumDetailFirstView : AbsoluteLayout
 {
     private const double PrimaryTextYPosition = 0.75;
-    private const double PrimaryTextHeight = 50;
-    private readonly Label primaryText;
-    private readonly Label secondaryText;
+    private readonly PrimaryTitle primaryText;
+    private readonly SecondaryTitle secondaryText;
 
     public AlbumDetailFirstView()
     {
@@ -36,22 +36,8 @@ class AlbumDetailFirstView : AbsoluteLayout
         AbsoluteLayout.SetLayoutFlags(gradientOverlay, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(gradientOverlay, new Rect(0, 0, 1, 1));
 
-        primaryText = new Label
-        {
-            HeightRequest = PrimaryTextHeight,
-            FontAttributes = FontAttributes.Bold,
-            HorizontalTextAlignment = TextAlignment.Center,
-            VerticalTextAlignment = TextAlignment.Center,
-            TextColor = textColor
-        }
-        .Bind(Label.TextProperty, "Album.Name");
-        secondaryText = new Label
-        {
-            HorizontalTextAlignment = TextAlignment.Center,
-            VerticalTextAlignment = TextAlignment.Center,
-            TextColor = textColor
-        }
-        .Bind(Label.TextProperty, "Album.ArtistName");
+        primaryText = new PrimaryTitle().Bind(Label.TextProperty, "Album.Name");
+        secondaryText = new SecondaryTitle().Bind(Label.TextProperty, "Album.ArtistName");
 
         // primaryText は X のみ比例、Y は固定ピクセルで配置
         AbsoluteLayout.SetLayoutFlags(primaryText, AbsoluteLayoutFlags.XProportional);
