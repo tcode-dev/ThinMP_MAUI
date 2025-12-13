@@ -2,5 +2,7 @@ namespace ThinMPm.Contracts.Utils;
 
 public interface IPlatformUtil
 {
-  double GetStatusBarHeight();
+    double GetStatusBarHeight();
+    double GetAppBarHeight();
+    double GetMainAppBarHeight();
 }

@@ -13,7 +13,7 @@ public class MainHeader : ContentView
 
         var statusBarHeight = platformUtil?.GetStatusBarHeight() ?? 0;
 
-        HeightRequest = LayoutConstants.MainHeaderHeight + statusBarHeight;
+        HeightRequest = platformUtil?.GetMainAppBarHeight() ?? LayoutConstants.MainHeaderHeight;
         Padding = new Thickness(0, statusBarHeight, 0, 0);
 
         Content = new Grid

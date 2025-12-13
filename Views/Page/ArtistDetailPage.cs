@@ -31,12 +31,11 @@ class ArtistDetailPage : ContentPage
         var layout = new AbsoluteLayout {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        var statusBarHeight = platformUtil.GetStatusBarHeight();
         header = new DetailHeader().Bind(DetailHeader.TitleProperty, "Artist.Name");
         header.Opacity = 0;
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, statusBarHeight + LayoutConstants.HeaderHeight));
+        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
 
         var scrollView = new ScrollView
         {

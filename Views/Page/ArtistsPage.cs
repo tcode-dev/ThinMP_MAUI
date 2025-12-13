@@ -24,10 +24,9 @@ class ArtistsPage : ContentPage
         {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        var statusBarHeight = _platformUtil?.GetStatusBarHeight() ?? 0;
         header = new ArtistsHeader();
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, statusBarHeight + LayoutConstants.HeaderHeight));
+        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, _platformUtil?.GetAppBarHeight() ?? LayoutConstants.HeaderHeight));
 
         var scrollView = new ScrollView
         {
