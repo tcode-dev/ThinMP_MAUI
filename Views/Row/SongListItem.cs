@@ -28,14 +28,17 @@ public class SongListItem : Grid
                 WidthRequest = 40,
                 HeightRequest = 40
             }
-            .Bind(ArtworkImage.ImageIdProperty, nameof(ISongModel.ImageId))
-            .Row(0).RowSpan(2).Column(0)
+                .Bind(ArtworkImage.ImageIdProperty, nameof(ISongModel.ImageId))
+                .Row(0)
+                .RowSpan(2)
+                .Column(0)
         );
 
         Children.Add(
             new Label()
                 .Bind(Label.TextProperty, nameof(ISongModel.Name))
-                .Row(0).Column(1)
+                .Row(0)
+                .Column(1)
                 .Margin(new Thickness(10, 5, 0, 0))
                 .CenterVertical()
         );
@@ -43,14 +46,16 @@ public class SongListItem : Grid
         Children.Add(
             new Label()
                 .Bind(Label.TextProperty, nameof(ISongModel.ArtistName))
-                .Row(1).Column(1)
+                .Row(1)
+                .Column(1)
                 .Margin(new Thickness(10, 0, 0, 5))
                 .CenterVertical()
         );
 
         Children.Add(
             new LineSeparator()
-            .Row(2).ColumnSpan(2)
+                .Row(2)
+                .ColumnSpan(2)
         );
     }
 }

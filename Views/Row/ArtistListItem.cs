@@ -21,14 +21,16 @@ public class ArtistListItem : Grid
         Children.Add(
             new PrimaryText()
                 .Bind(Label.TextProperty, nameof(IArtistModel.Name))
-                .Row(0).Column(1)
+                .Row(0)
+                .Column(1)
                 .Margin(new Thickness(10, 5, 0, 0))
                 .CenterVertical()
         );
 
         Children.Add(
             new LineSeparator()
-            .Row(1).ColumnSpan(2)
+                .Row(1)
+                .ColumnSpan(2)
         );
     }
 }
