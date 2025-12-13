@@ -10,7 +10,7 @@ public class SectionTitle : ContentView
             FontAttributes = FontAttributes.Bold,
             FontSize = 24,
             VerticalTextAlignment = TextAlignment.Center,
-            Margin = new Thickness(20, 20)
+            Margin = new Thickness(20)
         };
     }
 }

@@ -13,7 +13,7 @@ public class SongListItem : Grid
         tapGesture.Tapped += tappedHandler;
         GestureRecognizers.Add(tapGesture);
 
-        Padding = new Thickness(20, 0, 0, 0);
+        Padding = new Thickness(LayoutConstants.LeadingMargin, 0, 0, 0);
 
         ColumnDefinitions.Add(new ColumnDefinition { Width = 40 });
         ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });

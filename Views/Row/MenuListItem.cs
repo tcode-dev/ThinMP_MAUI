@@ -12,7 +12,7 @@ public class MenuListItem : Grid
         tapGesture.Tapped += tappedHandler;
         GestureRecognizers.Add(tapGesture);
 
-        Padding = new Thickness(20, 0, 0, 0);
+        Padding = new Thickness(LayoutConstants.LeadingMargin, 0, 0, 0);
 
         RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.RowHeight });
         RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.LineHeight });
