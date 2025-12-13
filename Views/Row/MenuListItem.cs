@@ -26,12 +26,8 @@ public class MenuListItem : Grid
         );
 
         Children.Add(
-            new BoxView
-            {
-                HeightRequest = LayoutConstants.LineHeight,
-                BackgroundColor = ColorConstants.GetLineColor()
-            }
-            .Row(2).ColumnSpan(2)
+            new LineSeparator()
+            .Row(1).ColumnSpan(2)
         );
     }
 }

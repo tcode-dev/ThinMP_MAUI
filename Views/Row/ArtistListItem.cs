@@ -27,12 +27,8 @@ public class ArtistListItem : Grid
         );
 
         Children.Add(
-            new BoxView
-            {
-                HeightRequest = 1,
-                BackgroundColor = ColorConstants.GetLineColor()
-            }
-            .Row(2).ColumnSpan(2)
+            new LineSeparator()
+            .Row(1).ColumnSpan(2)
         );
     }
 }

@@ -49,11 +49,7 @@ public class SongListItem : Grid
         );
 
         Children.Add(
-            new BoxView
-            {
-                HeightRequest = 1,
-                BackgroundColor = ColorConstants.GetLineColor()
-            }
+            new LineSeparator()
             .Row(2).ColumnSpan(2)
         );
     }
