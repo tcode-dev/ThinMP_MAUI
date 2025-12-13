@@ -1,12 +1,12 @@
+using ThinMPm.Constants;
+
 namespace ThinMPm.Views.Text;
 
 public class PrimaryTitle : Label
 {
-    private const double Height = 50;
-
     public PrimaryTitle()
     {
-        HeightRequest = Height;
+        HeightRequest = LayoutConstants.HeaderHeight;
         FontAttributes = FontAttributes.Bold;
         HorizontalTextAlignment = TextAlignment.Center;
         VerticalTextAlignment = TextAlignment.Center;

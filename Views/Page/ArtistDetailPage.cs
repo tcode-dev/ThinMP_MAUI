@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
@@ -35,7 +36,7 @@ class ArtistDetailPage : ContentPage
         header.Opacity = 0;
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, statusBarHeight + 50));
+        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, statusBarHeight + LayoutConstants.HeaderHeight));
 
         var scrollView = new ScrollView
         {
