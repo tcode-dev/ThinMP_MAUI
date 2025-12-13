@@ -28,7 +28,6 @@ public class MainHeader : ContentView
             {
                 new Label()
                 {
-                    HeightRequest = 50,
                     FontAttributes = FontAttributes.Bold,
                     FontSize = 32,
                     VerticalTextAlignment = TextAlignment.Center,
