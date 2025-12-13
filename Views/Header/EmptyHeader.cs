@@ -7,9 +7,8 @@ public class EmptyHeader : ContentView
 {
     public EmptyHeader()
     {
-        var platformUtil = Application.Current?.Handler?.MauiContext?.Services.GetRequiredService<IPlatformUtil>();
-        var statusBarHeight = platformUtil?.GetStatusBarHeight() ?? 0;
+        var platformUtil = Application.Current!.Handler!.MauiContext!.Services.GetRequiredService<IPlatformUtil>();
 
-        HeightRequest = 50 + statusBarHeight;
+        HeightRequest = platformUtil.GetAppBarHeight();
     }
 }
