@@ -52,6 +52,27 @@ new Label()
     .Bind(Label.TextProperty, "Name")
 ```
 
+## Multi-line Method Call Formatting
+
+- **複数行のメソッド呼び出し**: 閉じ括弧`);`は独立した行に配置
+
+```csharp
+// Good - 閉じ括弧が独立した行
+BindableProperty.Create(
+    nameof(Title),
+    typeof(string),
+    typeof(DetailHeader),
+    default(string)
+);
+
+// Bad - 閉じ括弧が最後の引数と同じ行
+BindableProperty.Create(
+    nameof(Title),
+    typeof(string),
+    typeof(DetailHeader),
+    default(string));
+```
+
 ## Adding New Pages
 
 1. Create Page in `Views/Page/` using C# markup pattern

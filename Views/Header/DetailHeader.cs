@@ -9,7 +9,8 @@ public class DetailHeader : ContentView
             nameof(Title),
             typeof(string),
             typeof(DetailHeader),
-            default(string));
+            default(string)
+        );
 
     public string? Title
     {
@@ -18,7 +19,6 @@ public class DetailHeader : ContentView
     }
     public DetailHeader()
     {
-        Content = new Header()
-            .Bind(Header.TitleProperty, nameof(Title), source: this);
+        Content = new Header().Bind(Header.TitleProperty, nameof(Title), source: this);
     }
 }
