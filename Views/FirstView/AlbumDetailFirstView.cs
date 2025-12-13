@@ -16,7 +16,7 @@ class AlbumDetailFirstView : AbsoluteLayout
         var image = new ArtworkImage().Bind(ArtworkImage.ImageIdProperty, "Album.ImageId");
 
         var isDark = Application.Current?.RequestedTheme == AppTheme.Dark;
-        var gradientColor = isDark ? Color.FromRgba(0, 0, 0, 180) : Color.FromRgba(255, 255, 255, 180);
+        var gradientColor = isDark ? Colors.Black : Colors.White;
         var textColor = isDark ? Colors.White : Colors.Black;
 
         var gradientOverlay = new BoxView
