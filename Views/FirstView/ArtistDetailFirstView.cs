@@ -31,10 +31,12 @@ class ArtistDetailFirstView : AbsoluteLayout
             VerticalTextAlignment = TextAlignment.Center
         }
         .Bind(Label.TextProperty, "Artist.Name");
-        secondaryText = new Label()
-            .Bind(Label.TextProperty, "SecondaryText")
-            .Font(bold: true)
-            .Center();
+        secondaryText = new Label
+        {
+            HorizontalTextAlignment = TextAlignment.Center,
+            VerticalTextAlignment = TextAlignment.Center
+        }
+        .Bind(Label.TextProperty, "SecondaryText");
 
         AbsoluteLayout.SetLayoutFlags(image, AbsoluteLayoutFlags.PositionProportional);
         AbsoluteLayout.SetLayoutBounds(image, new Rect(0.5, 0.5, imageSize, imageSize));
