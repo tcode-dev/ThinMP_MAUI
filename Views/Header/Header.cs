@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Markup;
 using ThinMPm.Contracts.Utils;
+using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Header;
 
@@ -43,13 +44,7 @@ public class Header : ContentView
                     BackgroundColor = Colors.Transparent
                 }.Column(0),
 
-                new Label()
-                {
-                    HeightRequest = 50,
-                    FontAttributes = FontAttributes.Bold,
-                    HorizontalTextAlignment = TextAlignment.Center,
-                    VerticalTextAlignment = TextAlignment.Center
-                }
+                new PrimaryTitle()
                     .Bind(Label.TextProperty, nameof(Title), source: this)
                     .Column(1),
             }
