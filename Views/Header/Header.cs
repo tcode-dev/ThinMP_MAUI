@@ -25,8 +25,7 @@ public class Header : ContentView
         var platformUtil = Application.Current!.Handler!.MauiContext!.Services.GetRequiredService<IPlatformUtil>();
         var statusBarHeight = platformUtil.GetStatusBarHeight();
 
-        var isDark = Application.Current?.RequestedTheme == AppTheme.Dark;
-        BackgroundColor = isDark ? ColorConstants.DarkBackground : ColorConstants.LightBackground;
+        BackgroundColor = ColorConstants.GetBackgroundColor();
 
         HeightRequest = platformUtil.GetAppBarHeight();
         Padding = new Thickness(0, statusBarHeight, 0, 0);

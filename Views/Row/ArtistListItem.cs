@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Markup;
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 
 namespace ThinMPm.Views.Row;
@@ -17,9 +18,6 @@ public class ArtistListItem : Grid
         RowDefinitions.Add(new RowDefinition { Height = 50 });
         RowDefinitions.Add(new RowDefinition { Height = 1 });
 
-        var isDark = Application.Current?.RequestedTheme == AppTheme.Dark;
-        var lineColor = isDark ? Colors.DarkGray : Colors.LightGray;
-
         Children.Add(
             new Label()
                 .Bind(Label.TextProperty, nameof(IArtistModel.Name))
@@ -32,7 +30,7 @@ public class ArtistListItem : Grid
             new BoxView
             {
                 HeightRequest = 1,
-                BackgroundColor = lineColor
+                BackgroundColor = ColorConstants.GetLineColor()
             }
             .Row(2).ColumnSpan(2)
         );

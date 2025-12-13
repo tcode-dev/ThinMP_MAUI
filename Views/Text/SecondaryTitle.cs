@@ -1,3 +1,5 @@
+using ThinMPm.Constants;
+
 namespace ThinMPm.Views.Text;
 
 public class SecondaryTitle : Label
@@ -6,8 +8,6 @@ public class SecondaryTitle : Label
     {
         HorizontalTextAlignment = TextAlignment.Center;
         VerticalTextAlignment = TextAlignment.Center;
-
-        var isDark = Application.Current?.RequestedTheme == AppTheme.Dark;
-        TextColor = isDark ? Colors.White : Colors.Black;
+        TextColor = ColorConstants.GetTextColor();
     }
 }

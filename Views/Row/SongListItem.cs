@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Markup;
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Views.Img;
 
@@ -21,9 +22,6 @@ public class SongListItem : Grid
         RowDefinitions.Add(new RowDefinition { Height = 25 });
         RowDefinitions.Add(new RowDefinition { Height = 25 });
         RowDefinitions.Add(new RowDefinition { Height = 1 });
-
-        var isDark = Application.Current?.RequestedTheme == AppTheme.Dark;
-        var lineColor = isDark ? Colors.DarkGray : Colors.LightGray;
 
         Children.Add(
             new ArtworkImage
@@ -55,7 +53,7 @@ public class SongListItem : Grid
             new BoxView
             {
                 HeightRequest = 1,
-                BackgroundColor = lineColor
+                BackgroundColor = ColorConstants.GetLineColor()
             }
             .Row(2).ColumnSpan(2)
         );

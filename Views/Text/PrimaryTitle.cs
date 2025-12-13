@@ -10,8 +10,6 @@ public class PrimaryTitle : Label
         FontAttributes = FontAttributes.Bold;
         HorizontalTextAlignment = TextAlignment.Center;
         VerticalTextAlignment = TextAlignment.Center;
-
-        var isDark = Application.Current?.RequestedTheme == AppTheme.Dark;
-        TextColor = isDark ? Colors.White : Colors.Black;
+        TextColor = ColorConstants.GetTextColor();
     }
 }
