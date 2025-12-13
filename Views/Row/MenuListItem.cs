@@ -12,11 +12,10 @@ public class MenuListItem : Grid
         tapGesture.Tapped += tappedHandler;
         GestureRecognizers.Add(tapGesture);
 
-        HeightRequest = 51;
         Padding = new Thickness(20, 0, 0, 0);
 
-        RowDefinitions.Add(new RowDefinition { Height = 50 });
-        RowDefinitions.Add(new RowDefinition { Height = 1 });
+        RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.RowHeight });
+        RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.LineHeight });
 
         Children.Add(
             new Label()
@@ -29,7 +28,7 @@ public class MenuListItem : Grid
         Children.Add(
             new BoxView
             {
-                HeightRequest = 1,
+                HeightRequest = LayoutConstants.LineHeight,
                 BackgroundColor = ColorConstants.GetLineColor()
             }
             .Row(2).ColumnSpan(2)
