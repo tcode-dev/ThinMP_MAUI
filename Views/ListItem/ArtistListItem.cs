@@ -22,10 +22,10 @@ public class ArtistListItem : Grid
         Children.Add(
             new PrimaryText()
                 .Bind(Label.TextProperty, nameof(IArtistModel.Name))
-                .Row(0)
-                .Column(1)
                 .Margin(new Thickness(LayoutConstants.SpacingMedium, LayoutConstants.SpacingSmall, 0, 0))
                 .CenterVertical()
+                .Row(0)
+                .Column(1)
         );
 
         Children.Add(

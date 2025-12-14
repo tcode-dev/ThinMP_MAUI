@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Markup;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Views.Img;
+using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.ListItem;
 
@@ -29,16 +30,12 @@ public class AlbumGridItem : ContentView
             Children =
             {
                 _imageGrid,
-
-                new Label{
-                    HorizontalTextAlignment = TextAlignment.Center,
-                }
-                .Bind(Label.TextProperty, nameof(IAlbumModel.Name)),
-
-                new Label{
-                    HorizontalTextAlignment = TextAlignment.Center,
-                }
-                .Bind(Label.TextProperty, nameof(IAlbumModel.ArtistName))
+                new PrimaryText()
+                    .TextCenter()
+                    .Bind(Label.TextProperty, nameof(IAlbumModel.Name)),
+                new SecondaryText()
+                    .TextCenter()
+                    .Bind(Label.TextProperty, nameof(IAlbumModel.ArtistName))
             }
         };
 

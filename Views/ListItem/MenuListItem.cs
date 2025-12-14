@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Markup;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Views.Separator;
+using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.ListItem;
 
@@ -19,11 +20,12 @@ public class MenuListItem : Grid
         RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.LineHeight });
 
         Children.Add(
-            new Label()
+            new PrimaryText()
                 .Bind(Label.TextProperty, nameof(IMenuModel.Title))
-                .Row(0).Column(1)
                 .Margin(new Thickness(LayoutConstants.SpacingMedium, LayoutConstants.SpacingSmall, 0, 0))
                 .CenterVertical()
+                .Row(0)
+                .Column(1)
         );
 
         Children.Add(
