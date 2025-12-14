@@ -21,7 +21,7 @@ public class MainHeader : ContentView
         {
             ColumnDefinitions =
             {
-                new ColumnDefinition(LayoutConstants.LeadingMargin),
+                new ColumnDefinition(LayoutConstants.SpacingLarge),
                 new ColumnDefinition(GridLength.Star),
                 new ColumnDefinition(50)
             },
