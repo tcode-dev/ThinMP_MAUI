@@ -16,6 +16,9 @@ namespace ThinMPM.Platforms.iOS.Player
     private NSObject nowPlayingObserver;
     private NSObject playbackStateObserver;
 
+    public event Action<bool>? IsPlayingChanged;
+    public event Action<ISongModel?>? NowPlayingItemChanged;
+
     private MusicPlayer()
     {
       player = MPMusicPlayerController.ApplicationMusicPlayer;
@@ -118,24 +121,27 @@ namespace ThinMPM.Platforms.iOS.Player
     private void NowPlayingItemDidChangeCallback()
     {
       var song = GetCurrentSong();
-      if (song != null)
+      MainThread.BeginInvokeOnMainThread(() =>
       {
-        // flutterApi.OnPlaybackSongChange(song);
-      }
+        NowPlayingItemChanged?.Invoke(song);
+      });
     }
 
     private void PlaybackStateDidChangeCallback()
     {
-      // switch (player.PlaybackState)
-      // {
-      //     case MPMusicPlaybackState.Playing:
-      //         flutterApi.OnIsPlayingChange(true);
-      //         break;
-      //     case MPMusicPlaybackState.Paused:
-      //         flutterApi.OnIsPlayingChange(false);
-      //         break;
-      //     // 他の状態は必要に応じて追加
-      // }
+      MainThread.BeginInvokeOnMainThread(() =>
+      {
+        switch (player.PlaybackState)
+        {
+          case MPMusicPlaybackState.Playing:
+            IsPlayingChanged?.Invoke(true);
+            break;
+          case MPMusicPlaybackState.Paused:
+          case MPMusicPlaybackState.Stopped:
+            IsPlayingChanged?.Invoke(false);
+            break;
+        }
+      });
     }
 
     protected override void Dispose(bool disposing)
