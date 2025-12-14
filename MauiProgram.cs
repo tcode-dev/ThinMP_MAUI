@@ -54,6 +54,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<IPlatformUtil, PlatformUtili>();
 #endif
 
+        builder.Services.AddSingleton<PlayerViewModel>();
+
         builder.Services.AddTransient<MainViewModel>();
         builder.Services.AddTransient<ArtistViewModel>();
         builder.Services.AddTransient<AlbumViewModel>();
