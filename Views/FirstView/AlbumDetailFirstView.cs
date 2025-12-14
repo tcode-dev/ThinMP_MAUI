@@ -22,13 +22,8 @@ class AlbumDetailFirstView : AbsoluteLayout
         primaryTitle = new PrimaryTitle().Bind(Label.TextProperty, "Album.Name");
         secondaryTitle = new SecondaryTitle().Bind(Label.TextProperty, "Album.ArtistName");
 
-        // primaryTitle は X のみ比例、Y は固定ピクセルで配置
         AbsoluteLayout.SetLayoutFlags(primaryTitle, AbsoluteLayoutFlags.XProportional);
-        AbsoluteLayout.SetLayoutBounds(primaryTitle, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
-
-        // secondaryTitle は X のみ比例、Y は固定ピクセルで配置
         AbsoluteLayout.SetLayoutFlags(secondaryTitle, AbsoluteLayoutFlags.XProportional);
-        AbsoluteLayout.SetLayoutBounds(secondaryTitle, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
         Children.Add(image);
         Children.Add(gradientOverlay);
@@ -42,7 +37,7 @@ class AlbumDetailFirstView : AbsoluteLayout
             image.HeightRequest = this.Width;
             image.CornerRadius = 0;
 
-            // primaryTitle の Y 位置を計算: 75%
+            // primaryTitle の Y 位置を計算
             var primaryTitleY = this.Height * PrimaryTitleYPosition;
             AbsoluteLayout.SetLayoutBounds(primaryTitle, new Rect(0.5, primaryTitleY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 

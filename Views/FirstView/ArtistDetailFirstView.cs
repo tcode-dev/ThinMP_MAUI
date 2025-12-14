@@ -33,13 +33,8 @@ class ArtistDetailFirstView : AbsoluteLayout
         AbsoluteLayout.SetLayoutFlags(image, AbsoluteLayoutFlags.PositionProportional);
         AbsoluteLayout.SetLayoutBounds(image, new Rect(0.5, 0.5, imageSize, imageSize));
 
-        // primaryTitle は X のみ比例、Y は固定ピクセルで配置
         AbsoluteLayout.SetLayoutFlags(primaryTitle, AbsoluteLayoutFlags.XProportional);
-        AbsoluteLayout.SetLayoutBounds(primaryTitle, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
-
-        // secondaryTitle は X のみ比例、Y は固定ピクセルで配置
         AbsoluteLayout.SetLayoutFlags(secondaryTitle, AbsoluteLayoutFlags.XProportional);
-        AbsoluteLayout.SetLayoutBounds(secondaryTitle, new Rect(0.5, 0, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
         Children.Add(backgroundImage);
         Children.Add(gradientOverlay);
