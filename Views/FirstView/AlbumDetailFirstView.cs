@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
+using ThinMPm.Constants;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Text;
 
@@ -7,7 +8,6 @@ namespace ThinMPm.Views.FirstView;
 
 class AlbumDetailFirstView : AbsoluteLayout
 {
-    private const double PrimaryTitleYPosition = 0.75;
     private readonly PrimaryTitle primaryTitle;
     private readonly SecondaryTitle secondaryTitle;
 
@@ -38,7 +38,7 @@ class AlbumDetailFirstView : AbsoluteLayout
             image.CornerRadius = 0;
 
             // primaryTitle の Y 位置を計算
-            var primaryTitleY = this.Height * PrimaryTitleYPosition;
+            var primaryTitleY = this.Height * LayoutConstants.HeaderVisibilityThreshold;
             AbsoluteLayout.SetLayoutBounds(primaryTitle, new Rect(0.5, primaryTitleY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
             // secondaryTitle の Y 位置を計算: primaryTitle の位置 + 40px

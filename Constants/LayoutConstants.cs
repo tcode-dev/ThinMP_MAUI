@@ -11,4 +11,5 @@ public static class LayoutConstants
     public const double SpacingSmall = 5;
     public const double SpacingMedium = 10;
     public const double SpacingLarge = 20;
+    public const double HeaderVisibilityThreshold = 0.75;
 }

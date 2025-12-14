@@ -73,7 +73,7 @@ class AlbumDetailPage : ContentPage
         base.OnSizeAllocated(width, height);
 
         var statusBarHeight = _platformUtil.GetStatusBarHeight();
-        headerShowPosition = this.Width * 0.8 - statusBarHeight;
+        headerShowPosition = this.Width * LayoutConstants.HeaderVisibilityThreshold - statusBarHeight;
     }
 
     private void OnSongTapped(object? sender, EventArgs e)
