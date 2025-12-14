@@ -83,10 +83,10 @@ BindableProperty.Create(
 ## View Organization
 
 - `Views/Page/` - Full page components
-- `Views/Row/` - List row items
-- `Views/GridItem/` - Grid item components
+- `Views/List/` - Reusable list components
+- `Views/ListItem/` - List/Grid item components
+- `Views/Separator/` - Separator components
 - `Views/FirstView/` - Header/hero sections
 - `Views/Header/` - Navigation headers
-- `Views/List/` - Reusable list components
 - `Views/Text/` - Text components
 - `Views/Img/` - Image components

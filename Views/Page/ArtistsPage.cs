@@ -5,7 +5,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
-using ThinMPm.Views.Row;
+using ThinMPm.Views.ListItem;
 
 namespace ThinMPm.Views.Page;
 

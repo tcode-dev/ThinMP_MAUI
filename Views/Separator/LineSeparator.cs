@@ -1,6 +1,6 @@
 using ThinMPm.Constants;
 
-namespace ThinMPm.Views.Row;
+namespace ThinMPm.Views.Separator;
 
 public class LineSeparator : BoxView
 {

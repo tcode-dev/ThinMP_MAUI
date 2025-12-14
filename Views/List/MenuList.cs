@@ -1,5 +1,5 @@
 using ThinMPm.Contracts.Models;
-using ThinMPm.Views.Row;
+using ThinMPm.Views.ListItem;
 
 namespace ThinMPm.Views.List;
 

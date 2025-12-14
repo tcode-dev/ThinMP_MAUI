@@ -1,6 +1,6 @@
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
-using ThinMPm.Views.GridItem;
+using ThinMPm.Views.ListItem;
 using ThinMPm.Views.Page;
 
 namespace ThinMPm.Views.List;
