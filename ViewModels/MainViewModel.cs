@@ -5,18 +5,11 @@ using ThinMPm.Models;
 
 namespace ThinMPm.ViewModels;
 
-public class MainViewModel
+public class MainViewModel(IAlbumService albumService)
 {
-    readonly IAlbumService _albumService;
+    readonly IAlbumService _albumService = albumService;
     public ObservableCollection<IMenuModel> MenuItems { get; } = [];
     public ObservableCollection<IAlbumModel> Albums { get; } = [];
-
-    public MainViewModel()
-    {
-        var services = Application.Current?.Handler?.MauiContext?.Services;
-        _albumService = services?.GetRequiredService<IAlbumService>() 
-            ?? throw new InvalidOperationException("IAlbumService is not registered");
-    }
 
     public void Load()
     {
