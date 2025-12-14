@@ -6,6 +6,7 @@ using ThinMPm.ViewModels;
 using ThinMPm.Views.List;
 using ThinMPm.Views.Header;
 using Microsoft.Maui.Layouts;
+using ThinMPm.Views.ListItem;
 
 namespace ThinMPm.Views.Page;
 
@@ -35,8 +36,8 @@ class SongsPage : ContentPage
             {
                 Children = {
                     new EmptyHeader(),
-                    new SongList(OnSongTapped)
-                    .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
+                    new SongList(OnSongTapped).Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs)),
+                    new EmptyListItem(),
                 }
             }
         };
