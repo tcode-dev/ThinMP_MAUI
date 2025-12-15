@@ -43,4 +43,19 @@ public class PlayerService : IPlayerService
             }
         );
     }
+
+    public void Play()
+    {
+        MusicPlayer.Play();
+    }
+
+    public void Pause()
+    {
+        MusicPlayer.Pause();
+    }
+
+    public void Next()
+    {
+        MusicPlayer.Next();
+    }
 }

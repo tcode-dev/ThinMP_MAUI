@@ -27,4 +27,19 @@ public class PlayerService : IPlayerService
 
         MusicPlayer.Shared.Start(songs, index, 0, 0);
     }
+
+    public void Play()
+    {
+        MusicPlayer.Shared.Play();
+    }
+
+    public void Pause()
+    {
+        MusicPlayer.Shared.Pause();
+    }
+
+    public void Next()
+    {
+        MusicPlayer.Shared.Next();
+    }
 }
