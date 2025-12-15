@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
@@ -34,5 +35,24 @@ public partial class PlayerViewModel : ObservableObject
     {
         IsPlaying = isPlaying;
         IsActive = true;
+    }
+
+    [RelayCommand]
+    private void TogglePlayPause()
+    {
+        if (IsPlaying)
+        {
+            _playerService.Pause();
+        }
+        else
+        {
+            _playerService.Play();
+        }
+    }
+
+    [RelayCommand]
+    private void Next()
+    {
+        _playerService.Next();
     }
 }

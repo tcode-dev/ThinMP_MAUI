@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Markup;
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
@@ -7,6 +8,7 @@ using ThinMPm.Views.List;
 using ThinMPm.Views.Header;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Views.ListItem;
+using ThinMPm.Views.Player;
 
 namespace ThinMPm.Views.Page;
 
@@ -45,8 +47,14 @@ class SongsPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
 
+        var miniPlayer = new MiniPlayer();
+
+        AbsoluteLayout.SetLayoutFlags(miniPlayer, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, _platformUtil.GetBottomBarHeight()));
+
         layout.Children.Add(scrollView);
         layout.Children.Add(header);
+        layout.Children.Add(miniPlayer);
 
         Content = layout;
     }
