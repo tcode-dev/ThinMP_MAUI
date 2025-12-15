@@ -20,12 +20,12 @@ public class PlatformUtili : IPlatformUtil
 
     public double GetAppBarHeight()
     {
-        return GetStatusBarHeight() + LayoutConstants.HeaderHeight;
+        return GetStatusBarHeight() + LayoutConstants.HeightMedium;
     }
 
     public double GetMainAppBarHeight()
     {
-        return GetStatusBarHeight() + LayoutConstants.MainHeaderHeight;
+        return GetStatusBarHeight() + LayoutConstants.HeightLarge;
     }
 
     public double GetBottomSafeAreaHeight()
@@ -43,6 +43,6 @@ public class PlatformUtili : IPlatformUtil
 
     public double GetBottomBarHeight()
     {
-        return GetBottomSafeAreaHeight() + LayoutConstants.MiniPlayerHeight;
+        return GetBottomSafeAreaHeight() + LayoutConstants.HeightLarge;
     }
 }

@@ -6,7 +6,7 @@ public class LineSeparator : BoxView
 {
     public LineSeparator()
     {
-        HeightRequest = LayoutConstants.LineHeight;
+        HeightRequest = 1;
         BackgroundColor = ColorConstants.GetLineColor();
     }
 }

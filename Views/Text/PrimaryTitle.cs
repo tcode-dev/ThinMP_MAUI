@@ -6,7 +6,7 @@ public class PrimaryTitle : PrimaryText
 {
     public PrimaryTitle()
     {
-        HeightRequest = LayoutConstants.HeaderHeight;
+        HeightRequest = LayoutConstants.HeightMedium;
         FontAttributes = FontAttributes.Bold;
         HorizontalTextAlignment = TextAlignment.Center;
         VerticalTextAlignment = TextAlignment.Center;

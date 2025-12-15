@@ -16,8 +16,8 @@ public class ArtistListItem : Grid
 
         Padding = new Thickness(LayoutConstants.SpacingLarge, 0, 0, 0);
 
-        RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.RowHeight });
-        RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.LineHeight });
+        RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.HeightMedium });
+        RowDefinitions.Add(new RowDefinition { Height = 1 });
 
         Children.Add(
             new PrimaryText()

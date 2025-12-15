@@ -20,9 +20,9 @@ public class SongListItem : Grid
         ColumnDefinitions.Add(new ColumnDefinition { Width = 40 });
         ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
 
-        RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.RowHalfHeight });
-        RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.RowHalfHeight});
-        RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.LineHeight });
+        RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.HeightSmall });
+        RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.HeightSmall });
+        RowDefinitions.Add(new RowDefinition { Height = 1 });
 
         Children.Add(
             new ArtworkImage()
