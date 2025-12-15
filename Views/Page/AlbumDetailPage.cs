@@ -8,6 +8,7 @@ using ThinMPm.ViewModels;
 using ThinMPm.Views.FirstView;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.List;
+using ThinMPm.Views.Player;
 
 namespace ThinMPm.Views.Page;
 
@@ -52,8 +53,14 @@ class AlbumDetailPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
 
+        var miniPlayer = new MiniPlayer();
+
+        AbsoluteLayout.SetLayoutFlags(miniPlayer, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, platformUtil.GetBottomBarHeight()));
+
         layout.Children.Add(scrollView);
         layout.Children.Add(header);
+        layout.Children.Add(miniPlayer);
 
         Content = layout;
     }
