@@ -17,7 +17,7 @@ public class SongListItem : Grid
 
         Padding = new Thickness(LayoutConstants.SpacingLarge, 0, 0, 0);
 
-        ColumnDefinitions.Add(new ColumnDefinition { Width = 40 });
+        ColumnDefinitions.Add(new ColumnDefinition { Width = LayoutConstants.ImageSize });
         ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
 
         RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.HeightSmall });
@@ -26,8 +26,8 @@ public class SongListItem : Grid
 
         Children.Add(
             new ArtworkImage()
-                .Width(40)
-                .Height(40)
+                .Width(LayoutConstants.ImageSize)
+                .Height(LayoutConstants.ImageSize)
                 .Bind(ArtworkImage.ImageIdProperty, nameof(ISongModel.ImageId))
                 .Row(0)
                 .RowSpan(2)

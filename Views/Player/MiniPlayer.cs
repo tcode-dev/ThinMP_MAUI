@@ -33,8 +33,8 @@ public class MiniPlayer : Grid
         Children.Add(
             new ArtworkImage()
                 .Bind(ArtworkImage.ImageIdProperty, $"{nameof(PlayerViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}")
-                .Width(40)
-                .Height(40)
+                .Width(LayoutConstants.ImageSize)
+                .Height(LayoutConstants.ImageSize)
                 .Column(0)
         );
 
