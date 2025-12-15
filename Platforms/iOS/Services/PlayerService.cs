@@ -2,6 +2,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Platforms.iOS.Models.Extensions;
 using ThinMPm.Platforms.iOS.Repositories.Contracts;
+using ThinMPm.Platforms.iOS.ValueObjects;
 using ThinMPM.Platforms.iOS.Player;
 
 namespace ThinMPm.Platforms.iOS.Services;
@@ -24,6 +25,13 @@ public class PlayerService : IPlayerService
     public void StartAllSongs(int index)
     {
         var songs = _songRepository.FindAll().ToArray();
+
+        MusicPlayer.Shared.Start(songs, index, 0, 0);
+    }
+
+    public void StartAlbumSongs(string albumId, int index)
+    {
+        var songs = _songRepository.FindByAlbumId(new Id(albumId)).ToArray();
 
         MusicPlayer.Shared.Start(songs, index, 0, 0);
     }

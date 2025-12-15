@@ -8,6 +8,7 @@ public interface IPlayerService
     event Action<ISongModel?>? NowPlayingItemChanged;
 
     void StartAllSongs(int index);
+    void StartAlbumSongs(string albumId, int index);
     void Play();
     void Pause();
     void Next();

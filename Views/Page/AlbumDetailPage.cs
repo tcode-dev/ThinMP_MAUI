@@ -85,12 +85,12 @@ class AlbumDetailPage : ContentPage
 
     private void OnSongTapped(object? sender, EventArgs e)
     {
-        if (sender is BindableObject bindable && BindingContext is SongViewModel vm)
+        if (sender is BindableObject bindable && BindingContext is AlbumDetailViewModel vm)
         {
             if (bindable.BindingContext is ISongModel item)
             {
                 int index = vm.Songs.IndexOf(item);
-                _playerService.StartAllSongs(index);
+                _playerService.StartAlbumSongs(vm.AlbumId, index);
             }
         }
     }

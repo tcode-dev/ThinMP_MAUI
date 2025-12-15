@@ -22,6 +22,18 @@ public class PlayerService : IPlayerService
     {
         var songs = _songRepository.FindAll();
 
+        Start(songs, index);
+    }
+
+    public void StartAlbumSongs(string albumId, int index)
+    {
+        var songs = _songRepository.FindByAlbumId(albumId);
+
+        Start(songs, index);
+    }
+
+    private void Start(IList<ThinMPm.Platforms.Android.Models.Contracts.ISongModel> songs, int index)
+    {
         MusicPlayer.Start(
             songs,
             index,
