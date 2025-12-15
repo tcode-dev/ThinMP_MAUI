@@ -20,4 +20,19 @@ public class PlatformUtili : IPlatformUtil
     {
         return GetStatusBarHeight() + LayoutConstants.MainHeaderHeight;
     }
+
+    public double GetBottomSafeAreaHeight()
+    {
+        var window = UIApplication.SharedApplication.ConnectedScenes
+            .OfType<UIWindowScene>()
+            .SelectMany(scene => scene.Windows)
+            .FirstOrDefault(window => window.IsKeyWindow);
+
+        return window?.SafeAreaInsets.Bottom ?? 0;
+    }
+
+    public double GetBottomBarHeight()
+    {
+        return GetBottomSafeAreaHeight() + LayoutConstants.MiniPlayerHeight;
+    }
 }

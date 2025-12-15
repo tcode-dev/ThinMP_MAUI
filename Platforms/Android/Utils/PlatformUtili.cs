@@ -27,4 +27,22 @@ public class PlatformUtili : IPlatformUtil
     {
         return GetStatusBarHeight() + LayoutConstants.MainHeaderHeight;
     }
+
+    public double GetBottomSafeAreaHeight()
+    {
+        var context = global::Android.App.Application.Context;
+        int resourceId = context.Resources.GetIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0)
+        {
+            int pixelSize = context.Resources.GetDimensionPixelSize(resourceId);
+            float density = context.Resources.DisplayMetrics?.Density ?? 1.0f;
+            return pixelSize / density;
+        }
+        return 0;
+    }
+
+    public double GetBottomBarHeight()
+    {
+        return GetBottomSafeAreaHeight() + LayoutConstants.MiniPlayerHeight;
+    }
 }
