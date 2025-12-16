@@ -30,9 +30,9 @@ public static class MusicPlayer
 
       BindService(Platform.CurrentActivity?.ApplicationContext, () =>
       {
-        musicService?.Start(songs, index, repeatMode, shuffleMode);
         musicService?.SetSendPlaybackSongChange(sendPlaybackSongChange);
         musicService?.SetSendIsPlayingChange(sendIsPlayingChange);
+        musicService?.Start(songs, index, repeatMode, shuffleMode);
       });
       return;
     }

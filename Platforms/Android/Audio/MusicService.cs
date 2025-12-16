@@ -300,9 +300,9 @@ public class MusicService : Service
       this.service = service;
     }
 
-    public void OnPlayerStateChanged(bool playWhenReady, int playbackState)
+    public void OnPlaybackStateChanged(int playbackState)
     {
-      Console.WriteLine($"called OnPlayerStateChanged: playWhenReady={playWhenReady}, playbackState={playbackState}");
+      Console.WriteLine($"called OnPlaybackStateChanged: playbackState={playbackState}");
       if (playbackState == MediaConstant.STATE_ENDED)
       {
         service._player.Pause();
@@ -310,23 +310,30 @@ public class MusicService : Service
         service.OnIsPlayingChange();
         service.OnPlaybackSongChange();
       }
+      else if (playbackState == MediaConstant.STATE_READY)
+      {
+        service._isStarting = false;
+        service.OnPlaybackSongChange();
+      }
     }
 
-    public void OnPlayWhenReadyChanged(bool playWhenReady, int reason)
+    public void OnIsPlayingChanged(bool isPlaying)
     {
-      Console.WriteLine($"called OnPlayWhenReadyChanged: playWhenReady={playWhenReady}, reason={reason}");
+      Console.WriteLine($"called OnIsPlayingChanged: isPlaying={isPlaying}");
+      service._isPlaying = isPlaying;
+      service.OnIsPlayingChange();
     }
 
-    public void OnTracksChanged(Tracks? tracks)
+    public void OnMediaItemTransition(MediaItem? mediaItem, int reason)
     {
-      Console.WriteLine("called OnTracksChanged");
-      // service.OnPlaybackSongChange();
-      // service.Notification();
-      // service._isStarting = false;
+      Console.WriteLine($"called OnMediaItemTransition: reason={reason}");
+      service.OnPlaybackSongChange();
+      service.Notification();
     }
 
     public void OnPlayerError(PlaybackException? error)
     {
+      Console.WriteLine($"called OnPlayerError: {error?.Message}");
       if (error?.ErrorCode == PlaybackException.ErrorCodeIoFileNotFound)
       {
         service.OnError(error.Message);
