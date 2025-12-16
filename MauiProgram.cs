@@ -4,6 +4,7 @@ using ThinMPm.Contracts.Services;
 using ThinMPm.Views.Page;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.Views.Img;
+using ThinMPm.Views.Background;
 
 #if ANDROID
 using ThinMPm.Platforms.Android.Repositories.Contracts;
@@ -38,6 +39,7 @@ public static class MauiProgram
             {
 #if ANDROID || IOS
                 handlers.AddHandler<BlurredImageView, BlurredImageViewHandler>();
+                handlers.AddHandler<BlurBackgroundView, BlurBackgroundViewHandler>();
 #endif
             });
 
