@@ -16,7 +16,7 @@ class ArtistDetailFirstView : AbsoluteLayout
     public ArtistDetailFirstView()
     {
         var backgroundImage = new BlurredImageView()
-            .BlurRadius(25f)
+            .BlurRadius(LayoutConstants.BlurRadius)
             .Bind(BlurredImageView.ImageIdProperty, "ImageId");
 
         AbsoluteLayout.SetLayoutFlags(backgroundImage, AbsoluteLayoutFlags.All);
