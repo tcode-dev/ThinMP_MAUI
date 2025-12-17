@@ -8,6 +8,9 @@ namespace ThinMPm.Views.Header;
 
 public class DetailHeader : ContentView
 {
+    private readonly BlurBackgroundView blurBackground;
+    private readonly Grid contentGrid;
+
     public static readonly BindableProperty TitleProperty =
         BindableProperty.Create(
             nameof(Title),
@@ -33,12 +36,16 @@ public class DetailHeader : ContentView
             SafeAreaEdges = SafeAreaEdges.None,
         };
 
-        var blurBackground = new BlurBackgroundView();
+        blurBackground = new BlurBackgroundView
+        {
+            Opacity = 0
+        };
         AbsoluteLayout.SetLayoutFlags(blurBackground, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(blurBackground, new Rect(0, 0, 1, appBarHeight));
 
-        var contentGrid = new Grid
+        contentGrid = new Grid
         {
+            Opacity = 0,
             ColumnDefinitions =
             {
                 new ColumnDefinition(50),
@@ -66,5 +73,21 @@ public class DetailHeader : ContentView
         layout.Children.Add(contentGrid);
 
         Content = layout;
+    }
+
+    public async void Show()
+    {
+        await Task.WhenAll(
+            blurBackground.FadeToAsync(1, 300, Easing.CubicOut),
+            contentGrid.FadeToAsync(1, 300, Easing.CubicOut)
+        );
+    }
+
+    public async void Hide()
+    {
+        await Task.WhenAll(
+            blurBackground.FadeToAsync(0, 300, Easing.CubicOut),
+            contentGrid.FadeToAsync(0, 300, Easing.CubicOut)
+        );
     }
 }

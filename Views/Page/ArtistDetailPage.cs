@@ -1,37 +1,28 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
-using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.FirstView;
-using ThinMPm.Views.Header;
 using ThinMPm.Views.List;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Page;
 
-class ArtistDetailPage : ContentPage
+class ArtistDetailPage : DetailPageBase
 {
     private readonly IPlayerService _playerService;
-    private readonly IPlatformUtil _platformUtil;
-    private readonly DetailHeader header;
-    private bool isHeaderVisible = false;
-    private double headerShowPosition = 0;
-    public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
-    {
-        Shell.SetNavBarIsVisible(this, false);
 
+    public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
+        : base(platformUtil, "Artist.Name")
+    {
         BindingContext = vm;
         _playerService = playerService;
-        _platformUtil = platformUtil;
 
         var layout = new AbsoluteLayout {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        header = new DetailHeader().Bind(DetailHeader.TitleProperty, "Artist.Name");
-        header.Opacity = 0;
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
@@ -72,14 +63,6 @@ class ArtistDetailPage : ContentPage
         }
     }
 
-    protected override void OnSizeAllocated(double width, double height)
-    {
-        base.OnSizeAllocated(width, height);
-
-        var statusBarHeight = _platformUtil.GetStatusBarHeight();
-        headerShowPosition = this.Width * LayoutConstants.HeaderVisibilityThreshold - statusBarHeight;
-    }
-
     private void OnSongTapped(object? sender, EventArgs e)
     {
         if (sender is BindableObject bindable && BindingContext is SongViewModel vm)
@@ -89,21 +72,6 @@ class ArtistDetailPage : ContentPage
                 int index = vm.Songs.IndexOf(item);
                 _playerService.StartAllSongs(index);
             }
-        }
-    }
-
-    [Obsolete]
-    private async void OnScrolled(object? sender, ScrolledEventArgs e)
-    {
-        if (e.ScrollY > headerShowPosition && !isHeaderVisible)
-        {
-            isHeaderVisible = true;
-            await header.FadeTo(1, 300, Easing.CubicOut);
-        }
-        else if (e.ScrollY <= headerShowPosition && isHeaderVisible)
-        {
-            isHeaderVisible = false;
-            await header.FadeTo(0, 300, Easing.CubicOut);
         }
     }
 }
