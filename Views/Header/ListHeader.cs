@@ -39,7 +39,7 @@ public class ListHeader : ContentView
 
         solidBackground = new BoxView
         {
-            Color = ColorConstants.GetBackgroundColor(),
+            Color = ColorConstants.GetPrimaryBackgroundColor(),
         };
         AbsoluteLayout.SetLayoutFlags(solidBackground, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(solidBackground, new Rect(0, 0, 1, appBarHeight));

@@ -18,7 +18,7 @@ public class MiniPlayer : Grid
 
         BindingContext = playerViewModel;
         HeightRequest = platformUtil.GetBottomBarHeight();
-        BackgroundColor = ColorConstants.GetBackgroundColor();
+        BackgroundColor = ColorConstants.GetSecondaryBackgroundColor();
         this.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsActive));
 
         Padding = new Thickness(LayoutConstants.SpacingLarge, 0, LayoutConstants.SpacingLarge, 0);
