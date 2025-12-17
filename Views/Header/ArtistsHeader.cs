@@ -1,9 +1,9 @@
 namespace ThinMPm.Views.Header;
 
-public class ArtistsHeader : ContentView
+public class ArtistsHeader : ListHeader
 {
     public ArtistsHeader()
     {
-        Content = new Header { Title = "Artists" };
+        Title = "Artists";
     }
 }

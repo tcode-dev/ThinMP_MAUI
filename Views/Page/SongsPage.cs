@@ -1,12 +1,11 @@
 using CommunityToolkit.Maui.Markup;
-using ThinMPm.Constants;
+using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
-using ThinMPm.Views.List;
 using ThinMPm.Views.Header;
-using Microsoft.Maui.Layouts;
+using ThinMPm.Views.List;
 using ThinMPm.Views.ListItem;
 using ThinMPm.Views.Player;
 
@@ -15,22 +14,24 @@ namespace ThinMPm.Views.Page;
 class SongsPage : ContentPage
 {
     private readonly IPlayerService _playerService;
-    private readonly IPlatformUtil _platformUtil;
     private readonly SongsHeader header;
+    private bool isBlurBackground = false;
+
     public SongsPage(SongViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
         _playerService = playerService;
-        _platformUtil = platformUtil;
+
         var layout = new AbsoluteLayout {
             SafeAreaEdges = SafeAreaEdges.None,
         };
         header = new SongsHeader();
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, _platformUtil.GetAppBarHeight()));
+        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
+
         var scrollView = new ScrollView
         {
             SafeAreaEdges = SafeAreaEdges.None,
@@ -43,6 +44,7 @@ class SongsPage : ContentPage
                 }
             }
         };
+        scrollView.Scrolled += OnScrolled;
 
         AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
@@ -50,7 +52,7 @@ class SongsPage : ContentPage
         var miniPlayer = new MiniPlayer();
 
         AbsoluteLayout.SetLayoutFlags(miniPlayer, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, _platformUtil.GetBottomBarHeight()));
+        AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, platformUtil.GetBottomBarHeight()));
 
         layout.Children.Add(scrollView);
         layout.Children.Add(header);
@@ -78,6 +80,20 @@ class SongsPage : ContentPage
                 int index = vm.Songs.IndexOf(item);
                 _playerService.StartAllSongs(index);
             }
+        }
+    }
+
+    private void OnScrolled(object? sender, ScrolledEventArgs e)
+    {
+        if (e.ScrollY > 0 && !isBlurBackground)
+        {
+            isBlurBackground = true;
+            header.ShowBlurBackground();
+        }
+        else if (e.ScrollY <= 0 && isBlurBackground)
+        {
+            isBlurBackground = false;
+            header.ShowSolidBackground();
         }
     }
 }

@@ -5,19 +5,21 @@ using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.List;
+using ThinMPm.Views.ListItem;
+using ThinMPm.Views.Player;
 
 namespace ThinMPm.Views.Page;
 
 class AlbumsPage : ContentPage
 {
-    private readonly IPlatformUtil _platformUtil;
     private readonly AlbumsHeader header;
+    private bool isBlurBackground = false;
+
     public AlbumsPage(AlbumViewModel vm, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
-        _platformUtil = platformUtil;
 
         var layout = new AbsoluteLayout
         {
@@ -26,7 +28,7 @@ class AlbumsPage : ContentPage
         header = new AlbumsHeader();
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, _platformUtil.GetAppBarHeight()));
+        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
 
         var scrollView = new ScrollView
         {
@@ -36,12 +38,25 @@ class AlbumsPage : ContentPage
                 Children = {
                     new EmptyHeader(),
                     new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
+                    new EmptyListItem(),
                 }
             }
         };
         scrollView.Scrolled += OnScrolled;
 
-        Content = scrollView;
+        AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
+
+        var miniPlayer = new MiniPlayer();
+
+        AbsoluteLayout.SetLayoutFlags(miniPlayer, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, platformUtil.GetBottomBarHeight()));
+
+        layout.Children.Add(scrollView);
+        layout.Children.Add(header);
+        layout.Children.Add(miniPlayer);
+
+        Content = layout;
     }
 
     protected override void OnAppearing()
@@ -67,8 +82,15 @@ class AlbumsPage : ContentPage
 
     private void OnScrolled(object? sender, ScrolledEventArgs e)
     {
-        double x = e.ScrollX;
-        double y = e.ScrollY;
-        Console.WriteLine($"Scrolled to position: ({x}, {y})");
+        if (e.ScrollY > 0 && !isBlurBackground)
+        {
+            isBlurBackground = true;
+            header.ShowBlurBackground();
+        }
+        else if (e.ScrollY <= 0 && isBlurBackground)
+        {
+            isBlurBackground = false;
+            header.ShowSolidBackground();
+        }
     }
 }
