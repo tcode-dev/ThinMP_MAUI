@@ -1,36 +1,49 @@
 using CommunityToolkit.Maui.Markup;
+using Microsoft.Maui.Layouts;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
+using ThinMPm.Views.Background;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Player;
 
-public class MiniPlayer : Grid
+public class MiniPlayer : ContentView
 {
     public MiniPlayer()
     {
         var services = Application.Current!.Handler!.MauiContext!.Services;
         var playerViewModel = services.GetRequiredService<PlayerViewModel>();
         var platformUtil = services.GetRequiredService<IPlatformUtil>();
+        var bottomBarHeight = platformUtil.GetBottomBarHeight();
 
         BindingContext = playerViewModel;
-        HeightRequest = platformUtil.GetBottomBarHeight();
-        BackgroundColor = ColorConstants.GetSecondaryBackgroundColor();
+        HeightRequest = bottomBarHeight;
         this.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsActive));
 
-        Padding = new Thickness(LayoutConstants.SpacingLarge, 0, LayoutConstants.SpacingLarge, 0);
-        ColumnDefinitions = new ColumnDefinitionCollection
-        {
-            new ColumnDefinition(GridLength.Auto),
-            new ColumnDefinition(GridLength.Star),
-            new ColumnDefinition(GridLength.Auto),
-            new ColumnDefinition(GridLength.Auto)
-        };
+        var layout = new AbsoluteLayout();
 
-        Children.Add(
+        var blurBackground = new BlurBackgroundView();
+        AbsoluteLayout.SetLayoutFlags(blurBackground, AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(blurBackground, new Rect(0, 0, 1, bottomBarHeight));
+
+        var contentGrid = new Grid
+        {
+            Padding = new Thickness(LayoutConstants.SpacingLarge, 0, LayoutConstants.SpacingLarge, 0),
+            ColumnDefinitions =
+            {
+                new ColumnDefinition(GridLength.Auto),
+                new ColumnDefinition(GridLength.Star),
+                new ColumnDefinition(GridLength.Auto),
+                new ColumnDefinition(GridLength.Auto)
+            }
+        };
+        AbsoluteLayout.SetLayoutFlags(contentGrid, AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(contentGrid, new Rect(0, 0, 1, bottomBarHeight));
+
+        contentGrid.Children.Add(
             new ArtworkImage()
                 .Bind(ArtworkImage.ImageIdProperty, $"{nameof(PlayerViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}")
                 .Width(LayoutConstants.ImageSize)
@@ -38,7 +51,7 @@ public class MiniPlayer : Grid
                 .Column(0)
         );
 
-        Children.Add(
+        contentGrid.Children.Add(
             new PrimaryText()
                 .Bind(Label.TextProperty, $"{nameof(PlayerViewModel.CurrentSong)}.{nameof(ISongModel.Name)}")
                 .CenterVertical()
@@ -59,7 +72,7 @@ public class MiniPlayer : Grid
         playPauseTapGesture.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerViewModel.TogglePlayPauseCommand));
         playPauseButton.GestureRecognizers.Add(playPauseTapGesture);
 
-        Children.Add(playPauseButton);
+        contentGrid.Children.Add(playPauseButton);
 
         var skipNextButton = new Label
         {
@@ -75,7 +88,12 @@ public class MiniPlayer : Grid
         skipNextTapGesture.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerViewModel.NextCommand));
         skipNextButton.GestureRecognizers.Add(skipNextTapGesture);
 
-        Children.Add(skipNextButton);
+        contentGrid.Children.Add(skipNextButton);
+
+        layout.Children.Add(blurBackground);
+        layout.Children.Add(contentGrid);
+
+        Content = layout;
     }
 
     private class PlayPauseIconConverter : IValueConverter
