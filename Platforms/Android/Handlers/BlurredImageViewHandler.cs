@@ -26,6 +26,9 @@ public class BlurredImageViewHandler : ViewHandler<BlurredImageView, ImageView>
         imageView.SetMinimumWidth(0);
         imageView.SetMinimumHeight(0);
 
+        // RenderEffect のブラーによるはみ出しをクリップ
+        imageView.ClipToOutline = true;
+
         return imageView;
     }
 
