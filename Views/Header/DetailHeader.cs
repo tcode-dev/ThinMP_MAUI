@@ -43,6 +43,7 @@ public class DetailHeader : ContentView
         AbsoluteLayout.SetLayoutFlags(blurBackground, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(blurBackground, new Rect(0, 0, 1, appBarHeight));
 
+        // タイトル部分（フェードイン/アウト対象）
         contentGrid = new Grid
         {
             Opacity = 0,
@@ -54,13 +55,6 @@ public class DetailHeader : ContentView
             },
             Children =
             {
-                new Button
-                {
-                    Text = "←",
-                    FontSize = 18,
-                    BackgroundColor = Colors.Transparent
-                }.Column(0),
-
                 new PrimaryTitle()
                     .Bind(Label.TextProperty, nameof(Title), source: this)
                     .Column(1),
@@ -69,8 +63,23 @@ public class DetailHeader : ContentView
         AbsoluteLayout.SetLayoutFlags(contentGrid, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(contentGrid, new Rect(0, 0, 1, appBarHeight));
 
+        // 戻るボタン（常に表示）
+        var buttonHeight = 50;
+        var backButton = new Button
+        {
+            Text = "←",
+            FontSize = 18,
+            BackgroundColor = Colors.Transparent,
+            WidthRequest = 50,
+            HeightRequest = buttonHeight
+        };
+        backButton.Clicked += async (s, e) => await Shell.Current.GoToAsync("..");
+        AbsoluteLayout.SetLayoutFlags(backButton, AbsoluteLayoutFlags.None);
+        AbsoluteLayout.SetLayoutBounds(backButton, new Rect(0, appBarHeight - buttonHeight, 50, buttonHeight));
+
         layout.Children.Add(blurBackground);
         layout.Children.Add(contentGrid);
+        layout.Children.Add(backButton);
 
         Content = layout;
     }
