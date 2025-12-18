@@ -65,6 +65,7 @@ public static class MauiProgram
         builder.Services.AddTransient<SongViewModel>();
         builder.Services.AddTransient<ArtistDetailViewModel>();
         builder.Services.AddTransient<AlbumDetailViewModel>();
+        builder.Services.AddTransient<PlayerPageViewModel>();
 
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<ArtistsPage>();
@@ -72,6 +73,7 @@ public static class MauiProgram
         builder.Services.AddTransient<SongsPage>();
         builder.Services.AddTransient<ArtistDetailPage>();
         builder.Services.AddTransient<AlbumDetailPage>();
+        builder.Services.AddTransient<PlayerPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();
