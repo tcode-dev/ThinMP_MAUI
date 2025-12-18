@@ -43,21 +43,21 @@ public class MiniPlayer : ContentView
         AbsoluteLayout.SetLayoutFlags(contentGrid, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(contentGrid, new Rect(0, 0, 1, bottomBarHeight));
 
-        contentGrid.Children.Add(
-            new ArtworkImage()
-                .Bind(ArtworkImage.ImageIdProperty, $"{nameof(PlayerViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}")
-                .Width(LayoutConstants.ImageSize)
-                .Height(LayoutConstants.ImageSize)
-                .Column(0)
-        );
+        var artwork = new ArtworkImage()
+            .Bind(ArtworkImage.ImageIdProperty, $"{nameof(PlayerViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}")
+            .Width(LayoutConstants.ImageSize)
+            .Height(LayoutConstants.ImageSize)
+            .Column(0);
+        artwork.GestureRecognizers.Add(CreateNavigationGesture());
+        contentGrid.Children.Add(artwork);
 
-        contentGrid.Children.Add(
-            new PrimaryText()
-                .Bind(Label.TextProperty, $"{nameof(PlayerViewModel.CurrentSong)}.{nameof(ISongModel.Name)}")
-                .CenterVertical()
-                .Margins(left: LayoutConstants.SpacingMedium)
-                .Column(1)
-        );
+        var songTitle = new PrimaryText()
+            .Bind(Label.TextProperty, $"{nameof(PlayerViewModel.CurrentSong)}.{nameof(ISongModel.Name)}")
+            .CenterVertical()
+            .Margins(left: LayoutConstants.SpacingMedium)
+            .Column(1);
+        songTitle.GestureRecognizers.Add(CreateNavigationGesture());
+        contentGrid.Children.Add(songTitle);
 
         var playPauseButton = new Label
         {
@@ -94,6 +94,13 @@ public class MiniPlayer : ContentView
         layout.Children.Add(contentGrid);
 
         Content = layout;
+    }
+
+    private static TapGestureRecognizer CreateNavigationGesture()
+    {
+        var gesture = new TapGestureRecognizer();
+        gesture.Tapped += async (s, e) => await Shell.Current.GoToAsync("PlayerPage");
+        return gesture;
     }
 
     private class PlayPauseIconConverter : IValueConverter
