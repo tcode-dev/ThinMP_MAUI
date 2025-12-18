@@ -44,6 +44,18 @@ public partial class PlayerPageViewModel : ObservableObject
         _playerService.IsPlayingChanged += HandleIsPlayingChanged;
     }
 
+    public void Load()
+    {
+        var song = _playerService.GetCurrentSong();
+        if (song != null)
+        {
+            CurrentSong = song;
+            Duration = song.Duration;
+            DurationText = FormatTime(song.Duration);
+        }
+        IsPlaying = _playerService.GetIsPlaying();
+    }
+
     private void HandleNowPlayingItemChanged(ISongModel? song)
     {
         CurrentSong = song;

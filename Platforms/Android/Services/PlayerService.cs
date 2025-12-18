@@ -72,4 +72,14 @@ public class PlayerService : IPlayerService
     {
         MusicPlayer.Next();
     }
+
+    public ISongModel? GetCurrentSong()
+    {
+        return MusicPlayer.GetCurrentSong()?.ToHostModel();
+    }
+
+    public bool GetIsPlaying()
+    {
+        return MusicPlayer.GetIsPlaying();
+    }
 }

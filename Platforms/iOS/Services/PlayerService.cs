@@ -50,4 +50,14 @@ public class PlayerService : IPlayerService
     {
         MusicPlayer.Shared.Next();
     }
+
+    public ISongModel? GetCurrentSong()
+    {
+        return MusicPlayer.Shared.GetCurrentSong()?.ToHostModel();
+    }
+
+    public bool GetIsPlaying()
+    {
+        return MusicPlayer.Shared.GetIsPlaying();
+    }
 }

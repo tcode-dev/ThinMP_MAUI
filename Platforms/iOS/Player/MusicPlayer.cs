@@ -76,6 +76,8 @@ namespace ThinMPM.Platforms.iOS.Player
 
     public double GetCurrentTime() => player.CurrentPlaybackTime;
 
+    public bool GetIsPlaying() => player.PlaybackState == MPMusicPlaybackState.Playing;
+
     public void SetRepeat(RepeatMode repeatMode)
     {
       player.RepeatMode = repeatMode switch

@@ -59,6 +59,16 @@ public static class MusicPlayer
     }
   }
 
+  public static ISongModel? GetCurrentSong()
+  {
+    return musicService?.GetCurrentSong();
+  }
+
+  public static bool GetIsPlaying()
+  {
+    return musicService?.GetIsPlaying() ?? false;
+  }
+
   public static void Dispose(Context context)
   {
     if (!MusicService.IsServiceRunning) return;

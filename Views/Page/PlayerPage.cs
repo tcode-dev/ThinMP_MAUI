@@ -55,6 +55,16 @@ class PlayerPage : ContentPage
         Content = layout;
     }
 
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is PlayerPageViewModel vm)
+        {
+            vm.Load();
+        }
+    }
+
     private View CreateHeader(double statusBarHeight)
     {
         var header = new Grid

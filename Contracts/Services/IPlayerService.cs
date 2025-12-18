@@ -12,4 +12,6 @@ public interface IPlayerService
     void Play();
     void Pause();
     void Next();
+    ISongModel? GetCurrentSong();
+    bool GetIsPlaying();
 }

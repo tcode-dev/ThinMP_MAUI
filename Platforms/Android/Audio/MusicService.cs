@@ -134,6 +134,11 @@ public class MusicService : Service
     callback(_player.CurrentPosition);
   }
 
+  public bool GetIsPlaying()
+  {
+    return _isPlaying;
+  }
+
   private void InitializeStart(int index)
   {
     SetPlayer(index);
@@ -160,9 +165,9 @@ public class MusicService : Service
     Play();
   }
 
-  private ISongModel? GetCurrentSong()
+  public ISongModel? GetCurrentSong()
   {
-    if (_player.CurrentMediaItem == null)
+    if (_player?.CurrentMediaItem == null)
     {
       return null;
     }
