@@ -1,4 +1,4 @@
-namespace ThinMPm.Views.Buttons;
+namespace ThinMPm.Views.Button;
 
 public class BackButton : Microsoft.Maui.Controls.Button
 {

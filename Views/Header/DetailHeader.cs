@@ -2,7 +2,7 @@ using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.Views.Background;
-using ThinMPm.Views.Buttons;
+using ThinMPm.Views.Button;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Header;
