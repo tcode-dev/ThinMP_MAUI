@@ -13,6 +13,19 @@ namespace ThinMPm.Views.Page;
 
 class PlayerPage : ContentPage
 {
+    private const string IconSkipPrevious = "skipprevious";
+    private const string IconSkipNext = "skipnext";
+    private const string IconPlay = "playarrow";
+    private const string IconPause = "pause";
+    private const string IconRepeat = "repeat";
+    private const string IconRepeatOn = "repeaton";
+    private const string IconShuffle = "shuffle";
+    private const string IconShuffleOn = "shuffleon";
+    private const string IconPerson = "person";
+    private const string IconFavorite = "favorite";
+    private const string IconFavoriteBorder = "favoriteborder";
+    private const string IconPlaylistAdd = "playlistadd";
+
     public PlayerPage(PlayerPageViewModel vm, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
@@ -208,33 +221,30 @@ class PlayerPage : ContentPage
         };
 
         // Previous button
-        var previousButton = CreateIconButton(IconConstants.SkipPrevious, 50);
+        var previousButton = CreateImageButton(IconSkipPrevious, 50);
         var prevTap = new TapGestureRecognizer();
         prevTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.PreviousCommand));
-        previousButton.GestureRecognizers.Clear();
         previousButton.GestureRecognizers.Add(prevTap);
         previousButton.Column(0);
 
         // Play/Pause button
-        var playPauseButton = new Label
+        var playPauseButton = new Image
         {
-            FontFamily = IconConstants.FontFamily,
-            FontSize = 70,
-            TextColor = ColorConstants.GetPrimaryTextColor(),
+            WidthRequest = 70,
+            HeightRequest = 70,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(1);
-        playPauseButton.SetBinding(Label.TextProperty, new Binding(nameof(PlayerPageViewModel.IsPlaying), converter: new PlayPauseIconConverter()));
+        playPauseButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsPlaying), converter: new PlayPauseImageConverter()));
 
         var playPauseTap = new TapGestureRecognizer();
         playPauseTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.TogglePlayPauseCommand));
         playPauseButton.GestureRecognizers.Add(playPauseTap);
 
         // Next button
-        var nextButton = CreateIconButton(IconConstants.SkipNext, 50);
+        var nextButton = CreateImageButton(IconSkipNext, 50);
         var nextTap = new TapGestureRecognizer();
         nextTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.NextCommand));
-        nextButton.GestureRecognizers.Clear();
         nextButton.GestureRecognizers.Add(nextTap);
         nextButton.Column(2);
 
@@ -262,60 +272,55 @@ class PlayerPage : ContentPage
         };
 
         // Repeat button
-        var repeatButton = new Label
+        var repeatButton = new Image
         {
-            FontFamily = IconConstants.FontFamily,
-            Text = IconConstants.Repeat,
-            FontSize = 24,
+            WidthRequest = 24,
+            HeightRequest = 24,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(0);
-        repeatButton.SetBinding(Label.TextColorProperty, new Binding(nameof(PlayerPageViewModel.IsRepeatOn), converter: new ActiveColorConverter()));
+        repeatButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsRepeatOn), converter: new RepeatImageConverter()));
         var repeatTap = new TapGestureRecognizer();
         repeatTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleRepeatCommand));
         repeatButton.GestureRecognizers.Add(repeatTap);
 
         // Shuffle button
-        var shuffleButton = new Label
+        var shuffleButton = new Image
         {
-            FontFamily = IconConstants.FontFamily,
-            Text = IconConstants.Shuffle,
-            FontSize = 24,
+            WidthRequest = 24,
+            HeightRequest = 24,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(1);
-        shuffleButton.SetBinding(Label.TextColorProperty, new Binding(nameof(PlayerPageViewModel.IsShuffleOn), converter: new ActiveColorConverter()));
+        shuffleButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsShuffleOn), converter: new ShuffleImageConverter()));
         var shuffleTap = new TapGestureRecognizer();
         shuffleTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleShuffleCommand));
         shuffleButton.GestureRecognizers.Add(shuffleTap);
 
         // Artist button
-        var artistButton = CreateIconButton(IconConstants.Artist, 24);
+        var artistButton = CreateImageButton(IconPerson, 24);
         var artistTap = new TapGestureRecognizer();
         artistTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.GoToArtistCommand));
-        artistButton.GestureRecognizers.Clear();
         artistButton.GestureRecognizers.Add(artistTap);
         artistButton.Column(2);
 
         // Favorite button
-        var favoriteButton = new Label
+        var favoriteButton = new Image
         {
-            FontFamily = IconConstants.FontFamily,
-            FontSize = 24,
+            WidthRequest = 24,
+            HeightRequest = 24,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(3);
-        favoriteButton.SetBinding(Label.TextProperty, new Binding(nameof(PlayerPageViewModel.IsFavorite), converter: new FavoriteIconConverter()));
-        favoriteButton.SetBinding(Label.TextColorProperty, new Binding(nameof(PlayerPageViewModel.IsFavorite), converter: new ActiveColorConverter()));
+        favoriteButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsFavorite), converter: new FavoriteImageConverter()));
         var favoriteTap = new TapGestureRecognizer();
         favoriteTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleFavoriteCommand));
         favoriteButton.GestureRecognizers.Add(favoriteTap);
 
         // Add to playlist button
-        var playlistButton = CreateIconButton(IconConstants.Playlist, 24);
+        var playlistButton = CreateImageButton(IconPlaylistAdd, 24);
         var playlistTap = new TapGestureRecognizer();
         playlistTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.AddToPlaylistCommand));
-        playlistButton.GestureRecognizers.Clear();
         playlistButton.GestureRecognizers.Add(playlistTap);
         playlistButton.Column(4);
 
@@ -328,26 +333,23 @@ class PlayerPage : ContentPage
         return secondaryContainer;
     }
 
-    private static Label CreateIconButton(string icon, int fontSize)
+    private static Image CreateImageButton(string source, int size)
     {
-        var button = new Label
+        return new Image
         {
-            FontFamily = IconConstants.FontFamily,
-            Text = icon,
-            FontSize = fontSize,
-            TextColor = ColorConstants.GetPrimaryTextColor(),
+            Source = source,
+            WidthRequest = size,
+            HeightRequest = size,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         };
-        button.GestureRecognizers.Add(new TapGestureRecognizer());
-        return button;
     }
 
-    private class PlayPauseIconConverter : IValueConverter
+    private class PlayPauseImageConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
-            return value is true ? IconConstants.Pause : IconConstants.Play;
+            return value is true ? IconPause : IconPlay;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
@@ -356,11 +358,11 @@ class PlayerPage : ContentPage
         }
     }
 
-    private class FavoriteIconConverter : IValueConverter
+    private class RepeatImageConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
-            return value is true ? IconConstants.Heart : IconConstants.HeartOutline;
+            return value is true ? IconRepeatOn : IconRepeat;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
@@ -369,11 +371,24 @@ class PlayerPage : ContentPage
         }
     }
 
-    private class ActiveColorConverter : IValueConverter
+    private class ShuffleImageConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
-            return value is true ? ColorConstants.GetPrimaryTextColor() : ColorConstants.GetLineColor();
+            return value is true ? IconShuffleOn : IconShuffle;
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    private class FavoriteImageConverter : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
+        {
+            return value is true ? IconFavorite : IconFavoriteBorder;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
