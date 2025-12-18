@@ -6,7 +6,6 @@ public partial class AppShell : Shell
 {
     internal AppShell()
     {
-        Routing.RegisterRoute(nameof(MainPage), typeof(MainPage));
         Routing.RegisterRoute(nameof(ArtistsPage), typeof(ArtistsPage));
         Routing.RegisterRoute(nameof(AlbumsPage), typeof(AlbumsPage));
         Routing.RegisterRoute(nameof(SongsPage), typeof(SongsPage));
