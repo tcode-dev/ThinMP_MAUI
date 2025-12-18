@@ -3,6 +3,7 @@ using Microsoft.Maui.Layouts;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.Views.Background;
+using ThinMPm.Views.Buttons;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Header;
@@ -61,13 +62,7 @@ public class ListHeader : ContentView
             },
             Children =
             {
-                new Button
-                {
-                    Text = "←",
-                    FontSize = 18,
-                    BackgroundColor = Colors.Transparent
-                }.Column(0),
-
+                new BackButton().Column(0),
                 new PrimaryTitle()
                     .Bind(Label.TextProperty, nameof(Title), source: this)
                     .Column(1),

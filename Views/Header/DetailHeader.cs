@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.Views.Background;
+using ThinMPm.Views.Buttons;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Header;
@@ -64,18 +65,9 @@ public class DetailHeader : ContentView
         AbsoluteLayout.SetLayoutBounds(contentGrid, new Rect(0, 0, 1, appBarHeight));
 
         // 戻るボタン（常に表示）
-        var buttonHeight = 50;
-        var backButton = new Button
-        {
-            Text = "←",
-            FontSize = 18,
-            BackgroundColor = Colors.Transparent,
-            WidthRequest = 50,
-            HeightRequest = buttonHeight
-        };
-        backButton.Clicked += async (s, e) => await Shell.Current.GoToAsync("..");
+        var backButton = new BackButton();
         AbsoluteLayout.SetLayoutFlags(backButton, AbsoluteLayoutFlags.None);
-        AbsoluteLayout.SetLayoutBounds(backButton, new Rect(0, appBarHeight - buttonHeight, 50, buttonHeight));
+        AbsoluteLayout.SetLayoutBounds(backButton, new Rect(0, appBarHeight - backButton.HeightRequest, backButton.WidthRequest, backButton.HeightRequest));
 
         layout.Children.Add(blurBackground);
         layout.Children.Add(contentGrid);
