@@ -5,6 +5,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Background;
+using ThinMPm.Views.Behaviors;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Text;
 
@@ -12,6 +13,10 @@ namespace ThinMPm.Views.Player;
 
 public class MiniPlayer : ContentView
 {
+    private const string IconPlay = "playarrow";
+    private const string IconPause = "pause";
+    private const string IconSkipNext = "skipnext";
+
     public MiniPlayer()
     {
         var services = Application.Current!.Handler!.MauiContext!.Services;
@@ -59,14 +64,14 @@ public class MiniPlayer : ContentView
         songTitle.GestureRecognizers.Add(CreateNavigationGesture());
         contentGrid.Children.Add(songTitle);
 
-        var playPauseButton = new Label
+        var playPauseButton = new Image
         {
-            FontFamily = IconConstants.FontFamily,
-            FontSize = 40,
-            TextColor = ColorConstants.GetPrimaryTextColor(),
+            WidthRequest = 40,
+            HeightRequest = 40,
             VerticalOptions = LayoutOptions.Center
         }.Column(2);
-        playPauseButton.SetBinding(Label.TextProperty, new Binding(nameof(PlayerViewModel.IsPlaying), converter: new PlayPauseIconConverter()));
+        playPauseButton.Behaviors.Add(new IconColorBehavior());
+        playPauseButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerViewModel.IsPlaying), converter: new PlayPauseImageConverter()));
 
         var playPauseTapGesture = new TapGestureRecognizer();
         playPauseTapGesture.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerViewModel.TogglePlayPauseCommand));
@@ -74,15 +79,15 @@ public class MiniPlayer : ContentView
 
         contentGrid.Children.Add(playPauseButton);
 
-        var skipNextButton = new Label
+        var skipNextButton = new Image
         {
-            FontFamily = IconConstants.FontFamily,
-            Text = IconConstants.SkipNext,
-            FontSize = 40,
-            TextColor = ColorConstants.GetPrimaryTextColor(),
+            Source = IconSkipNext,
+            WidthRequest = 40,
+            HeightRequest = 40,
             VerticalOptions = LayoutOptions.Center,
             Margin = new Thickness(LayoutConstants.SpacingMedium, 0, 0, 0)
         }.Column(3);
+        skipNextButton.Behaviors.Add(new IconColorBehavior());
 
         var skipNextTapGesture = new TapGestureRecognizer();
         skipNextTapGesture.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerViewModel.NextCommand));
@@ -103,11 +108,11 @@ public class MiniPlayer : ContentView
         return gesture;
     }
 
-    private class PlayPauseIconConverter : IValueConverter
+    private class PlayPauseImageConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
-            return value is true ? IconConstants.Pause : IconConstants.Play;
+            return value is true ? IconPause : IconPlay;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)

@@ -5,6 +5,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Background;
+using ThinMPm.Views.Behaviors;
 using ThinMPm.Views.Button;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Text;
@@ -221,7 +222,7 @@ class PlayerPage : ContentPage
         };
 
         // Previous button
-        var previousButton = CreateImageButton(IconSkipPrevious, 50);
+        var previousButton = CreateImageButton(IconSkipPrevious, 88);
         var prevTap = new TapGestureRecognizer();
         prevTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.PreviousCommand));
         previousButton.GestureRecognizers.Add(prevTap);
@@ -230,11 +231,12 @@ class PlayerPage : ContentPage
         // Play/Pause button
         var playPauseButton = new Image
         {
-            WidthRequest = 70,
-            HeightRequest = 70,
+            WidthRequest = 100,
+            HeightRequest = 100,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(1);
+        playPauseButton.Behaviors.Add(new IconColorBehavior());
         playPauseButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsPlaying), converter: new PlayPauseImageConverter()));
 
         var playPauseTap = new TapGestureRecognizer();
@@ -242,7 +244,7 @@ class PlayerPage : ContentPage
         playPauseButton.GestureRecognizers.Add(playPauseTap);
 
         // Next button
-        var nextButton = CreateImageButton(IconSkipNext, 50);
+        var nextButton = CreateImageButton(IconSkipNext, 88);
         var nextTap = new TapGestureRecognizer();
         nextTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.NextCommand));
         nextButton.GestureRecognizers.Add(nextTap);
@@ -274,11 +276,12 @@ class PlayerPage : ContentPage
         // Repeat button
         var repeatButton = new Image
         {
-            WidthRequest = 24,
-            HeightRequest = 24,
+            WidthRequest = 50,
+            HeightRequest = 50,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(0);
+        repeatButton.Behaviors.Add(new IconColorBehavior());
         repeatButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsRepeatOn), converter: new RepeatImageConverter()));
         var repeatTap = new TapGestureRecognizer();
         repeatTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleRepeatCommand));
@@ -287,18 +290,19 @@ class PlayerPage : ContentPage
         // Shuffle button
         var shuffleButton = new Image
         {
-            WidthRequest = 24,
-            HeightRequest = 24,
+            WidthRequest = 50,
+            HeightRequest = 50,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(1);
+        shuffleButton.Behaviors.Add(new IconColorBehavior());
         shuffleButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsShuffleOn), converter: new ShuffleImageConverter()));
         var shuffleTap = new TapGestureRecognizer();
         shuffleTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleShuffleCommand));
         shuffleButton.GestureRecognizers.Add(shuffleTap);
 
         // Artist button
-        var artistButton = CreateImageButton(IconPerson, 24);
+        var artistButton = CreateImageButton(IconPerson, 50);
         var artistTap = new TapGestureRecognizer();
         artistTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.GoToArtistCommand));
         artistButton.GestureRecognizers.Add(artistTap);
@@ -307,18 +311,19 @@ class PlayerPage : ContentPage
         // Favorite button
         var favoriteButton = new Image
         {
-            WidthRequest = 24,
-            HeightRequest = 24,
+            WidthRequest = 50,
+            HeightRequest = 50,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(3);
+        favoriteButton.Behaviors.Add(new IconColorBehavior());
         favoriteButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsFavorite), converter: new FavoriteImageConverter()));
         var favoriteTap = new TapGestureRecognizer();
         favoriteTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleFavoriteCommand));
         favoriteButton.GestureRecognizers.Add(favoriteTap);
 
         // Add to playlist button
-        var playlistButton = CreateImageButton(IconPlaylistAdd, 24);
+        var playlistButton = CreateImageButton(IconPlaylistAdd, 50);
         var playlistTap = new TapGestureRecognizer();
         playlistTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.AddToPlaylistCommand));
         playlistButton.GestureRecognizers.Add(playlistTap);
@@ -335,7 +340,7 @@ class PlayerPage : ContentPage
 
     private static Image CreateImageButton(string source, int size)
     {
-        return new Image
+        var image = new Image
         {
             Source = source,
             WidthRequest = size,
@@ -343,6 +348,8 @@ class PlayerPage : ContentPage
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         };
+        image.Behaviors.Add(new IconColorBehavior());
+        return image;
     }
 
     private class PlayPauseImageConverter : IValueConverter
