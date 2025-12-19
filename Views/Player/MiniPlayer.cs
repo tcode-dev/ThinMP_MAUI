@@ -28,7 +28,10 @@ public class MiniPlayer : ContentView
         HeightRequest = bottomBarHeight;
         this.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsActive));
 
-        var layout = new AbsoluteLayout();
+        var layout = new AbsoluteLayout
+        {
+            SafeAreaEdges = SafeAreaEdges.None,
+        };
 
         var blurBackground = new BlurBackgroundView();
         AbsoluteLayout.SetLayoutFlags(blurBackground, AbsoluteLayoutFlags.WidthProportional);

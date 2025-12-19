@@ -22,7 +22,7 @@ public class MainActivity : MauiAppCompatActivity
         // WindowCompat.SetDecorFitsSystemWindows(Window, false);
 
         // レイアウトを画面全体に拡張
-        // Window.SetFlags(WindowManagerFlags.LayoutNoLimits, WindowManagerFlags.LayoutNoLimits);
+        Window.SetFlags(WindowManagerFlags.LayoutNoLimits, WindowManagerFlags.LayoutNoLimits);
 
         // ステータスバーを透過
         Window.SetStatusBarColor(new Android.Graphics.Color(ContextCompat.GetColor(this, Android.Resource.Color.Transparent)));
