@@ -108,6 +108,16 @@ class PlayerPage : ContentPage
         }
     }
 
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        if (BindingContext is PlayerPageViewModel vm)
+        {
+            vm.Unload();
+        }
+    }
+
     private View CreateArtworkSection()
     {
         var artworkContainer = new Grid

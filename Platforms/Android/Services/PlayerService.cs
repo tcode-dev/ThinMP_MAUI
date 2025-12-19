@@ -82,4 +82,9 @@ public class PlayerService : IPlayerService
     {
         return MusicPlayer.GetIsPlaying();
     }
+
+    public void GetCurrentTime(Action<double> callback)
+    {
+        MusicPlayer.GetCurrentTime(ms => callback(ms / 1000.0));
+    }
 }

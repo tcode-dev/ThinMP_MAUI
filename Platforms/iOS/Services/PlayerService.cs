@@ -60,4 +60,9 @@ public class PlayerService : IPlayerService
     {
         return MusicPlayer.Shared.GetIsPlaying();
     }
+
+    public void GetCurrentTime(Action<double> callback)
+    {
+        callback(MusicPlayer.Shared.GetCurrentTime());
+    }
 }

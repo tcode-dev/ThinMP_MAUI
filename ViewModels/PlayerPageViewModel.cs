@@ -8,6 +8,7 @@ namespace ThinMPm.ViewModels;
 public partial class PlayerPageViewModel : ObservableObject
 {
     private readonly IPlayerService _playerService;
+    private IDispatcherTimer? _timer;
 
     [ObservableProperty]
     private ISongModel? currentSong;
@@ -54,6 +55,57 @@ public partial class PlayerPageViewModel : ObservableObject
             DurationText = FormatTime(song.Duration);
         }
         IsPlaying = _playerService.GetIsPlaying();
+        UpdateCurrentTime();
+        StartTimer();
+    }
+
+    public void Unload()
+    {
+        StopTimer();
+    }
+
+    private void StartTimer()
+    {
+        if (_timer != null) return;
+
+        _timer = Application.Current?.Dispatcher.CreateTimer();
+        if (_timer == null) return;
+
+        _timer.Interval = TimeSpan.FromSeconds(1);
+        _timer.Tick += OnTimerTick;
+        _timer.Start();
+    }
+
+    private void StopTimer()
+    {
+        if (_timer == null) return;
+
+        _timer.Stop();
+        _timer.Tick -= OnTimerTick;
+        _timer = null;
+    }
+
+    private void OnTimerTick(object? sender, EventArgs e)
+    {
+        if (IsPlaying)
+        {
+            UpdateCurrentTime();
+        }
+    }
+
+    private void UpdateCurrentTime()
+    {
+        _playerService.GetCurrentTime(time =>
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                if (Duration > 0)
+                {
+                    CurrentTime = time / Duration;
+                }
+                CurrentTimeText = FormatTime(time);
+            });
+        });
     }
 
     private void HandleNowPlayingItemChanged(ISongModel? song)
