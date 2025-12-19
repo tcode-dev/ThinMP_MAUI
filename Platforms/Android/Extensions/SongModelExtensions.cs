@@ -15,7 +15,7 @@ public static class SongModelExtensions
             native.AlbumName,
             native.ArtistId,
             native.ArtistName,
-            native.Duration,
+            native.Duration / 1000,
             native.ImageId
         );
     }
