@@ -4,9 +4,9 @@ using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
-using ThinMPm.Views.Background;
 using ThinMPm.Views.Behaviors;
 using ThinMPm.Views.Button;
+using ThinMPm.Views.FirstView;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Text;
 
@@ -35,37 +35,66 @@ class PlayerPage : ContentPage
         var statusBarHeight = platformUtil.GetStatusBarHeight();
         var safeAreaBottom = platformUtil.GetBottomSafeAreaHeight();
 
-        var layout = new AbsoluteLayout
-        {
-            BackgroundColor = ColorConstants.GetPrimaryBackgroundColor()
+        var layout = new AbsoluteLayout {
+            SafeAreaEdges = SafeAreaEdges.None,
         };
+        var backButton = new BackButton
+        {
+            HorizontalOptions = LayoutOptions.Start,
+            VerticalOptions = LayoutOptions.Center
+        };
+        AbsoluteLayout.SetLayoutFlags(backButton, AbsoluteLayoutFlags.None);
+        AbsoluteLayout.SetLayoutBounds(backButton, new Rect(0, statusBarHeight, 50, 50));
 
-        // Blurred background
-        var blurBackground = new BlurredImageView()
-            .Bind(BlurredImageView.ImageIdProperty, $"{nameof(PlayerPageViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}");
-        AbsoluteLayout.SetLayoutFlags(blurBackground, AbsoluteLayoutFlags.All);
-        AbsoluteLayout.SetLayoutBounds(blurBackground, new Rect(0, 0, 1, 0.5));
+        var background = CreateBackgroundSection();
+        AbsoluteLayout.SetLayoutFlags(background, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(background, new Rect(0, 0, 1, 0.5));
 
         // Main content
-        var contentLayout = new VerticalStackLayout
+        var contentLayout = new Grid
         {
-            Spacing = 0,
-            Children =
+            RowDefinitions =
             {
-                CreateHeader(statusBarHeight),
-                CreateArtworkSection(),
-                CreateSongInfoSection(),
-                CreateProgressSection(),
-                CreatePlaybackControls(),
-                CreateSecondaryControls(safeAreaBottom)
+                new RowDefinition(GridLength.Star),
+                new RowDefinition(GridLength.Auto),
+                new RowDefinition(GridLength.Star),
+                new RowDefinition(GridLength.Auto),
+                new RowDefinition(GridLength.Star),
+                new RowDefinition(GridLength.Auto),
+                new RowDefinition(GridLength.Star),
+                new RowDefinition(GridLength.Auto),
+                new RowDefinition(GridLength.Star),
+                new RowDefinition(GridLength.Auto),
+                new RowDefinition(GridLength.Star)
             }
         };
+
+        var artworkSection = CreateArtworkSection();
+        Grid.SetRow(artworkSection, 1);
+
+        var songInfoSection = CreateSongInfoSection();
+        Grid.SetRow(songInfoSection, 3);
+
+        var progressSection = CreateProgressSection();
+        Grid.SetRow(progressSection, 5);
+
+        var playbackControls = CreatePlaybackControls();
+        Grid.SetRow(playbackControls, 7);
+
+        var secondaryControls = CreateSecondaryControls(safeAreaBottom);
+        Grid.SetRow(secondaryControls, 9);
+
+        contentLayout.Children.Add(artworkSection);
+        contentLayout.Children.Add(songInfoSection);
+        contentLayout.Children.Add(progressSection);
+        contentLayout.Children.Add(playbackControls);
+        contentLayout.Children.Add(secondaryControls);
         AbsoluteLayout.SetLayoutFlags(contentLayout, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(contentLayout, new Rect(0, 0, 1, 1));
 
-        layout.Children.Add(blurBackground);
+        layout.Children.Add(background);
         layout.Children.Add(contentLayout);
-
+        layout.Children.Add(backButton);
         Content = layout;
     }
 
@@ -79,27 +108,6 @@ class PlayerPage : ContentPage
         }
     }
 
-    private View CreateHeader(double statusBarHeight)
-    {
-        var header = new Grid
-        {
-            Padding = new Thickness(LayoutConstants.SpacingMedium, statusBarHeight, LayoutConstants.SpacingMedium, 0),
-            HeightRequest = statusBarHeight + LayoutConstants.HeightMedium,
-            ColumnDefinitions =
-            {
-                new ColumnDefinition(GridLength.Auto),
-                new ColumnDefinition(GridLength.Star),
-                new ColumnDefinition(GridLength.Auto)
-            }
-        };
-
-        var backButton = new BackButton().Column(0);
-
-        header.Children.Add(backButton);
-
-        return header;
-    }
-
     private View CreateArtworkSection()
     {
         var artworkContainer = new Grid
@@ -108,12 +116,7 @@ class PlayerPage : ContentPage
             HorizontalOptions = LayoutOptions.Center
         };
 
-        var artwork = new ArtworkImage(15)
-        {
-            Aspect = Aspect.AspectFit,
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center
-        }
+        var artwork = new ArtworkImage(4)
         .Bind(ArtworkImage.ImageIdProperty, $"{nameof(PlayerPageViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}");
 
         // Set size based on screen width
@@ -121,7 +124,7 @@ class PlayerPage : ContentPage
         {
             if (Application.Current?.Windows.FirstOrDefault()?.Width is double windowWidth && windowWidth > 0)
             {
-                var size = windowWidth - (LayoutConstants.SpacingLarge * 4);
+                var size = windowWidth * 0.7;
                 artwork.WidthRequest = size;
                 artwork.HeightRequest = size;
             }
@@ -130,6 +133,25 @@ class PlayerPage : ContentPage
         artworkContainer.Children.Add(artwork);
 
         return artworkContainer;
+    }
+
+    private View CreateBackgroundSection()
+    {
+        var layout = new AbsoluteLayout {
+            SafeAreaEdges = SafeAreaEdges.None,
+        };
+        var blurBackground = new BlurredImageView().Bind(BlurredImageView.ImageIdProperty, $"{nameof(PlayerPageViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}");
+        AbsoluteLayout.SetLayoutFlags(blurBackground, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(blurBackground, new Rect(0, 0, 1, 1));
+
+        var gradientOverlay = new GradientOverlay();
+        AbsoluteLayout.SetLayoutFlags(gradientOverlay, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(gradientOverlay, new Rect(0, 0, 1, 1));
+
+        layout.Children.Add(blurBackground);
+        layout.Children.Add(gradientOverlay);
+
+        return layout;
     }
 
     private View CreateSongInfoSection()
