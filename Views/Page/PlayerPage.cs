@@ -207,9 +207,9 @@ class PlayerPage : ContentPage
         {
             Minimum = 0,
             Maximum = 1,
-            MinimumTrackColor = ColorConstants.GetPrimaryTextColor(),
-            MaximumTrackColor = ColorConstants.GetLineColor(),
-            ThumbColor = ColorConstants.GetPrimaryTextColor()
+            MinimumTrackColor = ColorConstants.PrimaryTextColor,
+            MaximumTrackColor = ColorConstants.LineColor,
+            ThumbColor = ColorConstants.PrimaryTextColor
         }.Bind(Slider.ValueProperty, nameof(PlayerPageViewModel.CurrentTime));
 
         var timeContainer = new Grid

@@ -37,7 +37,7 @@ public class IconColorBehavior : Behavior<Image>
 
     private static void ApplyTintColor(Image image)
     {
-        var tintColor = ColorConstants.GetIconColor();
+        var tintColor = ColorConstants.IconColor;
 
 #if ANDROID
         if (image.Handler?.PlatformView is Android.Widget.ImageView imageView)

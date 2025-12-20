@@ -6,6 +6,6 @@ public class SecondaryText : Label
 {
     public SecondaryText()
     {
-        TextColor = ColorConstants.GetSecondaryTextColor();
+        TextColor = ColorConstants.SecondaryTextColor;
     }
 }

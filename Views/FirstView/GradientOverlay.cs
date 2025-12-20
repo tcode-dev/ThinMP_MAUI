@@ -6,7 +6,7 @@ public class GradientOverlay : BoxView
 {
     public GradientOverlay()
     {
-        var gradientColor = ColorConstants.GetGradientColor();
+        var gradientColor = ColorConstants.GradientColor;
         Background = new LinearGradientBrush
         {
             StartPoint = new Point(0, 0),

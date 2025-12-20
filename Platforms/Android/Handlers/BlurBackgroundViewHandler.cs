@@ -18,7 +18,7 @@ public class BlurBackgroundViewHandler : ViewHandler<BlurBackgroundView, Android
     protected override AndroidView CreatePlatformView()
     {
         var view = new AndroidView(Context);
-        var backgroundColor = ColorConstants.GetSecondaryBackgroundColor();
+        var backgroundColor = ColorConstants.SecondaryBackgroundColor;
         view.SetBackgroundColor(backgroundColor.ToPlatform());
         return view;
     }

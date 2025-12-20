@@ -6,6 +6,6 @@ public class PrimaryText : Label
 {
     public PrimaryText()
     {
-        TextColor = ColorConstants.GetPrimaryTextColor();
+        TextColor = ColorConstants.PrimaryTextColor;
     }
 }
