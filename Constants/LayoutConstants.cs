@@ -2,7 +2,7 @@ namespace ThinMPm.Constants;
 
 public static class LayoutConstants
 {
-    public static float BlurRadius => DeviceInfo.Platform == DevicePlatform.Android ? 50f : 25f;
+    public static float BlurRadius => DeviceInfo.Platform == DevicePlatform.Android ? 75f : 25f;
 
     public const double HeightSmall = 25;
     public const double HeightMedium = 50;

@@ -26,6 +26,7 @@ public class MiniPlayer : ContentView
 
         BindingContext = playerViewModel;
         HeightRequest = bottomBarHeight;
+        InputTransparent = false;
         this.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsActive));
 
         var layout = new AbsoluteLayout
