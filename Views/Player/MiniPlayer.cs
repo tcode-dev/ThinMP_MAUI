@@ -32,6 +32,8 @@ public class MiniPlayer : ContentView
         var layout = new AbsoluteLayout
         {
             SafeAreaEdges = SafeAreaEdges.None,
+            InputTransparent = false,
+            CascadeInputTransparent = false,
         };
 
         var blurBackground = new BlurBackgroundView();
@@ -47,8 +49,11 @@ public class MiniPlayer : ContentView
                 new ColumnDefinition(GridLength.Star),
                 new ColumnDefinition(GridLength.Auto),
                 new ColumnDefinition(GridLength.Auto)
-            }
+            },
+            InputTransparent = false,
+            CascadeInputTransparent = false,
         };
+        contentGrid.GestureRecognizers.Add(new TapGestureRecognizer());
         AbsoluteLayout.SetLayoutFlags(contentGrid, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(contentGrid, new Rect(0, 0, 1, bottomBarHeight));
 
