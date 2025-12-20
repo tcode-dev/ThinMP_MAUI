@@ -3,6 +3,7 @@ using Microsoft.Maui.Layouts;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
+using ThinMPm.Extensions;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Behaviors;
 using ThinMPm.Views.Button;
@@ -150,7 +151,9 @@ class PlayerPage : ContentPage
         var layout = new AbsoluteLayout {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        var blurBackground = new BlurredImageView().Bind(BlurredImageView.ImageIdProperty, $"{nameof(PlayerPageViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}");
+        var blurBackground = new BlurredImageView()
+            .BlurRadius(LayoutConstants.BlurRadius)
+            .Bind(BlurredImageView.ImageIdProperty, $"{nameof(PlayerPageViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}");
         AbsoluteLayout.SetLayoutFlags(blurBackground, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(blurBackground, new Rect(0, 0, 1, 1));
 
