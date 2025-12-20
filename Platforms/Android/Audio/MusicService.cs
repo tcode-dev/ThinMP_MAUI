@@ -1,5 +1,6 @@
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.OS;
 using Android.Graphics;
 using AndroidX.Media3.Common;
@@ -13,7 +14,7 @@ using ThinMPm.Platforms.Android.Constants;
 
 namespace ThinMPm.Platforms.Android.Audio;
 
-[Service]
+[Service(ForegroundServiceType = ForegroundService.TypeMediaPlayback)]
 public class MusicService : Service
 {
   private const int PREV_MS = 3000;
@@ -131,7 +132,10 @@ public class MusicService : Service
 
   public void GetCurrentTime(Action<long> callback)
   {
-    callback(_player.CurrentPosition);
+    MainThread.BeginInvokeOnMainThread(() =>
+    {
+      callback(_player?.CurrentPosition ?? 0);
+    });
   }
 
   public bool GetIsPlaying()
@@ -145,8 +149,10 @@ public class MusicService : Service
     Play();
 
     var notification = CreateNotification();
+    if (notification == null) return;
+
     LocalNotificationHelper.CreateNotificationChannel(ApplicationContext);
-    StartForeground(NotificationConstant.NOTIFICATION_ID, notification);
+    StartForeground(NotificationConstant.NOTIFICATION_ID, notification, ForegroundService.TypeMediaPlayback);
 
     _initialized = true;
   }
