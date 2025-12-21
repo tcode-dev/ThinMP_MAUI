@@ -8,6 +8,7 @@ namespace ThinMPm.ViewModels;
 public partial class PlayerPageViewModel : ObservableObject
 {
     private readonly IPlayerService _playerService;
+    private readonly IFavoriteSongService _favoriteSongService;
     private IDispatcherTimer? _timer;
 
     [ObservableProperty]
@@ -37,15 +38,16 @@ public partial class PlayerPageViewModel : ObservableObject
     [ObservableProperty]
     private bool isFavorite;
 
-    public PlayerPageViewModel(IPlayerService playerService)
+    public PlayerPageViewModel(IPlayerService playerService, IFavoriteSongService favoriteSongService)
     {
         _playerService = playerService;
+        _favoriteSongService = favoriteSongService;
 
         _playerService.NowPlayingItemChanged += HandleNowPlayingItemChanged;
         _playerService.IsPlayingChanged += HandleIsPlayingChanged;
     }
 
-    public void Load()
+    public async void Load()
     {
         var song = _playerService.GetCurrentSong();
         if (song != null)
@@ -53,6 +55,7 @@ public partial class PlayerPageViewModel : ObservableObject
             CurrentSong = song;
             Duration = song.Duration;
             DurationText = FormatTime(song.Duration);
+            IsFavorite = await _favoriteSongService.ExistsAsync(song.Id);
         }
         IsPlaying = _playerService.GetIsPlaying();
         UpdateCurrentTime();
@@ -108,13 +111,14 @@ public partial class PlayerPageViewModel : ObservableObject
         });
     }
 
-    private void HandleNowPlayingItemChanged(ISongModel? song)
+    private async void HandleNowPlayingItemChanged(ISongModel? song)
     {
         CurrentSong = song;
         if (song != null)
         {
             Duration = song.Duration;
             DurationText = FormatTime(song.Duration);
+            IsFavorite = await _favoriteSongService.ExistsAsync(song.Id);
         }
     }
 
@@ -167,8 +171,11 @@ public partial class PlayerPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ToggleFavorite()
+    private async Task ToggleFavorite()
     {
+        if (CurrentSong == null) return;
+
+        await _favoriteSongService.ToggleAsync(CurrentSong.Id);
         IsFavorite = !IsFavorite;
     }
 

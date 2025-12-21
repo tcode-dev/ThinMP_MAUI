@@ -5,6 +5,7 @@ using ThinMPm.Views.Page;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Background;
+using ThinMPm.Services;
 
 #if ANDROID
 using ThinMPm.Platforms.Android.Repositories.Contracts;
@@ -56,6 +57,8 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<IPlatformUtil, PlatformUtili>();
 #endif
+
+        builder.Services.AddSingleton<IFavoriteSongService, FavoriteSongService>();
 
         builder.Services.AddSingleton<PlayerViewModel>();
 
