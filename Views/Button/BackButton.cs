@@ -1,3 +1,4 @@
+using ThinMPm.Constants;
 using ThinMPm.Views.Behaviors;
 
 namespace ThinMPm.Views.Button;
@@ -8,8 +9,8 @@ public class BackButton : Grid
 
     public BackButton()
     {
-        WidthRequest = 50;
-        HeightRequest = 50;
+        WidthRequest = LayoutConstants.ButtonSize;
+        HeightRequest = LayoutConstants.ButtonSize;
 
         var icon = new Image
         {

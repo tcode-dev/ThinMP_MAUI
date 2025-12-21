@@ -311,8 +311,8 @@ class PlayerPage : ContentPage
         // Repeat button
         var repeatButton = new Image
         {
-            WidthRequest = 50,
-            HeightRequest = 50,
+            WidthRequest = LayoutConstants.ButtonSize,
+            HeightRequest = LayoutConstants.ButtonSize,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(0);
@@ -325,8 +325,8 @@ class PlayerPage : ContentPage
         // Shuffle button
         var shuffleButton = new Image
         {
-            WidthRequest = 50,
-            HeightRequest = 50,
+            WidthRequest = LayoutConstants.ButtonSize,
+            HeightRequest = LayoutConstants.ButtonSize,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(1);
@@ -346,8 +346,8 @@ class PlayerPage : ContentPage
         // Favorite button
         var favoriteButton = new Image
         {
-            WidthRequest = 50,
-            HeightRequest = 50,
+            WidthRequest = LayoutConstants.ButtonSize,
+            HeightRequest = LayoutConstants.ButtonSize,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(3);
