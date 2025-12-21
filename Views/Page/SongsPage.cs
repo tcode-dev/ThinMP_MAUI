@@ -14,15 +14,17 @@ namespace ThinMPm.Views.Page;
 class SongsPage : ContentPage
 {
     private readonly IPlayerService _playerService;
+    private readonly IFavoriteSongService _favoriteSongService;
     private readonly SongsHeader header;
     private bool isBlurBackground = false;
 
-    public SongsPage(SongViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
+    public SongsPage(SongViewModel vm, IPlayerService playerService, IFavoriteSongService favoriteSongService, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
         _playerService = playerService;
+        _favoriteSongService = favoriteSongService;
 
         var layout = new AbsoluteLayout {
             SafeAreaEdges = SafeAreaEdges.None,
@@ -39,7 +41,7 @@ class SongsPage : ContentPage
             {
                 Children = {
                     new EmptyHeader(),
-                    new SongList(OnSongTapped).Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs)),
+                    new SongList(OnSongTapped, _favoriteSongService).Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs)),
                     new EmptyListItem(),
                 }
             }

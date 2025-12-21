@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Markup;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
+using ThinMPm.Contracts.Services;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Separator;
 using ThinMPm.Views.Text;
@@ -9,11 +10,37 @@ namespace ThinMPm.Views.ListItem;
 
 public class SongListItem : Grid
 {
-    public SongListItem(EventHandler<TappedEventArgs> tappedHandler)
+    private readonly IFavoriteSongService _favoriteSongService;
+    private readonly EventHandler<TappedEventArgs> _tappedHandler;
+    private bool _isLongPressTriggered;
+
+    public SongListItem(EventHandler<TappedEventArgs> tappedHandler, IFavoriteSongService favoriteSongService)
     {
+        _favoriteSongService = favoriteSongService;
+        _tappedHandler = tappedHandler;
+
         var tapGesture = new TapGestureRecognizer();
-        tapGesture.Tapped += tappedHandler;
+        tapGesture.Tapped += OnTapped;
         GestureRecognizers.Add(tapGesture);
+
+        var longPressTimer = new System.Timers.Timer(500) { AutoReset = false };
+
+        longPressTimer.Elapsed += async (s, e) =>
+        {
+            _isLongPressTriggered = true;
+            await MainThread.InvokeOnMainThreadAsync(ShowContextMenuAsync);
+        };
+
+        var pointerGesture = new PointerGestureRecognizer();
+        pointerGesture.PointerPressed += (s, e) =>
+        {
+            _isLongPressTriggered = false;
+            longPressTimer.Start();
+        };
+        pointerGesture.PointerReleased += (s, e) => longPressTimer.Stop();
+        pointerGesture.PointerExited += (s, e) => longPressTimer.Stop();
+
+        GestureRecognizers.Add(pointerGesture);
 
         Padding = new Thickness(LayoutConstants.SpacingLarge, 0, 0, 0);
 
@@ -57,5 +84,45 @@ public class SongListItem : Grid
                 .Row(2)
                 .ColumnSpan(2)
         );
+    }
+
+    private void OnTapped(object? sender, TappedEventArgs e)
+    {
+        if (_isLongPressTriggered)
+        {
+            _isLongPressTriggered = false;
+            return;
+        }
+        _tappedHandler?.Invoke(sender, e);
+    }
+
+    private async Task ShowContextMenuAsync()
+    {
+        if (BindingContext is not ISongModel song) return;
+
+        var page = GetParentPage();
+        if (page == null) return;
+
+        var isFavorite = await _favoriteSongService.ExistsAsync(song.Id);
+        var favoriteText = isFavorite ? "お気に入りから削除" : "お気に入りに追加";
+
+        var result = await page.DisplayActionSheetAsync(song.Name, "キャンセル", null, favoriteText);
+
+        if (result == favoriteText)
+        {
+            await _favoriteSongService.ToggleAsync(song.Id);
+        }
+    }
+
+    private Microsoft.Maui.Controls.Page? GetParentPage()
+    {
+        Element? element = this;
+        while (element != null)
+        {
+            if (element is Microsoft.Maui.Controls.Page page)
+                return page;
+            element = element.Parent;
+        }
+        return null;
     }
 }

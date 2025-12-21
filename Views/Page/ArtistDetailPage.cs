@@ -13,12 +13,14 @@ namespace ThinMPm.Views.Page;
 class ArtistDetailPage : DetailPageBase
 {
     private readonly IPlayerService _playerService;
+    private readonly IFavoriteSongService _favoriteSongService;
 
-    public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPlatformUtil platformUtil)
+    public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IFavoriteSongService favoriteSongService, IPlatformUtil platformUtil)
         : base(platformUtil, "Artist.Name")
     {
         BindingContext = vm;
         _playerService = playerService;
+        _favoriteSongService = favoriteSongService;
 
         var layout = new AbsoluteLayout {
             SafeAreaEdges = SafeAreaEdges.None,
@@ -37,7 +39,7 @@ class ArtistDetailPage : DetailPageBase
                     new SectionTitle("Albums"),
                     new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
                     new SectionTitle("Songs"),
-                    new SongList(OnSongTapped)
+                    new SongList(OnSongTapped, _favoriteSongService)
                     .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
                 }
             }
