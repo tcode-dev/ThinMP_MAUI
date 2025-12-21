@@ -9,6 +9,7 @@ public interface IPlayerService
 
     void StartAllSongs(int index);
     void StartAlbumSongs(string albumId, int index);
+    void StartFavoriteSongs(IList<string> songIds, int index);
     void Play();
     void Pause();
     void Next();

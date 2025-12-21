@@ -32,6 +32,13 @@ public class PlayerService : IPlayerService
         Start(songs, index);
     }
 
+    public void StartFavoriteSongs(IList<string> songIds, int index)
+    {
+        var songs = _songRepository.FindByIds(songIds);
+
+        Start(songs, index);
+    }
+
     private void Start(IList<ThinMPm.Platforms.Android.Models.Contracts.ISongModel> songs, int index)
     {
         MusicPlayer.Start(

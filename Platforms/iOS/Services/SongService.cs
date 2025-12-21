@@ -31,11 +31,12 @@ public class SongService(ISongRepository songRepository, IAlbumRepository albumR
 
     public ISongModel? FindById(string songId)
     {
-        return null;
+        return _songRepository.FindById(new Id(songId))?.ToHostModel();
     }
 
     public IList<ISongModel> FindByIds(IList<string> songIds)
     {
-        return Array.Empty<ISongModel>();
+        var ids = songIds.Select(id => new Id(id)).ToList();
+        return _songRepository.FindByIds(ids).Select(song => song.ToHostModel()).ToList();
     }
 }

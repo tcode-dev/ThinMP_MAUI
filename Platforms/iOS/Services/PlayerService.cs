@@ -36,6 +36,14 @@ public class PlayerService : IPlayerService
         MusicPlayer.Shared.Start(songs, index, 0, 0);
     }
 
+    public void StartFavoriteSongs(IList<string> songIds, int index)
+    {
+        var ids = songIds.Select(id => new Id(id)).ToList();
+        var songs = _songRepository.FindByIds(ids).ToArray();
+
+        MusicPlayer.Shared.Start(songs, index, 0, 0);
+    }
+
     public void Play()
     {
         MusicPlayer.Shared.Play();
