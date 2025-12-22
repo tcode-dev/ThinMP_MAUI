@@ -17,6 +17,7 @@ public class MainViewModel(IAlbumService albumService)
         MenuItems.Add(new MenuModel("Artists", nameof(Views.Page.ArtistsPage)));
         MenuItems.Add(new MenuModel("Albums", nameof(Views.Page.AlbumsPage)));
         MenuItems.Add(new MenuModel("Songs", nameof(Views.Page.SongsPage)));
+        MenuItems.Add(new MenuModel("Favorite Artists", nameof(Views.Page.FavoriteArtistsPage)));
         MenuItems.Add(new MenuModel("Favorite Songs", nameof(Views.Page.FavoriteSongsPage)));
 
         var albums = _albumService.FindByRecent(20);
