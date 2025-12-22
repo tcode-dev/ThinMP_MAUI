@@ -24,6 +24,7 @@ class PlayerPage : ContentPage
     private const string IconShuffle = "shuffle";
     private const string IconShuffleOn = "shuffleon";
     private const string IconPerson = "person";
+    private const string IconPersonOn = "personon";
     private const string IconFavorite = "favorite";
     private const string IconFavoriteBorder = "favoriteborder";
     private const string IconPlaylistAdd = "playlistadd";
@@ -336,26 +337,33 @@ class PlayerPage : ContentPage
         shuffleTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleShuffleCommand));
         shuffleButton.GestureRecognizers.Add(shuffleTap);
 
-        // Artist button
-        var artistButton = CreateImageButton(IconPerson, 50);
-        var artistTap = new TapGestureRecognizer();
-        artistTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.GoToArtistCommand));
-        artistButton.GestureRecognizers.Add(artistTap);
-        artistButton.Column(2);
+        // Favorite artist button
+        var favoriteArtistButton = new Image
+        {
+            WidthRequest = LayoutConstants.ButtonSize,
+            HeightRequest = LayoutConstants.ButtonSize,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Center
+        }.Column(2);
+        favoriteArtistButton.Behaviors.Add(new IconColorBehavior());
+        favoriteArtistButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsFavoriteArtist), converter: new FavoriteArtistImageConverter()));
+        var favoriteArtistTap = new TapGestureRecognizer();
+        favoriteArtistTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleFavoriteArtistCommand));
+        favoriteArtistButton.GestureRecognizers.Add(favoriteArtistTap);
 
-        // Favorite button
-        var favoriteButton = new Image
+        // Favorite song button
+        var favoriteSongButton = new Image
         {
             WidthRequest = LayoutConstants.ButtonSize,
             HeightRequest = LayoutConstants.ButtonSize,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(3);
-        favoriteButton.Behaviors.Add(new IconColorBehavior());
-        favoriteButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsFavorite), converter: new FavoriteImageConverter()));
-        var favoriteTap = new TapGestureRecognizer();
-        favoriteTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleFavoriteCommand));
-        favoriteButton.GestureRecognizers.Add(favoriteTap);
+        favoriteSongButton.Behaviors.Add(new IconColorBehavior());
+        favoriteSongButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsFavorite), converter: new FavoriteImageConverter()));
+        var favoriteSongTap = new TapGestureRecognizer();
+        favoriteSongTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleFavoriteCommand));
+        favoriteSongButton.GestureRecognizers.Add(favoriteSongTap);
 
         // Add to playlist button
         var playlistButton = CreateImageButton(IconPlaylistAdd, 50);
@@ -366,8 +374,8 @@ class PlayerPage : ContentPage
 
         secondaryContainer.Children.Add(repeatButton);
         secondaryContainer.Children.Add(shuffleButton);
-        secondaryContainer.Children.Add(artistButton);
-        secondaryContainer.Children.Add(favoriteButton);
+        secondaryContainer.Children.Add(favoriteArtistButton);
+        secondaryContainer.Children.Add(favoriteSongButton);
         secondaryContainer.Children.Add(playlistButton);
 
         return secondaryContainer;
@@ -431,6 +439,19 @@ class PlayerPage : ContentPage
         public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
             return value is true ? IconFavorite : IconFavoriteBorder;
+        }
+
+        public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    private class FavoriteArtistImageConverter : IValueConverter
+    {
+        public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
+        {
+            return value is true ? IconPersonOn : IconPerson;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)

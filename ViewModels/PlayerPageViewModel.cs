@@ -9,6 +9,7 @@ public partial class PlayerPageViewModel : ObservableObject
 {
     private readonly IPlayerService _playerService;
     private readonly IFavoriteSongService _favoriteSongService;
+    private readonly IFavoriteArtistService _favoriteArtistService;
     private IDispatcherTimer? _timer;
 
     [ObservableProperty]
@@ -38,10 +39,14 @@ public partial class PlayerPageViewModel : ObservableObject
     [ObservableProperty]
     private bool isFavorite;
 
-    public PlayerPageViewModel(IPlayerService playerService, IFavoriteSongService favoriteSongService)
+    [ObservableProperty]
+    private bool isFavoriteArtist;
+
+    public PlayerPageViewModel(IPlayerService playerService, IFavoriteSongService favoriteSongService, IFavoriteArtistService favoriteArtistService)
     {
         _playerService = playerService;
         _favoriteSongService = favoriteSongService;
+        _favoriteArtistService = favoriteArtistService;
 
         _playerService.NowPlayingItemChanged += HandleNowPlayingItemChanged;
         _playerService.IsPlayingChanged += HandleIsPlayingChanged;
@@ -56,6 +61,7 @@ public partial class PlayerPageViewModel : ObservableObject
             Duration = song.Duration;
             DurationText = FormatTime(song.Duration);
             IsFavorite = await _favoriteSongService.ExistsAsync(song.Id);
+            IsFavoriteArtist = await _favoriteArtistService.ExistsAsync(song.ArtistId);
         }
         IsPlaying = _playerService.GetIsPlaying();
         UpdateCurrentTime();
@@ -119,6 +125,7 @@ public partial class PlayerPageViewModel : ObservableObject
             Duration = song.Duration;
             DurationText = FormatTime(song.Duration);
             IsFavorite = await _favoriteSongService.ExistsAsync(song.Id);
+            IsFavoriteArtist = await _favoriteArtistService.ExistsAsync(song.ArtistId);
         }
     }
 
@@ -180,9 +187,12 @@ public partial class PlayerPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void GoToArtist()
+    private async Task ToggleFavoriteArtist()
     {
-        // TODO: Navigate to artist detail
+        if (CurrentSong == null) return;
+
+        await _favoriteArtistService.ToggleAsync(CurrentSong.ArtistId);
+        IsFavoriteArtist = !IsFavoriteArtist;
     }
 
     [RelayCommand]
