@@ -22,6 +22,7 @@ public class ArtistService(IArtistRepository artistRepository) : IArtistService
 
     public IList<IArtistModel> FindByIds(IList<string> ids)
     {
-        return Array.Empty<IArtistModel>();
+        var idList = ids.Select(id => new Id(id)).ToList();
+        return [.. _artistRepository.FindByIds(idList).Select(artist => artist.ToHostModel())];
     }
 }

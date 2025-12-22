@@ -40,6 +40,21 @@ public class ArtistRepository : IArtistRepository
 
   public IList<IArtistModel> FindByIds(IList<Id> ids)
   {
-    return Array.Empty<IArtistModel>();
+    var query = MPMediaQuery.ArtistsQuery;
+    var collections = query.Collections ?? [];
+
+    var idSet = ids.Select(id => id.Value).ToHashSet();
+    var filtered = collections
+        .Where(c => c.RepresentativeItem != null && idSet.Contains(c.RepresentativeItem.ArtistPersistentID))
+        .ToList();
+
+    // 保持する順序をidsに合わせる
+    var result = ids
+        .Where(id => filtered.Any(f => f.RepresentativeItem?.ArtistPersistentID == id.Value))
+        .Select(id => filtered.First(f => f.RepresentativeItem?.ArtistPersistentID == id.Value))
+        .Select(c => new ArtistModel(c) as IArtistModel)
+        .ToList();
+
+    return result;
   }
 }
