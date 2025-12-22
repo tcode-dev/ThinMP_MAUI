@@ -1,9 +1,11 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Models;
+using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
+using ThinMPm.Views.List;
 using ThinMPm.Views.ListItem;
 using ThinMPm.Views.Player;
 
@@ -11,14 +13,16 @@ namespace ThinMPm.Views.Page;
 
 class ArtistsPage : ContentPage
 {
+    private readonly IFavoriteArtistService _favoriteArtistService;
     private readonly ArtistsHeader header;
     private bool isBlurBackground = false;
 
-    public ArtistsPage(ArtistViewModel vm, IPlatformUtil platformUtil)
+    public ArtistsPage(ArtistViewModel vm, IFavoriteArtistService favoriteArtistService, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
+        _favoriteArtistService = favoriteArtistService;
 
         var layout = new AbsoluteLayout
         {
@@ -35,11 +39,7 @@ class ArtistsPage : ContentPage
             {
                 Children = {
                     new EmptyHeader(),
-                    new CollectionView
-                    {
-                        ItemTemplate = new DataTemplate(() => new ArtistListItem(OnTapped))
-                    }
-                    .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Artists)),
+                    new ArtistList(OnTapped, _favoriteArtistService).Bind(ItemsView.ItemsSourceProperty, nameof(vm.Artists)),
                     new EmptyListItem(),
                 }
             }
@@ -71,7 +71,7 @@ class ArtistsPage : ContentPage
         }
     }
 
-    private async void OnTapped(object? sender, EventArgs e)
+    private async void OnTapped(object? sender, TappedEventArgs e)
     {
         if (sender is BindableObject bindable)
         {
