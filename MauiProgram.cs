@@ -59,6 +59,7 @@ public static class MauiProgram
 #endif
 
         builder.Services.AddSingleton<IFavoriteSongService, FavoriteSongService>();
+        builder.Services.AddSingleton<IFavoriteArtistService, FavoriteArtistService>();
 
         builder.Services.AddSingleton<PlayerViewModel>();
 

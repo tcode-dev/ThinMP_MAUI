@@ -33,6 +33,7 @@ public class DatabaseService
             if (_isInitialized) return;
 
             await Database.CreateTableAsync<FavoriteSongEntity>();
+            await Database.CreateTableAsync<FavoriteArtistEntity>();
             _isInitialized = true;
         }
         finally
