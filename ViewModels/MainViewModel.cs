@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Models;
@@ -20,7 +21,7 @@ public class MainViewModel(IAlbumService albumService)
         MenuItems.Add(new MenuModel("Favorite Artists", nameof(Views.Page.FavoriteArtistsPage)));
         MenuItems.Add(new MenuModel("Favorite Songs", nameof(Views.Page.FavoriteSongsPage)));
 
-        var albums = _albumService.FindByRecent(20);
+        var albums = _albumService.FindByRecent(AppConstants.RecentAlbumsLimit);
 
         Albums.Clear();
 
