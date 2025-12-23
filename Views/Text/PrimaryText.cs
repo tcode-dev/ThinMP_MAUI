@@ -2,7 +2,7 @@ using ThinMPm.Constants;
 
 namespace ThinMPm.Views.Text;
 
-public class PrimaryText : Label
+public class PrimaryText : BaseText
 {
     public PrimaryText()
     {
