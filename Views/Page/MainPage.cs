@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Markup;
+using Microsoft.Maui.Layouts;
 using ThinMPm.Views.Header;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Text;
@@ -14,6 +15,11 @@ class MainPage : ContentPage
 
         BindingContext = vm;
 
+        var layout = new AbsoluteLayout
+        {
+            SafeAreaEdges = SafeAreaEdges.None,
+        };
+
         var scrollView = new ScrollView
         {
             SafeAreaEdges = SafeAreaEdges.None,
@@ -28,7 +34,12 @@ class MainPage : ContentPage
             }
         };
 
-        Content = scrollView;
+        AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
+
+        layout.Children.Add(scrollView);
+
+        Content = layout;
     }
 
     protected override void OnAppearing()
