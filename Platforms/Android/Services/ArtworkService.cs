@@ -12,7 +12,7 @@ public class ArtworkService : IArtworkService
         try
         {
             var context = Platform.AppContext;
-            var albumArtUri = Uri.Parse($"{MediaConstant.ALBUM_ART}/{id}");
+            var albumArtUri = Uri.Parse($"{MediaConstants.ALBUM_ART}/{id}");
             var source = ImageDecoder.CreateSource(context.ContentResolver, albumArtUri);
 
             return await Task.Run(() =>

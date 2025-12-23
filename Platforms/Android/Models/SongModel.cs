@@ -27,7 +27,7 @@ public class SongModel(
 
   public string ImageId => AlbumId;
 
-    public Uri ImageUri => Uri.Parse($"{MediaConstant.ALBUM_ART}/{AlbumId}");
+    public Uri ImageUri => Uri.Parse($"{MediaConstants.ALBUM_ART}/{AlbumId}");
 
     public Uri MediaUri => Uri.Parse($"{MediaStore.Audio.Media.ExternalContentUri}/{Id}");
 

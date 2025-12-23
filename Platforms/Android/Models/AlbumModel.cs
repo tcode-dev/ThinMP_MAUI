@@ -17,5 +17,5 @@ public class AlbumModel(
 
   public string ImageId => Id;
 
-    public Uri ImageUri => Uri.Parse($"{MediaConstant.ALBUM_ART}/{Id}");
+    public Uri ImageUri => Uri.Parse($"{MediaConstants.ALBUM_ART}/{Id}");
 }

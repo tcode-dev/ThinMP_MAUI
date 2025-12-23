@@ -1,6 +1,6 @@
 namespace ThinMPm.Platforms.Android.Constants;
 
-public static class MediaConstant
+public static class MediaConstants
 {
     public const string ALBUM_ART = "content://media/external/audio/albumart";
     public const int STATE_IDLE = 1;

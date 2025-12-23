@@ -152,7 +152,7 @@ public class MusicService : Service
     if (notification == null) return;
 
     LocalNotificationHelper.CreateNotificationChannel(ApplicationContext);
-    StartForeground(NotificationConstant.NOTIFICATION_ID, notification, ForegroundService.TypeMediaPlayback);
+    StartForeground(NotificationConstants.NOTIFICATION_ID, notification, ForegroundService.TypeMediaPlayback);
 
     _initialized = true;
   }
@@ -314,14 +314,14 @@ public class MusicService : Service
     public void OnPlaybackStateChanged(int playbackState)
     {
       Console.WriteLine($"called OnPlaybackStateChanged: playbackState={playbackState}");
-      if (playbackState == MediaConstant.STATE_ENDED)
+      if (playbackState == ThinMPm.Platforms.Android.Constants.MediaConstants.STATE_ENDED)
       {
         service._player.Pause();
         service._player.SeekTo(0, 0);
         service.OnIsPlayingChange();
         service.OnPlaybackSongChange();
       }
-      else if (playbackState == MediaConstant.STATE_READY)
+      else if (playbackState == ThinMPm.Platforms.Android.Constants.MediaConstants.STATE_READY)
       {
         service._isStarting = false;
         service.OnPlaybackSongChange();

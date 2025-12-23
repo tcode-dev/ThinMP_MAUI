@@ -21,7 +21,7 @@ public static class LocalNotificationHelper
     }
 
     var notificationManager = NotificationManagerCompat.From(context);
-    notificationManager?.Notify(NotificationConstant.NOTIFICATION_ID, notification);
+    notificationManager?.Notify(NotificationConstants.NOTIFICATION_ID, notification);
   }
 
   public static Notification CreateNotification(
@@ -31,7 +31,7 @@ public static class LocalNotificationHelper
       Context? context,
       Bitmap? albumArtBitmap = null)
   {
-    var builder = new NotificationCompat.Builder(context, NotificationConstant.CHANNEL_ID)
+    var builder = new NotificationCompat.Builder(context, NotificationConstants.CHANNEL_ID)
         // .SetSmallIcon(Resource.Drawable.round_audiotrack_24)
         .SetStyle(mediaStyle)
         .SetContentTitle(title)
@@ -55,7 +55,7 @@ public static class LocalNotificationHelper
     }
 
     var channel = new NotificationChannel(
-        NotificationConstant.CHANNEL_ID,
+        NotificationConstants.CHANNEL_ID,
         "Lock screen media controls",
         NotificationImportance.Low);
 
