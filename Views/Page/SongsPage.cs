@@ -1,6 +1,5 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
-using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
@@ -16,16 +15,18 @@ class SongsPage : ContentPage
 {
     private readonly IPlayerService _playerService;
     private readonly IFavoriteSongService _favoriteSongService;
+    private readonly IPreferenceService _preferenceService;
     private readonly SongsHeader header;
     private bool isBlurBackground = false;
 
-    public SongsPage(SongViewModel vm, IPlayerService playerService, IFavoriteSongService favoriteSongService, IPlatformUtil platformUtil)
+    public SongsPage(SongViewModel vm, IPlayerService playerService, IFavoriteSongService favoriteSongService, IPreferenceService preferenceService, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
         _playerService = playerService;
         _favoriteSongService = favoriteSongService;
+        _preferenceService = preferenceService;
 
         var layout = new AbsoluteLayout {
             SafeAreaEdges = SafeAreaEdges.None,
@@ -81,16 +82,9 @@ class SongsPage : ContentPage
             if (bindable.BindingContext is ISongModel item)
             {
                 int index = vm.Songs.IndexOf(item);
-                var shuffleMode = GetShuffleMode();
-                _playerService.StartAllSongs(index, shuffleMode);
+                _playerService.StartAllSongs(index, _preferenceService.GetShuffleMode());
             }
         }
-    }
-
-    private static ShuffleMode GetShuffleMode()
-    {
-        var raw = Preferences.Get(PreferenceConstants.ShuffleMode, (int)ShuffleMode.Off);
-        return ShuffleModeExtensions.OfRaw(raw) ?? ShuffleMode.Off;
     }
 
     private void OnScrolled(object? sender, ScrolledEventArgs e)

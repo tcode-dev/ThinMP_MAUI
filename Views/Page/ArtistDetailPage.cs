@@ -1,6 +1,5 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
-using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
@@ -15,13 +14,15 @@ class ArtistDetailPage : DetailPageBase
 {
     private readonly IPlayerService _playerService;
     private readonly IFavoriteSongService _favoriteSongService;
+    private readonly IPreferenceService _preferenceService;
 
-    public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IFavoriteSongService favoriteSongService, IPlatformUtil platformUtil)
+    public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IFavoriteSongService favoriteSongService, IPreferenceService preferenceService, IPlatformUtil platformUtil)
         : base(platformUtil, "Artist.Name")
     {
         BindingContext = vm;
         _playerService = playerService;
         _favoriteSongService = favoriteSongService;
+        _preferenceService = preferenceService;
 
         var layout = new AbsoluteLayout {
             SafeAreaEdges = SafeAreaEdges.None,
@@ -73,15 +74,8 @@ class ArtistDetailPage : DetailPageBase
             if (bindable.BindingContext is ISongModel item)
             {
                 int index = vm.Songs.IndexOf(item);
-                var shuffleMode = GetShuffleMode();
-                _playerService.StartAllSongs(index, shuffleMode);
+                _playerService.StartAllSongs(index, _preferenceService.GetShuffleMode());
             }
         }
-    }
-
-    private static ShuffleMode GetShuffleMode()
-    {
-        var raw = Preferences.Get(PreferenceConstants.ShuffleMode, (int)ShuffleMode.Off);
-        return ShuffleModeExtensions.OfRaw(raw) ?? ShuffleMode.Off;
     }
 }

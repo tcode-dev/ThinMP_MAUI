@@ -11,6 +11,7 @@ public partial class PlayerPageViewModel : ObservableObject
     private readonly IPlayerService _playerService;
     private readonly IFavoriteSongService _favoriteSongService;
     private readonly IFavoriteArtistService _favoriteArtistService;
+    private readonly IPreferenceService _preferenceService;
     private IDispatcherTimer? _timer;
 
     [ObservableProperty]
@@ -43,11 +44,12 @@ public partial class PlayerPageViewModel : ObservableObject
     [ObservableProperty]
     private bool isFavoriteArtist;
 
-    public PlayerPageViewModel(IPlayerService playerService, IFavoriteSongService favoriteSongService, IFavoriteArtistService favoriteArtistService)
+    public PlayerPageViewModel(IPlayerService playerService, IFavoriteSongService favoriteSongService, IFavoriteArtistService favoriteArtistService, IPreferenceService preferenceService)
     {
         _playerService = playerService;
         _favoriteSongService = favoriteSongService;
         _favoriteArtistService = favoriteArtistService;
+        _preferenceService = preferenceService;
 
         _playerService.NowPlayingItemChanged += HandleNowPlayingItemChanged;
         _playerService.IsPlayingChanged += HandleIsPlayingChanged;
@@ -65,7 +67,7 @@ public partial class PlayerPageViewModel : ObservableObject
             IsFavoriteArtist = await _favoriteArtistService.ExistsAsync(song.ArtistId);
         }
         IsPlaying = _playerService.GetIsPlaying();
-        IsShuffleOn = Preferences.Get(PreferenceConstants.ShuffleMode, (int)ShuffleMode.Off) == (int)ShuffleMode.On;
+        IsShuffleOn = _preferenceService.GetShuffleMode() == ShuffleMode.On;
         UpdateCurrentTime();
         StartTimer();
     }
@@ -177,8 +179,7 @@ public partial class PlayerPageViewModel : ObservableObject
     private void ToggleShuffle()
     {
         IsShuffleOn = !IsShuffleOn;
-        var shuffleMode = IsShuffleOn ? ShuffleMode.On : ShuffleMode.Off;
-        Preferences.Set(PreferenceConstants.ShuffleMode, (int)shuffleMode);
+        _preferenceService.SetShuffleMode(IsShuffleOn ? ShuffleMode.On : ShuffleMode.Off);
     }
 
     [RelayCommand]
