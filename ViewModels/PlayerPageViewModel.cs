@@ -179,7 +179,9 @@ public partial class PlayerPageViewModel : ObservableObject
     private void ToggleShuffle()
     {
         IsShuffleOn = !IsShuffleOn;
-        _preferenceService.SetShuffleMode(IsShuffleOn ? ShuffleMode.On : ShuffleMode.Off);
+        var shuffleMode = IsShuffleOn ? ShuffleMode.On : ShuffleMode.Off;
+        _preferenceService.SetShuffleMode(shuffleMode);
+        _playerService.SetShuffle(shuffleMode);
     }
 
     [RelayCommand]

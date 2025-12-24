@@ -14,6 +14,7 @@ public interface IPlayerService
     void Play();
     void Pause();
     void Next();
+    void SetShuffle(ShuffleMode shuffleMode);
     ISongModel? GetCurrentSong();
     bool GetIsPlaying();
     void GetCurrentTime(Action<double> callback);

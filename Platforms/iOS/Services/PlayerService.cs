@@ -60,6 +60,11 @@ public class PlayerService : IPlayerService
         MusicPlayer.Shared.Next();
     }
 
+    public void SetShuffle(ShuffleMode shuffleMode)
+    {
+        MusicPlayer.Shared.SetShuffle(shuffleMode);
+    }
+
     public ISongModel? GetCurrentSong()
     {
         return MusicPlayer.Shared.GetCurrentSong()?.ToHostModel();

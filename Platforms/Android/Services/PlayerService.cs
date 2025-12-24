@@ -81,6 +81,11 @@ public class PlayerService : IPlayerService
         MusicPlayer.Next();
     }
 
+    public void SetShuffle(ShuffleMode shuffleMode)
+    {
+        MusicPlayer.SetShuffle(shuffleMode);
+    }
+
     public ISongModel? GetCurrentSong()
     {
         return MusicPlayer.GetCurrentSong()?.ToHostModel();
