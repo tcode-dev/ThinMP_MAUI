@@ -1,3 +1,4 @@
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Platforms.Android.Audio;
@@ -18,34 +19,34 @@ public class PlayerService : IPlayerService
         _songRepository = songRepository;
     }
 
-    public void StartAllSongs(int index)
+    public void StartAllSongs(int index, ShuffleMode shuffleMode)
     {
         var songs = _songRepository.FindAll();
 
-        Start(songs, index);
+        Start(songs, index, shuffleMode);
     }
 
-    public void StartAlbumSongs(string albumId, int index)
+    public void StartAlbumSongs(string albumId, int index, ShuffleMode shuffleMode)
     {
         var songs = _songRepository.FindByAlbumId(albumId);
 
-        Start(songs, index);
+        Start(songs, index, shuffleMode);
     }
 
-    public void StartFavoriteSongs(IList<string> songIds, int index)
+    public void StartFavoriteSongs(IList<string> songIds, int index, ShuffleMode shuffleMode)
     {
         var songs = _songRepository.FindByIds(songIds);
 
-        Start(songs, index);
+        Start(songs, index, shuffleMode);
     }
 
-    private void Start(IList<ThinMPm.Platforms.Android.Models.Contracts.ISongModel> songs, int index)
+    private void Start(IList<ThinMPm.Platforms.Android.Models.Contracts.ISongModel> songs, int index, ShuffleMode shuffleMode)
     {
         MusicPlayer.Start(
             songs,
             index,
             0,
-            0,
+            shuffleMode,
             sendPlaybackSongChange: song =>
             {
                 Console.WriteLine($"called sendPlaybackSongChange: song={song}");

@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
@@ -80,9 +81,16 @@ class SongsPage : ContentPage
             if (bindable.BindingContext is ISongModel item)
             {
                 int index = vm.Songs.IndexOf(item);
-                _playerService.StartAllSongs(index);
+                var shuffleMode = GetShuffleMode();
+                _playerService.StartAllSongs(index, shuffleMode);
             }
         }
+    }
+
+    private static ShuffleMode GetShuffleMode()
+    {
+        var raw = Preferences.Get(PreferenceConstants.ShuffleMode, (int)ShuffleMode.Off);
+        return ShuffleModeExtensions.OfRaw(raw) ?? ShuffleMode.Off;
     }
 
     private void OnScrolled(object? sender, ScrolledEventArgs e)

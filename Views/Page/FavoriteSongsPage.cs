@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
@@ -81,9 +82,16 @@ class FavoriteSongsPage : ContentPage
             {
                 int index = vm.Songs.IndexOf(item);
                 var songIds = vm.Songs.Select(s => s.Id).ToList();
-                _playerService.StartFavoriteSongs(songIds, index);
+                var shuffleMode = GetShuffleMode();
+                _playerService.StartFavoriteSongs(songIds, index, shuffleMode);
             }
         }
+    }
+
+    private static ShuffleMode GetShuffleMode()
+    {
+        var raw = Preferences.Get(PreferenceConstants.ShuffleMode, (int)ShuffleMode.Off);
+        return ShuffleModeExtensions.OfRaw(raw) ?? ShuffleMode.Off;
     }
 
     private void OnScrolled(object? sender, ScrolledEventArgs e)
