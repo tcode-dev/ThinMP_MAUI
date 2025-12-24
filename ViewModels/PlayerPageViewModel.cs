@@ -65,7 +65,7 @@ public partial class PlayerPageViewModel : ObservableObject
             IsFavoriteArtist = await _favoriteArtistService.ExistsAsync(song.ArtistId);
         }
         IsPlaying = _playerService.GetIsPlaying();
-        IsShuffleOn = Preferences.Get(PreferenceConstants.ShuffleMode, false);
+        IsShuffleOn = Preferences.Get(PreferenceConstants.ShuffleMode, (int)ShuffleMode.Off) == (int)ShuffleMode.On;
         UpdateCurrentTime();
         StartTimer();
     }
@@ -177,7 +177,8 @@ public partial class PlayerPageViewModel : ObservableObject
     private void ToggleShuffle()
     {
         IsShuffleOn = !IsShuffleOn;
-        Preferences.Set(PreferenceConstants.ShuffleMode, IsShuffleOn);
+        var shuffleMode = IsShuffleOn ? ShuffleMode.On : ShuffleMode.Off;
+        Preferences.Set(PreferenceConstants.ShuffleMode, (int)shuffleMode);
     }
 
     [RelayCommand]
