@@ -222,4 +222,13 @@ public partial class PlayerPageViewModel : ObservableObject
     {
         await Shell.Current.GoToAsync("..");
     }
+
+    [RelayCommand]
+    private void Seek(double value)
+    {
+        var seekTime = value * Duration;
+        _playerService.Seek(seekTime);
+        CurrentTime = value;
+        CurrentTimeText = FormatTime(seekTime);
+    }
 }

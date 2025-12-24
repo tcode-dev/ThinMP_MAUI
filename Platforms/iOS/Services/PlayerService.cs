@@ -84,4 +84,9 @@ public class PlayerService : IPlayerService
     {
         callback(MusicPlayer.Shared.GetCurrentTime());
     }
+
+    public void Seek(double seconds)
+    {
+        MusicPlayer.Shared.Seek(seconds);
+    }
 }

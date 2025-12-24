@@ -105,4 +105,9 @@ public class PlayerService : IPlayerService
     {
         MusicPlayer.GetCurrentTime(ms => callback(ms / 1000.0));
     }
+
+    public void Seek(double seconds)
+    {
+        MusicPlayer.Seek((long)(seconds * 1000));
+    }
 }

@@ -214,6 +214,14 @@ class PlayerPage : ContentPage
             ThumbColor = ColorConstants.PrimaryTextColor
         }.Bind(Slider.ValueProperty, nameof(PlayerPageViewModel.CurrentTime));
 
+        slider.DragCompleted += (s, e) =>
+        {
+            if (BindingContext is PlayerPageViewModel vm)
+            {
+                vm.SeekCommand.Execute(slider.Value);
+            }
+        };
+
         var timeContainer = new Grid
         {
             ColumnDefinitions =

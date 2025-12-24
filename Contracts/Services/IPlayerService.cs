@@ -19,4 +19,5 @@ public interface IPlayerService
     ISongModel? GetCurrentSong();
     bool GetIsPlaying();
     void GetCurrentTime(Action<double> callback);
+    void Seek(double seconds);
 }
