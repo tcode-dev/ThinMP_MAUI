@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
@@ -64,6 +65,7 @@ public partial class PlayerPageViewModel : ObservableObject
             IsFavoriteArtist = await _favoriteArtistService.ExistsAsync(song.ArtistId);
         }
         IsPlaying = _playerService.GetIsPlaying();
+        IsShuffleOn = Preferences.Get(PreferenceConstants.ShuffleMode, false);
         UpdateCurrentTime();
         StartTimer();
     }
@@ -175,6 +177,7 @@ public partial class PlayerPageViewModel : ObservableObject
     private void ToggleShuffle()
     {
         IsShuffleOn = !IsShuffleOn;
+        Preferences.Set(PreferenceConstants.ShuffleMode, IsShuffleOn);
     }
 
     [RelayCommand]
