@@ -70,7 +70,10 @@ public partial class PlayerPageViewModel : ObservableObject
         RepeatMode = _preferenceService.GetRepeatMode();
         IsShuffleOn = _preferenceService.GetShuffleMode() == ShuffleMode.On;
         UpdateCurrentTime();
-        StartTimer();
+        if (IsPlaying)
+        {
+            StartTimer();
+        }
     }
 
     public void Unload()
@@ -101,10 +104,7 @@ public partial class PlayerPageViewModel : ObservableObject
 
     private void OnTimerTick(object? sender, EventArgs e)
     {
-        if (IsPlaying)
-        {
-            UpdateCurrentTime();
-        }
+        UpdateCurrentTime();
     }
 
     private void UpdateCurrentTime()
@@ -137,6 +137,14 @@ public partial class PlayerPageViewModel : ObservableObject
     private void HandleIsPlayingChanged(bool isPlaying)
     {
         IsPlaying = isPlaying;
+        if (isPlaying)
+        {
+            StartTimer();
+        }
+        else
+        {
+            StopTimer();
+        }
     }
 
     private static string FormatTime(double seconds)
