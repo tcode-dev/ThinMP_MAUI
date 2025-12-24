@@ -83,7 +83,7 @@ class FavoriteSongsPage : ContentPage
             {
                 int index = vm.Songs.IndexOf(item);
                 var songIds = vm.Songs.Select(s => s.Id).ToList();
-                _playerService.StartFavoriteSongs(songIds, index, _preferenceService.GetShuffleMode());
+                _playerService.StartFavoriteSongs(songIds, index, _preferenceService.GetRepeatMode(), _preferenceService.GetShuffleMode());
             }
         }
     }

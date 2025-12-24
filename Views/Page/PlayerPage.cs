@@ -20,7 +20,8 @@ class PlayerPage : ContentPage
     private const string IconPlay = "playarrow";
     private const string IconPause = "pause";
     private const string IconRepeat = "repeat";
-    private const string IconRepeatOn = "repeaton";
+    private const string IconRepeatAll = "repeaton";
+    private const string IconRepeatOne = "repeatoneon";
     private const string IconShuffle = "shuffle";
     private const string IconShuffleOn = "shuffleon";
     private const string IconPerson = "person";
@@ -318,7 +319,7 @@ class PlayerPage : ContentPage
             VerticalOptions = LayoutOptions.Center
         }.Column(0);
         repeatButton.Behaviors.Add(new IconColorBehavior());
-        repeatButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsRepeatOn), converter: new RepeatImageConverter()));
+        repeatButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.RepeatMode), converter: new RepeatImageConverter()));
         var repeatTap = new TapGestureRecognizer();
         repeatTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleRepeatCommand));
         repeatButton.GestureRecognizers.Add(repeatTap);
@@ -412,7 +413,12 @@ class PlayerPage : ContentPage
     {
         public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
-            return value is true ? IconRepeatOn : IconRepeat;
+            return value switch
+            {
+                RepeatMode.All => IconRepeatAll,
+                RepeatMode.One => IconRepeatOne,
+                _ => IconRepeat
+            };
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)

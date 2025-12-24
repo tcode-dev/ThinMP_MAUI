@@ -74,7 +74,7 @@ class ArtistDetailPage : DetailPageBase
             if (bindable.BindingContext is ISongModel item)
             {
                 int index = vm.Songs.IndexOf(item);
-                _playerService.StartAllSongs(index, _preferenceService.GetShuffleMode());
+                _playerService.StartAllSongs(index, _preferenceService.GetRepeatMode(), _preferenceService.GetShuffleMode());
             }
         }
     }

@@ -33,7 +33,7 @@ public partial class PlayerPageViewModel : ObservableObject
     private string durationText = "00:00";
 
     [ObservableProperty]
-    private bool isRepeatOn;
+    private RepeatMode repeatMode;
 
     [ObservableProperty]
     private bool isShuffleOn;
@@ -67,6 +67,7 @@ public partial class PlayerPageViewModel : ObservableObject
             IsFavoriteArtist = await _favoriteArtistService.ExistsAsync(song.ArtistId);
         }
         IsPlaying = _playerService.GetIsPlaying();
+        RepeatMode = _preferenceService.GetRepeatMode();
         IsShuffleOn = _preferenceService.GetShuffleMode() == ShuffleMode.On;
         UpdateCurrentTime();
         StartTimer();
@@ -172,7 +173,15 @@ public partial class PlayerPageViewModel : ObservableObject
     [RelayCommand]
     private void ToggleRepeat()
     {
-        IsRepeatOn = !IsRepeatOn;
+        RepeatMode = RepeatMode switch
+        {
+            RepeatMode.Off => RepeatMode.All,
+            RepeatMode.All => RepeatMode.One,
+            RepeatMode.One => RepeatMode.Off,
+            _ => RepeatMode.Off
+        };
+        _preferenceService.SetRepeatMode(RepeatMode);
+        _playerService.SetRepeat(RepeatMode);
     }
 
     [RelayCommand]

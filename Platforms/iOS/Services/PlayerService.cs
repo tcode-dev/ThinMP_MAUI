@@ -23,26 +23,26 @@ public class PlayerService : IPlayerService
         MusicPlayer.Shared.NowPlayingItemChanged += (song) => NowPlayingItemChanged?.Invoke(song?.ToHostModel());
     }
 
-    public void StartAllSongs(int index, ShuffleMode shuffleMode)
+    public void StartAllSongs(int index, RepeatMode repeatMode, ShuffleMode shuffleMode)
     {
         var songs = _songRepository.FindAll().ToArray();
 
-        MusicPlayer.Shared.Start(songs, index, 0, shuffleMode);
+        MusicPlayer.Shared.Start(songs, index, repeatMode, shuffleMode);
     }
 
-    public void StartAlbumSongs(string albumId, int index, ShuffleMode shuffleMode)
+    public void StartAlbumSongs(string albumId, int index, RepeatMode repeatMode, ShuffleMode shuffleMode)
     {
         var songs = _songRepository.FindByAlbumId(new Id(albumId)).ToArray();
 
-        MusicPlayer.Shared.Start(songs, index, 0, shuffleMode);
+        MusicPlayer.Shared.Start(songs, index, repeatMode, shuffleMode);
     }
 
-    public void StartFavoriteSongs(IList<string> songIds, int index, ShuffleMode shuffleMode)
+    public void StartFavoriteSongs(IList<string> songIds, int index, RepeatMode repeatMode, ShuffleMode shuffleMode)
     {
         var ids = songIds.Select(id => new Id(id)).ToList();
         var songs = _songRepository.FindByIds(ids).ToArray();
 
-        MusicPlayer.Shared.Start(songs, index, 0, shuffleMode);
+        MusicPlayer.Shared.Start(songs, index, repeatMode, shuffleMode);
     }
 
     public void Play()
@@ -58,6 +58,11 @@ public class PlayerService : IPlayerService
     public void Next()
     {
         MusicPlayer.Shared.Next();
+    }
+
+    public void SetRepeat(RepeatMode repeatMode)
+    {
+        MusicPlayer.Shared.SetRepeat(repeatMode);
     }
 
     public void SetShuffle(ShuffleMode shuffleMode)

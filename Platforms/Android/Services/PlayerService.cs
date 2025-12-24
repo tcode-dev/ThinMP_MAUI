@@ -19,33 +19,33 @@ public class PlayerService : IPlayerService
         _songRepository = songRepository;
     }
 
-    public void StartAllSongs(int index, ShuffleMode shuffleMode)
+    public void StartAllSongs(int index, RepeatMode repeatMode, ShuffleMode shuffleMode)
     {
         var songs = _songRepository.FindAll();
 
-        Start(songs, index, shuffleMode);
+        Start(songs, index, repeatMode, shuffleMode);
     }
 
-    public void StartAlbumSongs(string albumId, int index, ShuffleMode shuffleMode)
+    public void StartAlbumSongs(string albumId, int index, RepeatMode repeatMode, ShuffleMode shuffleMode)
     {
         var songs = _songRepository.FindByAlbumId(albumId);
 
-        Start(songs, index, shuffleMode);
+        Start(songs, index, repeatMode, shuffleMode);
     }
 
-    public void StartFavoriteSongs(IList<string> songIds, int index, ShuffleMode shuffleMode)
+    public void StartFavoriteSongs(IList<string> songIds, int index, RepeatMode repeatMode, ShuffleMode shuffleMode)
     {
         var songs = _songRepository.FindByIds(songIds);
 
-        Start(songs, index, shuffleMode);
+        Start(songs, index, repeatMode, shuffleMode);
     }
 
-    private void Start(IList<ThinMPm.Platforms.Android.Models.Contracts.ISongModel> songs, int index, ShuffleMode shuffleMode)
+    private void Start(IList<ThinMPm.Platforms.Android.Models.Contracts.ISongModel> songs, int index, RepeatMode repeatMode, ShuffleMode shuffleMode)
     {
         MusicPlayer.Start(
             songs,
             index,
-            0,
+            repeatMode,
             shuffleMode,
             sendPlaybackSongChange: song =>
             {
@@ -79,6 +79,11 @@ public class PlayerService : IPlayerService
     public void Next()
     {
         MusicPlayer.Next();
+    }
+
+    public void SetRepeat(RepeatMode repeatMode)
+    {
+        MusicPlayer.SetRepeat(repeatMode);
     }
 
     public void SetShuffle(ShuffleMode shuffleMode)

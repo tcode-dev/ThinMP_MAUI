@@ -8,12 +8,13 @@ public interface IPlayerService
     event Action<bool>? IsPlayingChanged;
     event Action<ISongModel?>? NowPlayingItemChanged;
 
-    void StartAllSongs(int index, ShuffleMode shuffleMode);
-    void StartAlbumSongs(string albumId, int index, ShuffleMode shuffleMode);
-    void StartFavoriteSongs(IList<string> songIds, int index, ShuffleMode shuffleMode);
+    void StartAllSongs(int index, RepeatMode repeatMode, ShuffleMode shuffleMode);
+    void StartAlbumSongs(string albumId, int index, RepeatMode repeatMode, ShuffleMode shuffleMode);
+    void StartFavoriteSongs(IList<string> songIds, int index, RepeatMode repeatMode, ShuffleMode shuffleMode);
     void Play();
     void Pause();
     void Next();
+    void SetRepeat(RepeatMode repeatMode);
     void SetShuffle(ShuffleMode shuffleMode);
     ISongModel? GetCurrentSong();
     bool GetIsPlaying();

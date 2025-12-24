@@ -77,7 +77,7 @@ class AlbumDetailPage : DetailPageBase
             if (bindable.BindingContext is ISongModel item)
             {
                 int index = vm.Songs.IndexOf(item);
-                _playerService.StartAlbumSongs(vm.AlbumId, index, _preferenceService.GetShuffleMode());
+                _playerService.StartAlbumSongs(vm.AlbumId, index, _preferenceService.GetRepeatMode(), _preferenceService.GetShuffleMode());
             }
         }
     }
