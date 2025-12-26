@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="0" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Album" xml:space="preserve">
+    <value>アルバム</value>
+  </data>
+  <data name="Albums" xml:space="preserve">
+    <value>アルバム</value>
+  </data>
+  <data name="Artist" xml:space="preserve">
+    <value>アーティスト</value>
+  </data>
+  <data name="Artists" xml:space="preserve">
+    <value>アーティスト</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>完了</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>編集</value>
+  </data>
+  <data name="FavoriteAdd" xml:space="preserve">
+    <value>お気に入りに追加</value>
+  </data>
+  <data name="FavoriteArtists" xml:space="preserve">
+    <value>お気に入りのアーティスト</value>
+  </data>
+  <data name="FavoriteRemove" xml:space="preserve">
+    <value>お気に入りから削除</value>
+  </data>
+  <data name="FavoriteSongs" xml:space="preserve">
+    <value>お気に入りの曲</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>ライブラリ</value>
+  </data>
+  <data name="OpenAppSettings" xml:space="preserve">
+    <value>アプリの設定を開く</value>
+  </data>
+  <data name="PermissionDenied" xml:space="preserve">
+    <value>権限が拒否されています。アプリの設定で権限を変更できます。</value>
+  </data>
+  <data name="Playlist" xml:space="preserve">
+    <value>プレイリスト</value>
+  </data>
+  <data name="PlaylistAdd" xml:space="preserve">
+    <value>プレイリストに追加</value>
+  </data>
+  <data name="PlaylistCreate" xml:space="preserve">
+    <value>プレイリストを作成</value>
+  </data>
+  <data name="PlaylistEnter" xml:space="preserve">
+    <value>プレイリスト名を入力</value>
+  </data>
+  <data name="PlaylistName" xml:space="preserve">
+    <value>プレイリスト名</value>
+  </data>
+  <data name="PlaylistRemove" xml:space="preserve">
+    <value>プレイリストを削除</value>
+  </data>
+  <data name="PlaylistRemoveConfirm" xml:space="preserve">
+    <value>プレイリストを削除しますか?</value>
+  </data>
+  <data name="PlaylistExistConfirm" xml:space="preserve">
+    <value>登録済みですが追加しますか?</value>
+  </data>
+  <data name="Playlists" xml:space="preserve">
+    <value>プレイリスト</value>
+  </data>
+  <data name="RecentlyAdded" xml:space="preserve">
+    <value>最近追加した項目</value>
+  </data>
+  <data name="Shortcut" xml:space="preserve">
+    <value>ショートカット</value>
+  </data>
+  <data name="ShortcutAdd" xml:space="preserve">
+    <value>ショートカットに追加</value>
+  </data>
+  <data name="ShortcutRemove" xml:space="preserve">
+    <value>ショートカットから削除</value>
+  </data>
+  <data name="Songs" xml:space="preserve">
+    <value>曲</value>
+  </data>
+</root>

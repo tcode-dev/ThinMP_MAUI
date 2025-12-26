@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="0" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Album" xml:space="preserve">
+    <value>Album</value>
+  </data>
+  <data name="Albums" xml:space="preserve">
+    <value>Albums</value>
+  </data>
+  <data name="Artist" xml:space="preserve">
+    <value>Artist</value>
+  </data>
+  <data name="Artists" xml:space="preserve">
+    <value>Artists</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="FavoriteAdd" xml:space="preserve">
+    <value>Add to favorites</value>
+  </data>
+  <data name="FavoriteArtists" xml:space="preserve">
+    <value>Favorite Artists</value>
+  </data>
+  <data name="FavoriteRemove" xml:space="preserve">
+    <value>Remove from favorites</value>
+  </data>
+  <data name="FavoriteSongs" xml:space="preserve">
+    <value>Favorite Songs</value>
+  </data>
+  <data name="Library" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="OpenAppSettings" xml:space="preserve">
+    <value>open app settings</value>
+  </data>
+  <data name="PermissionDenied" xml:space="preserve">
+    <value>Permissions are denied. You can change permissions in app settings.</value>
+  </data>
+  <data name="Playlist" xml:space="preserve">
+    <value>Playlist</value>
+  </data>
+  <data name="PlaylistAdd" xml:space="preserve">
+    <value>Add to a playlist</value>
+  </data>
+  <data name="PlaylistCreate" xml:space="preserve">
+    <value>New playlist</value>
+  </data>
+  <data name="PlaylistEnter" xml:space="preserve">
+    <value>Enter the playlist name</value>
+  </data>
+  <data name="PlaylistName" xml:space="preserve">
+    <value>Playlist name</value>
+  </data>
+  <data name="PlaylistRemove" xml:space="preserve">
+    <value>Remove playlist</value>
+  </data>
+  <data name="PlaylistRemoveConfirm" xml:space="preserve">
+    <value>Remove the playlist?</value>
+  </data>
+  <data name="PlaylistExistConfirm" xml:space="preserve">
+    <value>Already registered. Add anyway?</value>
+  </data>
+  <data name="Playlists" xml:space="preserve">
+    <value>Playlists</value>
+  </data>
+  <data name="RecentlyAdded" xml:space="preserve">
+    <value>Recently Added</value>
+  </data>
+  <data name="Shortcut" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="ShortcutAdd" xml:space="preserve">
+    <value>Add to a shortcut</value>
+  </data>
+  <data name="ShortcutRemove" xml:space="preserve">
+    <value>Remove from shortcut</value>
+  </data>
+  <data name="Songs" xml:space="preserve">
+    <value>Songs</value>
+  </data>
+</root>
