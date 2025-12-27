@@ -23,14 +23,18 @@ public class PlaylistPopup : ContentPage
 
         _contentContainer = new VerticalStackLayout
         {
-            Spacing = 0,
             WidthRequest = 300,
-            BackgroundColor = ColorConstants.SecondaryBackgroundColor
+            Padding = new Thickness(0, 0, LayoutConstants.SpacingLarge, LayoutConstants.SpacingLarge)
         };
-        _contentContainer.Clip = new Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry
+
+        var border = new Border
         {
-            CornerRadius = 14,
-            Rect = new Rect(0, 0, 300, 400)
+            Content = _contentContainer,
+            BackgroundColor = ColorConstants.SecondaryBackgroundColor,
+            StrokeShape = new Microsoft.Maui.Controls.Shapes.RoundRectangle { CornerRadius = 14 },
+            StrokeThickness = 0,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Center
         };
 
         var tapGesture = new TapGestureRecognizer();
@@ -46,12 +50,7 @@ public class PlaylistPopup : ContentPage
                     VerticalOptions = LayoutOptions.Fill,
                     GestureRecognizers = { tapGesture }
                 },
-                new ContentView
-                {
-                    Content = _contentContainer,
-                    HorizontalOptions = LayoutOptions.Center,
-                    VerticalOptions = LayoutOptions.Center
-                }
+                border
             }
         };
 
@@ -80,8 +79,6 @@ public class PlaylistPopup : ContentPage
         {
             ShowCreatePlaylist();
         }
-
-        UpdateClipRect();
     }
 
     private void ShowPlaylistList()
@@ -103,8 +100,8 @@ public class PlaylistPopup : ContentPage
 
         var inputContainer = new VerticalStackLayout
         {
-            Padding = new Thickness(LayoutConstants.SpacingMedium),
-            Spacing = LayoutConstants.SpacingMedium
+            Padding = new Thickness(LayoutConstants.SpacingLarge, 0, 0, 0),
+            Spacing = LayoutConstants.SpacingLarge
         };
 
         var titleLabel = new PrimaryText
@@ -131,36 +128,29 @@ public class PlaylistPopup : ContentPage
 
     private View CreatePlaylistListHeader()
     {
-        var header = new Grid
+        var header = new FlexLayout
         {
-            Padding = new Thickness(LayoutConstants.SpacingMedium),
-            ColumnDefinitions =
-            {
-                new ColumnDefinition(GridLength.Star),
-                new ColumnDefinition(GridLength.Star)
-            }
+            JustifyContent = Microsoft.Maui.Layouts.FlexJustify.SpaceAround,
+            AlignItems = Microsoft.Maui.Layouts.FlexAlignItems.Center,
+            HeightRequest = LayoutConstants.HeightLarge
         };
 
         var newPlaylistButton = new Microsoft.Maui.Controls.Button
         {
             Text = AppResources.PlaylistCreate,
             BackgroundColor = Colors.Transparent,
-            TextColor = Colors.DodgerBlue,
-            HorizontalOptions = LayoutOptions.Start
+            TextColor = Colors.DodgerBlue
         };
         newPlaylistButton.Clicked += OnNewPlaylistClicked;
-        Grid.SetColumn(newPlaylistButton, 0);
         header.Children.Add(newPlaylistButton);
 
         var cancelButton = new Microsoft.Maui.Controls.Button
         {
             Text = AppResources.Cancel,
             BackgroundColor = Colors.Transparent,
-            TextColor = Colors.DodgerBlue,
-            HorizontalOptions = LayoutOptions.End
+            TextColor = Colors.DodgerBlue
         };
         cancelButton.Clicked += OnCancelClicked;
-        Grid.SetColumn(cancelButton, 1);
         header.Children.Add(cancelButton);
 
         return header;
@@ -168,36 +158,29 @@ public class PlaylistPopup : ContentPage
 
     private View CreateNewPlaylistHeader()
     {
-        var header = new Grid
+        var header = new FlexLayout
         {
-            Padding = new Thickness(LayoutConstants.SpacingMedium),
-            ColumnDefinitions =
-            {
-                new ColumnDefinition(GridLength.Star),
-                new ColumnDefinition(GridLength.Star)
-            }
+            JustifyContent = Microsoft.Maui.Layouts.FlexJustify.SpaceAround,
+            AlignItems = Microsoft.Maui.Layouts.FlexAlignItems.Center,
+            HeightRequest = LayoutConstants.HeightLarge
         };
 
         var doneButton = new Microsoft.Maui.Controls.Button
         {
             Text = AppResources.Done,
             BackgroundColor = Colors.Transparent,
-            TextColor = Colors.DodgerBlue,
-            HorizontalOptions = LayoutOptions.Start
+            TextColor = Colors.DodgerBlue
         };
         doneButton.Clicked += OnCreateDoneClicked;
-        Grid.SetColumn(doneButton, 0);
         header.Children.Add(doneButton);
 
         var cancelButton = new Microsoft.Maui.Controls.Button
         {
             Text = AppResources.Cancel,
             BackgroundColor = Colors.Transparent,
-            TextColor = Colors.DodgerBlue,
-            HorizontalOptions = LayoutOptions.End
+            TextColor = Colors.DodgerBlue
         };
         cancelButton.Clicked += OnCreateCancelClicked;
-        Grid.SetColumn(cancelButton, 1);
         header.Children.Add(cancelButton);
 
         return header;
@@ -213,19 +196,6 @@ public class PlaylistPopup : ContentPage
         return listItem;
     }
 
-    private void UpdateClipRect()
-    {
-        _contentContainer.Dispatcher.Dispatch(() =>
-        {
-            var height = Math.Min(400, _contentContainer.Children.Sum(c => c.Height > 0 ? c.Height : 60));
-            _contentContainer.Clip = new Microsoft.Maui.Controls.Shapes.RoundRectangleGeometry
-            {
-                CornerRadius = 14,
-                Rect = new Rect(0, 0, 300, height > 0 ? height : 200)
-            };
-        });
-    }
-
     private void OnBackgroundTapped(object? sender, TappedEventArgs e)
     {
         ClosePopup(null);
@@ -235,7 +205,6 @@ public class PlaylistPopup : ContentPage
     {
         _contentContainer.Children.Clear();
         ShowCreatePlaylist();
-        UpdateClipRect();
     }
 
     private void OnCancelClicked(object? sender, EventArgs e)
@@ -249,7 +218,6 @@ public class PlaylistPopup : ContentPage
         {
             _contentContainer.Children.Clear();
             ShowPlaylistList();
-            UpdateClipRect();
         }
         else
         {
