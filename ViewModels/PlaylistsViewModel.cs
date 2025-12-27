@@ -1,23 +1,18 @@
-using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.ViewModels;
 
-public class PlaylistsViewModel(IPlaylistService playlistService)
+public partial class PlaylistsViewModel(IPlaylistService playlistService) : ObservableObject
 {
     private readonly IPlaylistService _playlistService = playlistService;
-    public ObservableCollection<IPlaylistModel> Playlists { get; } = [];
+
+    [ObservableProperty]
+    private IList<IPlaylistModel> _playlists = [];
 
     public async Task LoadAsync()
     {
-        var playlists = await _playlistService.GetAllAsync();
-
-        Playlists.Clear();
-
-        foreach (var playlist in playlists)
-        {
-            Playlists.Add(playlist);
-        }
+        Playlists = await _playlistService.GetAllAsync();
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
@@ -10,10 +9,10 @@ public partial class PlaylistPopupViewModel : ObservableObject
     private readonly IPlaylistService _playlistService;
 
     [ObservableProperty]
-    private ObservableCollection<IPlaylistModel> playlists = [];
+    private IList<IPlaylistModel> _playlists = [];
 
     [ObservableProperty]
-    private string playlistName = string.Empty;
+    private string _playlistName = string.Empty;
 
     public PlaylistPopupViewModel(IPlaylistService playlistService)
     {
@@ -22,7 +21,6 @@ public partial class PlaylistPopupViewModel : ObservableObject
 
     public async Task LoadAsync()
     {
-        var playlistModels = await _playlistService.GetAllAsync();
-        Playlists = new ObservableCollection<IPlaylistModel>(playlistModels);
+        Playlists = await _playlistService.GetAllAsync();
     }
 }

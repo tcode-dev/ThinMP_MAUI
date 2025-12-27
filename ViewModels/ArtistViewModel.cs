@@ -1,23 +1,18 @@
-using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.ViewModels;
 
-public class ArtistViewModel(IArtistService artistService)
+public partial class ArtistViewModel(IArtistService artistService) : ObservableObject
 {
     readonly IArtistService _artistService = artistService;
-    public ObservableCollection<IArtistModel> Artists { get; } = [];
+
+    [ObservableProperty]
+    private IList<IArtistModel> _artists = [];
 
     public void Load()
     {
-        var artists = _artistService.FindAll();
-
-        Artists.Clear();
-
-        foreach (var artist in artists)
-        {
-            Artists.Add(artist);
-        }
+        Artists = _artistService.FindAll();
     }
 }

@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
@@ -13,25 +12,27 @@ public partial class PlaylistDetailViewModel(IPlaylistService playlistService, I
     private readonly ISongService _songService = songService;
 
     [ObservableProperty]
-    private IPlaylistModel? playlist;
+    private IPlaylistModel? _playlist;
 
-    public ObservableCollection<ISongModel> Songs { get; } = [];
+    [ObservableProperty]
+    private IList<ISongModel> _songs = [];
 
     public async Task LoadAsync()
     {
         Playlist = await _playlistService.GetByIdAsync(PlaylistId);
 
         var songIds = await _playlistService.GetSongIdsAsync(PlaylistId);
-
-        Songs.Clear();
+        var songs = new List<ISongModel>();
 
         foreach (var songId in songIds)
         {
             var song = _songService.FindById(songId);
             if (song != null)
             {
-                Songs.Add(song);
+                songs.Add(song);
             }
         }
+
+        Songs = songs;
     }
 }

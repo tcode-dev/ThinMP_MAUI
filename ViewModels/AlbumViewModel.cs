@@ -1,23 +1,18 @@
-using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.ViewModels;
 
-public class AlbumViewModel(IAlbumService albumService)
+public partial class AlbumViewModel(IAlbumService albumService) : ObservableObject
 {
     readonly IAlbumService _albumService = albumService;
-    public ObservableCollection<IAlbumModel> Albums { get; } = new();
+
+    [ObservableProperty]
+    private IList<IAlbumModel> _albums = [];
 
     public void Load()
     {
-        var albums = _albumService.FindAll();
-
-        Albums.Clear();
-
-        foreach (var album in albums)
-        {
-            Albums.Add(album);
-        }
+        Albums = _albumService.FindAll();
     }
 }

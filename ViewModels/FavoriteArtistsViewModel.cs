@@ -1,23 +1,18 @@
-using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.ViewModels;
 
-public class FavoriteArtistsViewModel(IFavoriteArtistService favoriteArtistService)
+public partial class FavoriteArtistsViewModel(IFavoriteArtistService favoriteArtistService) : ObservableObject
 {
     private readonly IFavoriteArtistService _favoriteArtistService = favoriteArtistService;
-    public ObservableCollection<IArtistModel> Artists { get; } = [];
+
+    [ObservableProperty]
+    private IList<IArtistModel> _artists = [];
 
     public async Task LoadAsync()
     {
-        var artists = await _favoriteArtistService.GetFavoriteArtistsAsync();
-
-        Artists.Clear();
-
-        foreach (var artist in artists)
-        {
-            Artists.Add(artist);
-        }
+        Artists = await _favoriteArtistService.GetFavoriteArtistsAsync();
     }
 }

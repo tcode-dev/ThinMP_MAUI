@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
@@ -11,21 +10,16 @@ public partial class AlbumDetailViewModel(IAlbumService albumService, ISongServi
     public string AlbumId { get; set; } = string.Empty;
     readonly IAlbumService _albumService = albumService;
     readonly ISongService _songService = songService;
+
     [ObservableProperty]
-    private IAlbumModel? album;
-    public ObservableCollection<ISongModel> Songs { get; } = new();
+    private IAlbumModel? _album;
+
+    [ObservableProperty]
+    private IList<ISongModel> _songs = [];
 
     public void Load()
     {
         Album = _albumService.FindById(AlbumId);
-
-        var songs = _songService.FindByAlbumId(AlbumId);
-
-        Songs.Clear();
-
-        foreach (var song in songs)
-        {
-            Songs.Add(song);
-        }
+        Songs = _songService.FindByAlbumId(AlbumId);
     }
 }

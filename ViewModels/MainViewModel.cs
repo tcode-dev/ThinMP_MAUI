@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
@@ -7,29 +7,28 @@ using ThinMPm.Resources.Strings;
 
 namespace ThinMPm.ViewModels;
 
-public class MainViewModel(IAlbumService albumService)
+public partial class MainViewModel(IAlbumService albumService) : ObservableObject
 {
     readonly IAlbumService _albumService = albumService;
-    public ObservableCollection<IMenuModel> MenuItems { get; } = [];
-    public ObservableCollection<IAlbumModel> Albums { get; } = [];
+
+    [ObservableProperty]
+    private IList<IMenuModel> _menuItems = [];
+
+    [ObservableProperty]
+    private IList<IAlbumModel> _albums = [];
 
     public void Load()
     {
-        MenuItems.Clear();
-        MenuItems.Add(new MenuModel(AppResources.Artists, nameof(Views.Page.ArtistsPage)));
-        MenuItems.Add(new MenuModel(AppResources.Albums, nameof(Views.Page.AlbumsPage)));
-        MenuItems.Add(new MenuModel(AppResources.Songs, nameof(Views.Page.SongsPage)));
-        MenuItems.Add(new MenuModel(AppResources.FavoriteArtists, nameof(Views.Page.FavoriteArtistsPage)));
-        MenuItems.Add(new MenuModel(AppResources.FavoriteSongs, nameof(Views.Page.FavoriteSongsPage)));
-        MenuItems.Add(new MenuModel(AppResources.Playlists, nameof(Views.Page.PlaylistsPage)));
+        MenuItems =
+        [
+            new MenuModel(AppResources.Artists, nameof(Views.Page.ArtistsPage)),
+            new MenuModel(AppResources.Albums, nameof(Views.Page.AlbumsPage)),
+            new MenuModel(AppResources.Songs, nameof(Views.Page.SongsPage)),
+            new MenuModel(AppResources.FavoriteArtists, nameof(Views.Page.FavoriteArtistsPage)),
+            new MenuModel(AppResources.FavoriteSongs, nameof(Views.Page.FavoriteSongsPage)),
+            new MenuModel(AppResources.Playlists, nameof(Views.Page.PlaylistsPage)),
+        ];
 
-        var albums = _albumService.FindByRecent(AppConstants.RecentAlbumsLimit);
-
-        Albums.Clear();
-
-        foreach (var album in albums)
-        {
-            Albums.Add(album);
-        }
+        Albums = _albumService.FindByRecent(AppConstants.RecentAlbumsLimit);
     }
 }

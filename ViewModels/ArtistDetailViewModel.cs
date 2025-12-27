@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
@@ -12,38 +11,32 @@ public partial class ArtistDetailViewModel(IArtistService artistService, IAlbumS
     readonly IArtistService _artistService = artistService;
     readonly IAlbumService _albumService = albumService;
     readonly ISongService _songService = songService;
+
     [ObservableProperty]
-    private IArtistModel? artist;
+    private IArtistModel? _artist;
+
     [ObservableProperty]
-    private string? imageId;
-    public ObservableCollection<IAlbumModel> Albums { get; } = [];
-    public ObservableCollection<ISongModel> Songs { get; } = [];
+    private string? _imageId;
+
     [ObservableProperty]
-    private string? secondaryText;
+    private IList<IAlbumModel> _albums = [];
+
+    [ObservableProperty]
+    private IList<ISongModel> _songs = [];
+
+    [ObservableProperty]
+    private string? _secondaryText;
 
     public void Load()
     {
         Artist = _artistService.FindById(ArtistId);
 
         var albums = _albumService.FindByArtistId(ArtistId);
-
-        Albums.Clear();
-
-        foreach (var album in albums)
-        {
-            Albums.Add(album);
-        }
-
+        Albums = albums;
         ImageId = albums.FirstOrDefault()?.ImageId;
 
         var songs = _songService.FindByArtistId(ArtistId);
-
-        Songs.Clear();
-
-        foreach (var song in songs)
-        {
-            Songs.Add(song);
-        }
+        Songs = songs;
 
         SecondaryText = $"{albums?.Count ?? 0} Albums, {songs?.Count ?? 0} Songs";
     }
