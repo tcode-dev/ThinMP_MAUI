@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
-using ThinMPm.Views.Header;
+using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
-using ThinMPm.Views.Text;
+using ThinMPm.Views.Header;
 using ThinMPm.Views.List;
+using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Page;
 
@@ -28,7 +29,7 @@ class MainPage : ContentPage
                 Children = {
                     new MainHeader(),
                     new MenuList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.MenuItems)),
-                    new SectionTitle("Recently Added"),
+                    new SectionTitle(AppResources.RecentlyAdded),
                     new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
                 }
             }

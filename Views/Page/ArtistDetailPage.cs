@@ -3,6 +3,7 @@ using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
+using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.FirstView;
 using ThinMPm.Views.List;
@@ -38,9 +39,9 @@ class ArtistDetailPage : DetailPageBase
             {
                 Children = {
                     new ArtistDetailFirstView{ BindingContext = vm },
-                    new SectionTitle("Albums"),
+                    new SectionTitle(AppResources.Albums),
                     new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
-                    new SectionTitle("Songs"),
+                    new SectionTitle(AppResources.Songs),
                     new SongList(OnSongTapped, _favoriteSongService)
                     .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
                 }
