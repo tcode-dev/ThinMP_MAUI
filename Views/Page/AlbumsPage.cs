@@ -1,10 +1,10 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
-using ThinMPm.Views.List;
 using ThinMPm.Views.ListItem;
 using ThinMPm.Views.Player;
 
@@ -30,29 +30,30 @@ class AlbumsPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
 
-        var scrollView = new ScrollView
+        var collectionView = new CollectionView
         {
-            SafeAreaEdges = SafeAreaEdges.None,
-            Content = new VerticalStackLayout
+            ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical)
             {
-                Children = {
-                    new EmptyHeader(),
-                    new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
-                    new EmptyListItem(),
-                }
-            }
+                VerticalItemSpacing = LayoutConstants.SpacingLarge,
+                HorizontalItemSpacing = LayoutConstants.SpacingLarge
+            },
+            ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnAlbumTapped)),
+            Header = new EmptyHeader(),
+            Footer = new EmptyListItem(),
+            Margin = new Thickness(LayoutConstants.SpacingLarge, 0, LayoutConstants.SpacingLarge, 0),
         };
-        scrollView.Scrolled += OnScrolled;
+        collectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums));
+        collectionView.Scrolled += OnScrolled;
 
-        AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
-        AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
+        AbsoluteLayout.SetLayoutFlags(collectionView, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(collectionView, new Rect(0, 0, 1, 1));
 
         var miniPlayer = new MiniPlayer();
 
         AbsoluteLayout.SetLayoutFlags(miniPlayer, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, platformUtil.GetBottomBarHeight()));
 
-        layout.Children.Add(scrollView);
+        layout.Children.Add(collectionView);
         layout.Children.Add(header);
         layout.Children.Add(miniPlayer);
 
@@ -80,14 +81,14 @@ class AlbumsPage : ContentPage
         }
     }
 
-    private void OnScrolled(object? sender, ScrolledEventArgs e)
+    private void OnScrolled(object? sender, ItemsViewScrolledEventArgs e)
     {
-        if (e.ScrollY > 0 && !isBlurBackground)
+        if (e.VerticalOffset > 0 && !isBlurBackground)
         {
             isBlurBackground = true;
             header.ShowBlurBackground();
         }
-        else if (e.ScrollY <= 0 && isBlurBackground)
+        else if (e.VerticalOffset <= 0 && isBlurBackground)
         {
             isBlurBackground = false;
             header.ShowSolidBackground();

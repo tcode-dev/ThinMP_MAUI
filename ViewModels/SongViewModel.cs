@@ -1,23 +1,18 @@
-using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.ViewModels;
 
-public class SongViewModel(ISongService songService)
+public partial class SongViewModel(ISongService songService) : ObservableObject
 {
     readonly ISongService _songService = songService;
-    public ObservableCollection<ISongModel> Songs { get; } = [];
+
+    [ObservableProperty]
+    private IList<ISongModel> _songs = [];
 
     public void Load()
     {
-        var songs = _songService.FindAll();
-
-        Songs.Clear();
-
-        foreach (var song in songs)
-        {
-            Songs.Add(song);
-        }
+        Songs = _songService.FindAll();
     }
 }

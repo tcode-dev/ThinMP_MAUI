@@ -5,7 +5,6 @@ using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
-using ThinMPm.Views.List;
 using ThinMPm.Views.ListItem;
 using ThinMPm.Views.Player;
 
@@ -24,7 +23,8 @@ class FavoriteArtistsPage : ContentPage
         BindingContext = vm;
         _favoriteArtistService = favoriteArtistService;
 
-        var layout = new AbsoluteLayout {
+        var layout = new AbsoluteLayout
+        {
             SafeAreaEdges = SafeAreaEdges.None,
         };
         header = new FavoriteArtistsHeader();
@@ -32,29 +32,24 @@ class FavoriteArtistsPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
 
-        var scrollView = new ScrollView
+        var collectionView = new CollectionView
         {
-            SafeAreaEdges = SafeAreaEdges.None,
-            Content = new VerticalStackLayout
-            {
-                Children = {
-                    new EmptyHeader(),
-                    new ArtistList(OnArtistTapped, _favoriteArtistService).Bind(ItemsView.ItemsSourceProperty, nameof(vm.Artists)),
-                    new EmptyListItem(),
-                }
-            }
+            ItemTemplate = new DataTemplate(() => new ArtistListItem(OnArtistTapped, _favoriteArtistService)),
+            Header = new EmptyHeader(),
+            Footer = new EmptyListItem(),
         };
-        scrollView.Scrolled += OnScrolled;
+        collectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Artists));
+        collectionView.Scrolled += OnScrolled;
 
-        AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
-        AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
+        AbsoluteLayout.SetLayoutFlags(collectionView, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(collectionView, new Rect(0, 0, 1, 1));
 
         var miniPlayer = new MiniPlayer();
 
         AbsoluteLayout.SetLayoutFlags(miniPlayer, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, platformUtil.GetBottomBarHeight()));
 
-        layout.Children.Add(scrollView);
+        layout.Children.Add(collectionView);
         layout.Children.Add(header);
         layout.Children.Add(miniPlayer);
 
@@ -82,14 +77,14 @@ class FavoriteArtistsPage : ContentPage
         }
     }
 
-    private void OnScrolled(object? sender, ScrolledEventArgs e)
+    private void OnScrolled(object? sender, ItemsViewScrolledEventArgs e)
     {
-        if (e.ScrollY > 0 && !isBlurBackground)
+        if (e.VerticalOffset > 0 && !isBlurBackground)
         {
             isBlurBackground = true;
             header.ShowBlurBackground();
         }
-        else if (e.ScrollY <= 0 && isBlurBackground)
+        else if (e.VerticalOffset <= 0 && isBlurBackground)
         {
             isBlurBackground = false;
             header.ShowSolidBackground();
