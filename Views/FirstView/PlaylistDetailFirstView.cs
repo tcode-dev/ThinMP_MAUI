@@ -41,7 +41,7 @@ class PlaylistDetailFirstView : AbsoluteLayout
             var primaryTitleY = this.Height * LayoutConstants.HeaderVisibilityThreshold;
             AbsoluteLayout.SetLayoutBounds(primaryTitle, new Rect(0.5, primaryTitleY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
-            var secondaryTitleY = primaryTitleY + 40;
+            var secondaryTitleY = primaryTitleY + LayoutConstants.HeightMedium;
             AbsoluteLayout.SetLayoutBounds(secondaryTitle, new Rect(0.5, secondaryTitleY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
         };
     }

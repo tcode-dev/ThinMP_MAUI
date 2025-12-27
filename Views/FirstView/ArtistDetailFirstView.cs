@@ -53,8 +53,7 @@ class ArtistDetailFirstView : AbsoluteLayout
             var primaryTitleY = this.Height * LayoutConstants.HeaderVisibilityThreshold;
             AbsoluteLayout.SetLayoutBounds(primaryTitle, new Rect(0.5, primaryTitleY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
 
-            // secondaryTitle の Y 位置を計算: primaryTitle の位置 + 40px
-            var secondaryTitleY = primaryTitleY + 40;
+            var secondaryTitleY = primaryTitleY + LayoutConstants.HeightMedium;
             AbsoluteLayout.SetLayoutBounds(secondaryTitle, new Rect(0.5, secondaryTitleY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
         };
     }
