@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Markup;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Utils;
+using ThinMPm.Resources.Strings;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Header;
@@ -29,7 +30,7 @@ public class MainHeader : ContentView
             {
                 new PrimaryText
                 {
-                    Text = "Library",
+                    Text = AppResources.Library,
                     FontSize = 32,
                     FontAttributes = FontAttributes.Bold,
                     VerticalTextAlignment = TextAlignment.Center
