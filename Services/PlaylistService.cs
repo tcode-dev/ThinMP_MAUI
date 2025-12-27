@@ -31,6 +31,22 @@ public class PlaylistService : IPlaylistService
         return playlists;
     }
 
+    public async Task<IPlaylistModel?> GetByIdAsync(int id)
+    {
+        var entity = await _playlistRepository.GetByIdAsync(id);
+        if (entity == null) return null;
+
+        var songs = await _playlistSongRepository.GetByPlaylistIdAsync(entity.Id);
+        var firstSongId = songs.FirstOrDefault()?.SongId;
+        return new PlaylistModel(entity.Id, entity.Name, firstSongId);
+    }
+
+    public async Task<IList<string>> GetSongIdsAsync(int playlistId)
+    {
+        var songs = await _playlistSongRepository.GetByPlaylistIdAsync(playlistId);
+        return songs.Select(s => s.SongId).ToList();
+    }
+
     public async Task<int> CreateAsync(string name)
     {
         return await _playlistRepository.AddAsync(name);

@@ -1,31 +1,33 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Models;
+using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
-using ThinMPm.Views.Header;
+using ThinMPm.Views.FirstView;
 using ThinMPm.Views.List;
-using ThinMPm.Views.ListItem;
 using ThinMPm.Views.Player;
 
 namespace ThinMPm.Views.Page;
 
-class PlaylistsPage : ContentPage
+class PlaylistDetailPage : DetailPageBase
 {
-    private readonly PlaylistsHeader header;
-    private bool isBlurBackground = false;
+    private readonly IPlayerService _playerService;
+    private readonly IFavoriteSongService _favoriteSongService;
+    private readonly IPreferenceService _preferenceService;
 
-    public PlaylistsPage(PlaylistsViewModel vm, IPlatformUtil platformUtil)
+    public PlaylistDetailPage(PlaylistDetailViewModel vm, IPlayerService playerService, IFavoriteSongService favoriteSongService, IPreferenceService preferenceService, IPlatformUtil platformUtil)
+        : base(platformUtil, "Playlist.Name")
     {
-        Shell.SetNavBarIsVisible(this, false);
-
         BindingContext = vm;
+        _playerService = playerService;
+        _favoriteSongService = favoriteSongService;
+        _preferenceService = preferenceService;
 
         var layout = new AbsoluteLayout
         {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        header = new PlaylistsHeader();
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
@@ -36,9 +38,9 @@ class PlaylistsPage : ContentPage
             Content = new VerticalStackLayout
             {
                 Children = {
-                    new EmptyHeader(),
-                    new PlaylistList(OnPlaylistTapped).Bind(ItemsView.ItemsSourceProperty, nameof(vm.Playlists)),
-                    new EmptyListItem(),
+                    new PlaylistDetailFirstView { BindingContext = vm },
+                    new SongList(OnSongTapped, _favoriteSongService)
+                        .Bind(ItemsView.ItemsSourceProperty, "Songs")
                 }
             }
         };
@@ -63,34 +65,22 @@ class PlaylistsPage : ContentPage
     {
         base.OnAppearing();
 
-        if (BindingContext is PlaylistsViewModel vm)
+        if (BindingContext is PlaylistDetailViewModel vm)
         {
             await vm.LoadAsync();
         }
     }
 
-    private async void OnPlaylistTapped(object? sender, TappedEventArgs e)
+    private void OnSongTapped(object? sender, EventArgs e)
     {
-        if (sender is BindableObject bindable)
+        if (sender is BindableObject bindable && BindingContext is PlaylistDetailViewModel vm)
         {
-            if (bindable.BindingContext is IPlaylistModel item)
+            if (bindable.BindingContext is ISongModel item)
             {
-                await Shell.Current.GoToAsync($"{nameof(PlaylistDetailPage)}?PlaylistId={item.Id}");
+                int index = vm.Songs.IndexOf(item);
+                var songIds = vm.Songs.Select(s => s.Id).ToList();
+                _playerService.StartFavoriteSongs(songIds, index, _preferenceService.GetRepeatMode(), _preferenceService.GetShuffleMode());
             }
-        }
-    }
-
-    private void OnScrolled(object? sender, ScrolledEventArgs e)
-    {
-        if (e.ScrollY > 0 && !isBlurBackground)
-        {
-            isBlurBackground = true;
-            header.ShowBlurBackground();
-        }
-        else if (e.ScrollY <= 0 && isBlurBackground)
-        {
-            isBlurBackground = false;
-            header.ShowSolidBackground();
         }
     }
 }
