@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
+using ThinMPm.Views.Popup;
 
 namespace ThinMPm.ViewModels;
 
@@ -12,6 +13,7 @@ public partial class PlayerPageViewModel : ObservableObject
     private readonly IFavoriteSongService _favoriteSongService;
     private readonly IFavoriteArtistService _favoriteArtistService;
     private readonly IPreferenceService _preferenceService;
+    private readonly Func<PlaylistPopup> _playlistPopupFactory;
     private IDispatcherTimer? _timer;
 
     [ObservableProperty]
@@ -44,12 +46,13 @@ public partial class PlayerPageViewModel : ObservableObject
     [ObservableProperty]
     private bool isFavoriteArtist;
 
-    public PlayerPageViewModel(IPlayerService playerService, IFavoriteSongService favoriteSongService, IFavoriteArtistService favoriteArtistService, IPreferenceService preferenceService)
+    public PlayerPageViewModel(IPlayerService playerService, IFavoriteSongService favoriteSongService, IFavoriteArtistService favoriteArtistService, IPreferenceService preferenceService, Func<PlaylistPopup> playlistPopupFactory)
     {
         _playerService = playerService;
         _favoriteSongService = favoriteSongService;
         _favoriteArtistService = favoriteArtistService;
         _preferenceService = preferenceService;
+        _playlistPopupFactory = playlistPopupFactory;
 
         _playerService.NowPlayingItemChanged += HandleNowPlayingItemChanged;
         _playerService.IsPlayingChanged += HandleIsPlayingChanged;
@@ -220,9 +223,29 @@ public partial class PlayerPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void AddToPlaylist()
+    private async Task AddToPlaylist()
     {
-        // TODO: Add to playlist
+        if (CurrentSong == null) return;
+
+        var page = Application.Current?.Windows.FirstOrDefault()?.Page;
+        if (page == null) return;
+
+        var popup = _playlistPopupFactory();
+        await page.Navigation.PushModalAsync(popup);
+        var result = await popup.ShowAsync();
+
+        if (result != null)
+        {
+            switch (result.Action)
+            {
+                case PlaylistPopupAction.Create:
+                    // TODO: プレイリスト作成と曲追加
+                    break;
+                case PlaylistPopupAction.Select:
+                    // TODO: 選択したプレイリストに曲追加
+                    break;
+            }
+        }
     }
 
     [RelayCommand]

@@ -2,10 +2,12 @@
 using ThinMPm.ViewModels;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Views.Page;
+using ThinMPm.Views.Popup;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Background;
 using ThinMPm.Services;
+using ThinMPm.Database.Repositories;
 
 #if ANDROID
 using ThinMPm.Platforms.Android.Repositories.Contracts;
@@ -62,6 +64,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<IFavoriteArtistService, FavoriteArtistService>();
         builder.Services.AddSingleton<IPreferenceService, PreferenceService>();
 
+        builder.Services.AddSingleton<PlaylistRepository>();
+        builder.Services.AddSingleton<PlaylistSongRepository>();
+
         builder.Services.AddSingleton<PlayerViewModel>();
 
         builder.Services.AddTransient<MainViewModel>();
@@ -73,6 +78,7 @@ public static class MauiProgram
         builder.Services.AddTransient<PlayerPageViewModel>();
         builder.Services.AddTransient<FavoriteSongsViewModel>();
         builder.Services.AddTransient<FavoriteArtistsViewModel>();
+        builder.Services.AddTransient<PlaylistPopupViewModel>();
 
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<ArtistsPage>();
@@ -83,6 +89,9 @@ public static class MauiProgram
         builder.Services.AddTransient<PlayerPage>();
         builder.Services.AddTransient<FavoriteSongsPage>();
         builder.Services.AddTransient<FavoriteArtistsPage>();
+
+        builder.Services.AddTransient<PlaylistPopup>();
+        builder.Services.AddSingleton<Func<PlaylistPopup>>(sp => () => sp.GetRequiredService<PlaylistPopup>());
 
 #if DEBUG
         builder.Logging.AddDebug();
