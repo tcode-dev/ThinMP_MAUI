@@ -13,6 +13,7 @@ public partial class PlayerPageViewModel : ObservableObject
     private readonly IFavoriteSongService _favoriteSongService;
     private readonly IFavoriteArtistService _favoriteArtistService;
     private readonly IPreferenceService _preferenceService;
+    private readonly IPlaylistService _playlistService;
     private readonly Func<PlaylistPopup> _playlistPopupFactory;
     private IDispatcherTimer? _timer;
 
@@ -46,12 +47,13 @@ public partial class PlayerPageViewModel : ObservableObject
     [ObservableProperty]
     private bool isFavoriteArtist;
 
-    public PlayerPageViewModel(IPlayerService playerService, IFavoriteSongService favoriteSongService, IFavoriteArtistService favoriteArtistService, IPreferenceService preferenceService, Func<PlaylistPopup> playlistPopupFactory)
+    public PlayerPageViewModel(IPlayerService playerService, IFavoriteSongService favoriteSongService, IFavoriteArtistService favoriteArtistService, IPreferenceService preferenceService, IPlaylistService playlistService, Func<PlaylistPopup> playlistPopupFactory)
     {
         _playerService = playerService;
         _favoriteSongService = favoriteSongService;
         _favoriteArtistService = favoriteArtistService;
         _preferenceService = preferenceService;
+        _playlistService = playlistService;
         _playlistPopupFactory = playlistPopupFactory;
 
         _playerService.NowPlayingItemChanged += HandleNowPlayingItemChanged;
@@ -239,10 +241,17 @@ public partial class PlayerPageViewModel : ObservableObject
             switch (result.Action)
             {
                 case PlaylistPopupAction.Create:
-                    // TODO: プレイリスト作成と曲追加
+                    if (!string.IsNullOrWhiteSpace(result.PlaylistName))
+                    {
+                        var playlistId = await _playlistService.CreateAsync(result.PlaylistName);
+                        await _playlistService.AddSongAsync(playlistId, CurrentSong.Id);
+                    }
                     break;
                 case PlaylistPopupAction.Select:
-                    // TODO: 選択したプレイリストに曲追加
+                    if (result.SelectedPlaylist != null)
+                    {
+                        await _playlistService.AddSongAsync(result.SelectedPlaylist.Id, CurrentSong.Id);
+                    }
                     break;
             }
         }

@@ -87,7 +87,7 @@ public class PlaylistPopup : ContentPage
 
     private void ShowPlaylistList()
     {
-        var header = CreateHeader(AppResources.PlaylistCreate, true);
+        var header = CreatePlaylistListHeader();
         _contentContainer.Children.Add(header);
 
         foreach (var playlist in _viewModel.Playlists)
@@ -99,7 +99,7 @@ public class PlaylistPopup : ContentPage
 
     private void ShowCreatePlaylist()
     {
-        var header = CreateHeader(null, false);
+        var header = CreateNewPlaylistHeader();
         _contentContainer.Children.Add(header);
 
         var inputContainer = new VerticalStackLayout
@@ -124,45 +124,13 @@ public class PlaylistPopup : ContentPage
         };
         entry.SetBinding(Entry.TextProperty, nameof(PlaylistPopupViewModel.PlaylistName));
 
-        var buttonContainer = new Grid
-        {
-            ColumnDefinitions =
-            {
-                new ColumnDefinition(GridLength.Star),
-                new ColumnDefinition(GridLength.Star)
-            },
-            Margin = new Thickness(0, LayoutConstants.SpacingMedium, 0, 0)
-        };
-
-        var doneButton = new Microsoft.Maui.Controls.Button
-        {
-            Text = AppResources.Done,
-            BackgroundColor = Colors.Transparent,
-            TextColor = Colors.DodgerBlue
-        };
-        doneButton.Clicked += OnCreateDoneClicked;
-        Grid.SetColumn(doneButton, 0);
-
-        var cancelButton = new Microsoft.Maui.Controls.Button
-        {
-            Text = AppResources.Cancel,
-            BackgroundColor = Colors.Transparent,
-            TextColor = Colors.DodgerBlue
-        };
-        cancelButton.Clicked += OnCancelClicked;
-        Grid.SetColumn(cancelButton, 1);
-
-        buttonContainer.Children.Add(doneButton);
-        buttonContainer.Children.Add(cancelButton);
-
         inputContainer.Children.Add(titleLabel);
         inputContainer.Children.Add(entry);
-        inputContainer.Children.Add(buttonContainer);
 
         _contentContainer.Children.Add(inputContainer);
     }
 
-    private View CreateHeader(string? newPlaylistText, bool showNewPlaylist)
+    private View CreatePlaylistListHeader()
     {
         var header = new Grid
         {
@@ -174,30 +142,64 @@ public class PlaylistPopup : ContentPage
             }
         };
 
-        if (showNewPlaylist && newPlaylistText != null)
+        var newPlaylistButton = new Microsoft.Maui.Controls.Button
         {
-            var newPlaylistButton = new Microsoft.Maui.Controls.Button
-            {
-                Text = newPlaylistText,
-                BackgroundColor = Colors.Transparent,
-                TextColor = Colors.DodgerBlue,
-                HorizontalOptions = LayoutOptions.Start
-            };
-            newPlaylistButton.Clicked += OnNewPlaylistClicked;
-            Grid.SetColumn(newPlaylistButton, 0);
-            header.Children.Add(newPlaylistButton);
-        }
+            Text = AppResources.PlaylistCreate,
+            BackgroundColor = Colors.Transparent,
+            TextColor = Colors.DodgerBlue,
+            HorizontalOptions = LayoutOptions.Start
+        };
+        newPlaylistButton.Clicked += OnNewPlaylistClicked;
+        Grid.SetColumn(newPlaylistButton, 0);
+        header.Children.Add(newPlaylistButton);
 
-        var headerCancelButton = new Microsoft.Maui.Controls.Button
+        var cancelButton = new Microsoft.Maui.Controls.Button
         {
             Text = AppResources.Cancel,
             BackgroundColor = Colors.Transparent,
             TextColor = Colors.DodgerBlue,
             HorizontalOptions = LayoutOptions.End
         };
-        headerCancelButton.Clicked += OnCancelClicked;
-        Grid.SetColumn(headerCancelButton, 1);
-        header.Children.Add(headerCancelButton);
+        cancelButton.Clicked += OnCancelClicked;
+        Grid.SetColumn(cancelButton, 1);
+        header.Children.Add(cancelButton);
+
+        return header;
+    }
+
+    private View CreateNewPlaylistHeader()
+    {
+        var header = new Grid
+        {
+            Padding = new Thickness(LayoutConstants.SpacingMedium),
+            ColumnDefinitions =
+            {
+                new ColumnDefinition(GridLength.Star),
+                new ColumnDefinition(GridLength.Star)
+            }
+        };
+
+        var doneButton = new Microsoft.Maui.Controls.Button
+        {
+            Text = AppResources.Done,
+            BackgroundColor = Colors.Transparent,
+            TextColor = Colors.DodgerBlue,
+            HorizontalOptions = LayoutOptions.Start
+        };
+        doneButton.Clicked += OnCreateDoneClicked;
+        Grid.SetColumn(doneButton, 0);
+        header.Children.Add(doneButton);
+
+        var cancelButton = new Microsoft.Maui.Controls.Button
+        {
+            Text = AppResources.Cancel,
+            BackgroundColor = Colors.Transparent,
+            TextColor = Colors.DodgerBlue,
+            HorizontalOptions = LayoutOptions.End
+        };
+        cancelButton.Clicked += OnCreateCancelClicked;
+        Grid.SetColumn(cancelButton, 1);
+        header.Children.Add(cancelButton);
 
         return header;
     }
@@ -281,6 +283,20 @@ public class PlaylistPopup : ContentPage
     private void OnCancelClicked(object? sender, EventArgs e)
     {
         ClosePopup(null);
+    }
+
+    private void OnCreateCancelClicked(object? sender, EventArgs e)
+    {
+        if (_viewModel.Playlists.Count > 0)
+        {
+            _contentContainer.Children.Clear();
+            ShowPlaylistList();
+            UpdateClipRect();
+        }
+        else
+        {
+            ClosePopup(null);
+        }
     }
 
     private void OnCreateDoneClicked(object? sender, EventArgs e)
