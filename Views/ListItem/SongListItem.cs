@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
+using ThinMPm.Resources.Strings;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Popup;
 using ThinMPm.Views.Separator;
@@ -106,10 +107,10 @@ public class SongListItem : Grid
         if (page == null) return;
 
         var isFavorite = await _favoriteSongService.ExistsAsync(song.Id);
-        var favoriteText = isFavorite ? "お気に入りから削除" : "お気に入りに追加";
-        var addToPlaylistText = "プレイリストに追加";
+        var favoriteText = isFavorite ? AppResources.FavoriteRemove : AppResources.FavoriteAdd;
+        var addToPlaylistText = AppResources.PlaylistAdd;
 
-        var result = await page.DisplayActionSheetAsync(song.Name, "キャンセル", null, favoriteText, addToPlaylistText);
+        var result = await page.DisplayActionSheetAsync(song.Name, AppResources.Cancel, null, favoriteText, addToPlaylistText);
 
         if (result == favoriteText)
         {

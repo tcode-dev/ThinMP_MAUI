@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Markup;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
+using ThinMPm.Resources.Strings;
 using ThinMPm.Views.Separator;
 using ThinMPm.Views.Text;
 
@@ -80,9 +81,9 @@ public class ArtistListItem : Grid
         if (page == null) return;
 
         var isFavorite = await _favoriteArtistService.ExistsAsync(artist.Id);
-        var favoriteText = isFavorite ? "お気に入りから削除" : "お気に入りに追加";
+        var favoriteText = isFavorite ? AppResources.FavoriteRemove : AppResources.FavoriteAdd;
 
-        var result = await page.DisplayActionSheetAsync(artist.Name, "キャンセル", null, favoriteText);
+        var result = await page.DisplayActionSheetAsync(artist.Name, AppResources.Cancel, null, favoriteText);
 
         if (result == favoriteText)
         {
