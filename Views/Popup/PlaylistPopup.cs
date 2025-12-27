@@ -1,9 +1,8 @@
-using CommunityToolkit.Maui.Markup;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
-using ThinMPm.Views.Img;
+using ThinMPm.Views.ListItem;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Popup;
@@ -206,53 +205,12 @@ public class PlaylistPopup : ContentPage
 
     private View CreatePlaylistRow(IPlaylistModel playlist)
     {
-        var container = new Grid
+        var listItem = new PlaylistListItem((s, e) => OnPlaylistSelected(playlist))
         {
-            Padding = new Thickness(LayoutConstants.SpacingMedium, LayoutConstants.SpacingSmall),
-            ColumnDefinitions =
-            {
-                new ColumnDefinition(50),
-                new ColumnDefinition(GridLength.Star)
-            },
-            ColumnSpacing = LayoutConstants.SpacingMedium
+            BindingContext = playlist
         };
 
-        var artwork = new ArtworkImage(4)
-        {
-            WidthRequest = 50,
-            HeightRequest = 50,
-            ImageId = playlist.ImageId ?? string.Empty
-        };
-        Grid.SetColumn(artwork, 0);
-
-        var nameLabel = new PrimaryText
-        {
-            Text = playlist.Name,
-            VerticalTextAlignment = TextAlignment.Center,
-            FontSize = 16
-        };
-        Grid.SetColumn(nameLabel, 1);
-
-        container.Children.Add(artwork);
-        container.Children.Add(nameLabel);
-
-        var separator = new BoxView
-        {
-            HeightRequest = 1,
-            Color = ColorConstants.LineColor,
-            Margin = new Thickness(LayoutConstants.SpacingMedium + 50 + LayoutConstants.SpacingMedium, 0, 0, 0)
-        };
-
-        var stackLayout = new VerticalStackLayout
-        {
-            Children = { container, separator }
-        };
-
-        var tapGesture = new TapGestureRecognizer();
-        tapGesture.Tapped += (s, e) => OnPlaylistSelected(playlist);
-        stackLayout.GestureRecognizers.Add(tapGesture);
-
-        return stackLayout;
+        return listItem;
     }
 
     private void UpdateClipRect()
