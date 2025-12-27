@@ -21,6 +21,7 @@ public class MainViewModel(IAlbumService albumService)
         MenuItems.Add(new MenuModel(AppResources.Songs, nameof(Views.Page.SongsPage)));
         MenuItems.Add(new MenuModel(AppResources.FavoriteArtists, nameof(Views.Page.FavoriteArtistsPage)));
         MenuItems.Add(new MenuModel(AppResources.FavoriteSongs, nameof(Views.Page.FavoriteSongsPage)));
+        MenuItems.Add(new MenuModel(AppResources.Playlists, nameof(Views.Page.PlaylistsPage)));
 
         var albums = _albumService.FindByRecent(AppConstants.RecentAlbumsLimit);
 

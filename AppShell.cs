@@ -14,6 +14,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(PlayerPage), typeof(PlayerPage));
         Routing.RegisterRoute(nameof(FavoriteSongsPage), typeof(FavoriteSongsPage));
         Routing.RegisterRoute(nameof(FavoriteArtistsPage), typeof(FavoriteArtistsPage));
+        Routing.RegisterRoute(nameof(PlaylistsPage), typeof(PlaylistsPage));
 
         Items.Add(new ShellContent
         {
