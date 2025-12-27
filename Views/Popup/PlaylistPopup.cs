@@ -1,3 +1,4 @@
+using CommunityToolkit.Maui.Markup;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Resources.Strings;
@@ -23,7 +24,6 @@ public class PlaylistPopup : ContentPage
 
         _contentContainer = new VerticalStackLayout
         {
-            WidthRequest = 300,
             Padding = new Thickness(0, 0, LayoutConstants.SpacingLarge, LayoutConstants.SpacingLarge)
         };
 
@@ -33,15 +33,21 @@ public class PlaylistPopup : ContentPage
             BackgroundColor = ColorConstants.SecondaryBackgroundColor,
             StrokeShape = new Microsoft.Maui.Controls.Shapes.RoundRectangle { CornerRadius = 14 },
             StrokeThickness = 0,
-            HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         };
+        Grid.SetColumn(border, 1);
 
         var tapGesture = new TapGestureRecognizer();
         tapGesture.Tapped += OnBackgroundTapped;
 
         var backgroundLayout = new Grid
         {
+            ColumnDefinitions =
+            {
+                new ColumnDefinition { Width = new GridLength(15, GridUnitType.Star) },
+                new ColumnDefinition { Width = new GridLength(70, GridUnitType.Star) },
+                new ColumnDefinition { Width = new GridLength(15, GridUnitType.Star) }
+            },
             Children =
             {
                 new ContentView
@@ -49,7 +55,7 @@ public class PlaylistPopup : ContentPage
                     HorizontalOptions = LayoutOptions.Fill,
                     VerticalOptions = LayoutOptions.Fill,
                     GestureRecognizers = { tapGesture }
-                },
+                }.Column(0).ColumnSpan(3),
                 border
             }
         };
