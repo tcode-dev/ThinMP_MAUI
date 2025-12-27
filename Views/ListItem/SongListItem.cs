@@ -34,14 +34,39 @@ public class SongListItem : Grid
             await MainThread.InvokeOnMainThreadAsync(ShowContextMenuAsync);
         };
 
+        Point? pressedPoint = null;
+        const double moveThreshold = 10.0;
+
         var pointerGesture = new PointerGestureRecognizer();
         pointerGesture.PointerPressed += (s, e) =>
         {
             _isLongPressTriggered = false;
+            pressedPoint = e.GetPosition(this);
             longPressTimer.Start();
         };
-        pointerGesture.PointerReleased += (s, e) => longPressTimer.Stop();
-        pointerGesture.PointerExited += (s, e) => longPressTimer.Stop();
+        pointerGesture.PointerMoved += (s, e) =>
+        {
+            if (pressedPoint == null) return;
+            var currentPoint = e.GetPosition(this);
+            if (currentPoint == null) return;
+            var deltaX = Math.Abs(currentPoint.Value.X - pressedPoint.Value.X);
+            var deltaY = Math.Abs(currentPoint.Value.Y - pressedPoint.Value.Y);
+            if (deltaX > moveThreshold || deltaY > moveThreshold)
+            {
+                longPressTimer.Stop();
+                pressedPoint = null;
+            }
+        };
+        pointerGesture.PointerReleased += (s, e) =>
+        {
+            longPressTimer.Stop();
+            pressedPoint = null;
+        };
+        pointerGesture.PointerExited += (s, e) =>
+        {
+            longPressTimer.Stop();
+            pressedPoint = null;
+        };
 
         GestureRecognizers.Add(pointerGesture);
 
