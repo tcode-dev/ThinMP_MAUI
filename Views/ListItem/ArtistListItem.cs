@@ -5,6 +5,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Database.Entities;
 using ThinMPm.Resources.Strings;
+using ThinMPm.Views.Page;
 using ThinMPm.Views.Separator;
 using ThinMPm.Views.Text;
 
@@ -12,13 +13,10 @@ namespace ThinMPm.Views.ListItem;
 
 public class ArtistListItem : Grid
 {
-    private readonly EventHandler<TappedEventArgs> _tappedHandler;
     private bool _isLongPressTriggered;
 
-    public ArtistListItem(EventHandler<TappedEventArgs> tappedHandler)
+    public ArtistListItem()
     {
-        _tappedHandler = tappedHandler;
-
         var tapGesture = new TapGestureRecognizer();
         tapGesture.Tapped += OnTapped;
         GestureRecognizers.Add(tapGesture);
@@ -63,14 +61,18 @@ public class ArtistListItem : Grid
         );
     }
 
-    private void OnTapped(object? sender, TappedEventArgs e)
+    private async void OnTapped(object? sender, TappedEventArgs e)
     {
         if (_isLongPressTriggered)
         {
             _isLongPressTriggered = false;
             return;
         }
-        _tappedHandler?.Invoke(sender, e);
+
+        if (BindingContext is IArtistModel artist)
+        {
+            await Shell.Current.GoToAsync($"{nameof(ArtistDetailPage)}?ArtistId={artist.Id}");
+        }
     }
 
     private async Task ShowContextMenuAsync()

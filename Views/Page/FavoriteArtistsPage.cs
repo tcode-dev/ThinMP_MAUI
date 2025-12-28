@@ -32,7 +32,7 @@ class FavoriteArtistsPage : ContentPage
 
         var collectionView = new CollectionView
         {
-            ItemTemplate = new DataTemplate(() => new ArtistListItem(OnArtistTapped)),
+            ItemTemplate = new DataTemplate(() => new ArtistListItem()),
             Header = new EmptyHeader(),
             Footer = new EmptyListItem(),
         };
@@ -61,17 +61,6 @@ class FavoriteArtistsPage : ContentPage
         if (BindingContext is FavoriteArtistsViewModel vm)
         {
             await vm.LoadAsync();
-        }
-    }
-
-    private async void OnArtistTapped(object? sender, TappedEventArgs e)
-    {
-        if (sender is BindableObject bindable)
-        {
-            if (bindable.BindingContext is IArtistModel item)
-            {
-                await Shell.Current.GoToAsync($"{nameof(ArtistDetailPage)}?ArtistId={item.Id}");
-            }
         }
     }
 
