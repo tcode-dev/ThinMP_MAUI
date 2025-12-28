@@ -7,17 +7,21 @@ using ThinMPm.Resources.Strings;
 
 namespace ThinMPm.ViewModels;
 
-public partial class MainViewModel(IAlbumService albumService) : ObservableObject
+public partial class MainViewModel(IAlbumService albumService, IShortcutService shortcutService) : ObservableObject
 {
     readonly IAlbumService _albumService = albumService;
+    readonly IShortcutService _shortcutService = shortcutService;
 
     [ObservableProperty]
     private IList<IMenuModel> _menuItems = [];
 
     [ObservableProperty]
+    private IList<IShortcutModel> _shortcuts = [];
+
+    [ObservableProperty]
     private IList<IAlbumModel> _albums = [];
 
-    public void Load()
+    public async void Load()
     {
         MenuItems =
         [
@@ -29,6 +33,7 @@ public partial class MainViewModel(IAlbumService albumService) : ObservableObjec
             new MenuModel(AppResources.Playlists, nameof(Views.Page.PlaylistsPage)),
         ];
 
+        Shortcuts = await _shortcutService.GetAllAsync();
         Albums = _albumService.FindByRecent(AppConstants.RecentAlbumsLimit);
     }
 }

@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Maui.Markup;
+﻿using System.Collections;
+using System.Globalization;
+using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
@@ -21,6 +23,16 @@ class MainPage : ContentPage
             SafeAreaEdges = SafeAreaEdges.None,
         };
 
+        var shortcutSection = new VerticalStackLayout
+        {
+            Children =
+            {
+                new SectionTitle(AppResources.Shortcut),
+                new ShortcutList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Shortcuts)),
+            }
+        };
+        shortcutSection.SetBinding(IsVisibleProperty, new Binding(nameof(vm.Shortcuts), converter: new ListNotEmptyConverter()));
+
         var scrollView = new ScrollView
         {
             SafeAreaEdges = SafeAreaEdges.None,
@@ -29,6 +41,7 @@ class MainPage : ContentPage
                 Children = {
                     new MainHeader(),
                     new MenuList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.MenuItems)),
+                    shortcutSection,
                     new SectionTitle(AppResources.RecentlyAdded),
                     new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
                 }
@@ -51,5 +64,22 @@ class MainPage : ContentPage
         {
             vm.Load();
         }
+    }
+}
+
+class ListNotEmptyConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is IList list)
+        {
+            return list.Count > 0;
+        }
+        return false;
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }
