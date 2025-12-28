@@ -23,15 +23,11 @@ class MainPage : ContentPage
             SafeAreaEdges = SafeAreaEdges.None,
         };
 
-        var shortcutSection = new VerticalStackLayout
-        {
-            Children =
-            {
-                new SectionTitle(AppResources.Shortcut),
-                new ShortcutList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Shortcuts)),
-            }
-        };
-        shortcutSection.SetBinding(IsVisibleProperty, new Binding(nameof(vm.Shortcuts), converter: new ListNotEmptyConverter()));
+        var shortcutTitle = new SectionTitle(AppResources.Shortcut);
+        shortcutTitle.SetBinding(IsVisibleProperty, new Binding(nameof(vm.Shortcuts), converter: new ListNotEmptyConverter()));
+
+        var shortcutList = new ShortcutList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Shortcuts));
+        shortcutList.SetBinding(IsVisibleProperty, new Binding(nameof(vm.Shortcuts), converter: new ListNotEmptyConverter()));
 
         var scrollView = new ScrollView
         {
@@ -41,7 +37,8 @@ class MainPage : ContentPage
                 Children = {
                     new MainHeader(),
                     new MenuList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.MenuItems)),
-                    shortcutSection,
+                    shortcutTitle,
+                    shortcutList,
                     new SectionTitle(AppResources.RecentlyAdded),
                     new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
                 }
