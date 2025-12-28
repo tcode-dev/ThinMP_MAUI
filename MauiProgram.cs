@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using FFImageLoading.Maui;
 using ThinMPm.ViewModels;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Views.Page;
@@ -44,7 +45,8 @@ public static class MauiProgram
                 handlers.AddHandler<BlurredImageView, BlurredImageViewHandler>();
                 handlers.AddHandler<BlurBackgroundView, BlurBackgroundViewHandler>();
 #endif
-            });
+            })
+            .UseFFImageLoading();
 
 #if ANDROID || IOS
         builder.Services.AddSingleton<ISongRepository, SongRepository>();
