@@ -1,12 +1,11 @@
-using ThinMPm.Contracts.Services;
 using ThinMPm.Views.ListItem;
 
 namespace ThinMPm.Views.List;
 
 public class ArtistList : CollectionView
 {
-    public ArtistList(EventHandler<TappedEventArgs> onArtistTapped, IFavoriteArtistService favoriteArtistService, IShortcutService shortcutService)
+    public ArtistList(EventHandler<TappedEventArgs> onArtistTapped)
     {
-        ItemTemplate = new DataTemplate(() => new ArtistListItem(onArtistTapped, favoriteArtistService, shortcutService));
+        ItemTemplate = new DataTemplate(() => new ArtistListItem(onArtistTapped));
     }
 }

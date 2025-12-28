@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Markup;
+using Microsoft.Extensions.DependencyInjection;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
@@ -11,15 +12,11 @@ namespace ThinMPm.Views.ListItem;
 
 public class ArtistListItem : Grid
 {
-    private readonly IFavoriteArtistService _favoriteArtistService;
-    private readonly IShortcutService _shortcutService;
     private readonly EventHandler<TappedEventArgs> _tappedHandler;
     private bool _isLongPressTriggered;
 
-    public ArtistListItem(EventHandler<TappedEventArgs> tappedHandler, IFavoriteArtistService favoriteArtistService, IShortcutService shortcutService)
+    public ArtistListItem(EventHandler<TappedEventArgs> tappedHandler)
     {
-        _favoriteArtistService = favoriteArtistService;
-        _shortcutService = shortcutService;
         _tappedHandler = tappedHandler;
 
         var tapGesture = new TapGestureRecognizer();
@@ -83,21 +80,25 @@ public class ArtistListItem : Grid
         var page = GetParentPage();
         if (page == null) return;
 
-        var isFavorite = await _favoriteArtistService.ExistsAsync(artist.Id);
+        var services = Application.Current!.Handler!.MauiContext!.Services;
+        var favoriteArtistService = services.GetRequiredService<IFavoriteArtistService>();
+        var shortcutService = services.GetRequiredService<IShortcutService>();
+
+        var isFavorite = await favoriteArtistService.ExistsAsync(artist.Id);
         var favoriteText = isFavorite ? AppResources.FavoriteRemove : AppResources.FavoriteAdd;
 
-        var isShortcut = await _shortcutService.ExistsAsync(artist.Id, ShortcutCategory.Artist);
+        var isShortcut = await shortcutService.ExistsAsync(artist.Id, ShortcutCategory.Artist);
         var shortcutText = isShortcut ? AppResources.ShortcutRemove : AppResources.ShortcutAdd;
 
         var result = await page.DisplayActionSheetAsync(artist.Name, AppResources.Cancel, null, favoriteText, shortcutText);
 
         if (result == favoriteText)
         {
-            await _favoriteArtistService.ToggleAsync(artist.Id);
+            await favoriteArtistService.ToggleAsync(artist.Id);
         }
         else if (result == shortcutText)
         {
-            await _shortcutService.ToggleAsync(artist.Id, ShortcutCategory.Artist);
+            await shortcutService.ToggleAsync(artist.Id, ShortcutCategory.Artist);
         }
     }
 
