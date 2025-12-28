@@ -36,6 +36,7 @@ public class DatabaseService
             await Database.CreateTableAsync<FavoriteArtistEntity>();
             await Database.CreateTableAsync<PlaylistEntity>();
             await Database.CreateTableAsync<PlaylistSongEntity>();
+            await Database.CreateTableAsync<ShortcutEntity>();
             _isInitialized = true;
         }
         finally
