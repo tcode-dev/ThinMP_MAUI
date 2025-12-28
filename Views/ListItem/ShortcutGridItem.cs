@@ -1,3 +1,4 @@
+using System.Globalization;
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Extensions.DependencyInjection;
 using ThinMPm.Contracts.Models;
@@ -49,6 +50,9 @@ public class ShortcutGridItem : ContentView
             }
         };
 
+        var categoryText = new SecondaryText().TextCenter();
+        categoryText.SetBinding(Label.TextProperty, new Binding(nameof(IShortcutModel.Category), converter: new ShortcutCategoryConverter()));
+
         Content = new VerticalStackLayout
         {
             Spacing = 4,
@@ -57,7 +61,8 @@ public class ShortcutGridItem : ContentView
                 _imageGrid,
                 new PrimaryText()
                     .TextCenter()
-                    .Bind(Label.TextProperty, nameof(IShortcutModel.Name))
+                    .Bind(Label.TextProperty, nameof(IShortcutModel.Name)),
+                categoryText
             }
         };
 
@@ -126,5 +131,28 @@ public class ShortcutGridItem : ContentView
             element = element.Parent;
         }
         return null;
+    }
+}
+
+class ShortcutCategoryConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is ShortcutCategory category)
+        {
+            return category switch
+            {
+                ShortcutCategory.Artist => AppResources.Artist,
+                ShortcutCategory.Album => AppResources.Album,
+                ShortcutCategory.Playlist => AppResources.Playlist,
+                _ => string.Empty
+            };
+        }
+        return string.Empty;
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }
