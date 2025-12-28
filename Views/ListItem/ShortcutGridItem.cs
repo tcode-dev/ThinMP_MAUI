@@ -41,13 +41,13 @@ public class ShortcutGridItem : ContentView
 
         GestureRecognizers.Add(pointerGesture);
 
+        var artworkImage = new ArtworkImage()
+            .Bind(ArtworkImage.ImageIdProperty, nameof(IShortcutModel.ImageId))
+            .Bind(ArtworkImage.IsCircleProperty, nameof(IShortcutModel.Category), converter: new IsArtistCategoryConverter());
+
         _imageGrid = new Grid
         {
-            Children =
-            {
-                new ArtworkImage()
-                    .Bind(ArtworkImage.ImageIdProperty, nameof(IShortcutModel.ImageId))
-            }
+            Children = { artworkImage }
         };
 
         var categoryText = new SecondaryText().TextCenter();
@@ -149,6 +149,19 @@ class ShortcutCategoryConverter : IValueConverter
             };
         }
         return string.Empty;
+    }
+
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+class IsArtistCategoryConverter : IValueConverter
+{
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        return value is ShortcutCategory category && category == ShortcutCategory.Artist;
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

@@ -19,7 +19,21 @@ public class ArtworkImage : CachedImage
         set => SetValue(ImageIdProperty, value);
     }
 
+    public static readonly BindableProperty IsCircleProperty =
+        BindableProperty.Create(
+            nameof(IsCircle),
+            typeof(bool),
+            typeof(ArtworkImage),
+            false,
+            propertyChanged: OnIsCircleChanged);
+
     public double CornerRadius { get; set; }
+
+    public bool IsCircle
+    {
+        get => (bool)GetValue(IsCircleProperty);
+        set => SetValue(IsCircleProperty, value);
+    }
 
     public ArtworkImage(double cornerRadius = 5)
     {
@@ -31,19 +45,42 @@ public class ArtworkImage : CachedImage
         DownsampleToViewSize = true;
     }
 
+    private static void OnIsCircleChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var control = (ArtworkImage)bindable;
+        control.UpdateClip();
+    }
+
     private void OnSizeChanged(object? sender, EventArgs e)
     {
-        if (Width > 0 && Height > 0 && CornerRadius > 0)
+        UpdateClip();
+    }
+
+    private void UpdateClip()
+    {
+        if (Width > 0 && Height > 0)
         {
-            Clip = new RoundRectangleGeometry
+            if (IsCircle)
             {
-                CornerRadius = CornerRadius,
-                Rect = new Rect(0, 0, Width, Height)
-            };
-        }
-        else
-        {
-            Clip = null;
+                Clip = new EllipseGeometry
+                {
+                    Center = new Point(Width / 2, Height / 2),
+                    RadiusX = Width / 2,
+                    RadiusY = Height / 2
+                };
+            }
+            else if (CornerRadius > 0)
+            {
+                Clip = new RoundRectangleGeometry
+                {
+                    CornerRadius = CornerRadius,
+                    Rect = new Rect(0, 0, Width, Height)
+                };
+            }
+            else
+            {
+                Clip = null;
+            }
         }
     }
 
