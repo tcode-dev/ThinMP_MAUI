@@ -74,7 +74,10 @@ public class ShortcutService : IShortcutService
         var artist = _artistService.FindById(id);
         if (artist == null) return null;
 
-        return new ShortcutModel(artist.Id, artist.Name, null, ShortcutCategory.Artist);
+        var albums = _albumService.FindByArtistId(id);
+        var imageId = albums.FirstOrDefault()?.ImageId;
+
+        return new ShortcutModel(artist.Id, artist.Name, imageId, ShortcutCategory.Artist);
     }
 
     private IShortcutModel? CreateAlbumShortcut(string id)
