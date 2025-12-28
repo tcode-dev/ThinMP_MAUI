@@ -13,15 +13,17 @@ namespace ThinMPm.Views.Page;
 class ArtistsPage : ContentPage
 {
     private readonly IFavoriteArtistService _favoriteArtistService;
+    private readonly IShortcutService _shortcutService;
     private readonly ArtistsHeader header;
     private bool isBlurBackground = false;
 
-    public ArtistsPage(ArtistViewModel vm, IFavoriteArtistService favoriteArtistService, IPlatformUtil platformUtil)
+    public ArtistsPage(ArtistViewModel vm, IFavoriteArtistService favoriteArtistService, IShortcutService shortcutService, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
         _favoriteArtistService = favoriteArtistService;
+        _shortcutService = shortcutService;
 
         var layout = new AbsoluteLayout
         {
@@ -33,7 +35,7 @@ class ArtistsPage : ContentPage
 
         var collectionView = new CollectionView
         {
-            ItemTemplate = new DataTemplate(() => new ArtistListItem(OnTapped, _favoriteArtistService)),
+            ItemTemplate = new DataTemplate(() => new ArtistListItem(OnTapped, _favoriteArtistService, _shortcutService)),
             Header = new EmptyHeader(),
             Footer = new EmptyListItem(),
         };

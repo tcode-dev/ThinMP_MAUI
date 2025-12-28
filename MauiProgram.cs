@@ -66,6 +66,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IFavoriteArtistService, FavoriteArtistService>();
         builder.Services.AddSingleton<IPreferenceService, PreferenceService>();
         builder.Services.AddSingleton<IPlaylistService, PlaylistService>();
+        builder.Services.AddSingleton<IShortcutService, ShortcutService>();
 
         builder.Services.AddSingleton<PlaylistRepository>();
         builder.Services.AddSingleton<PlaylistSongRepository>();

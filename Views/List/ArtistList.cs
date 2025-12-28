@@ -5,8 +5,8 @@ namespace ThinMPm.Views.List;
 
 public class ArtistList : CollectionView
 {
-    public ArtistList(EventHandler<TappedEventArgs> onArtistTapped, IFavoriteArtistService favoriteArtistService)
+    public ArtistList(EventHandler<TappedEventArgs> onArtistTapped, IFavoriteArtistService favoriteArtistService, IShortcutService shortcutService)
     {
-        ItemTemplate = new DataTemplate(() => new ArtistListItem(onArtistTapped, favoriteArtistService));
+        ItemTemplate = new DataTemplate(() => new ArtistListItem(onArtistTapped, favoriteArtistService, shortcutService));
     }
 }
