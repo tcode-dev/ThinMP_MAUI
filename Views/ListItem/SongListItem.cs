@@ -13,13 +13,11 @@ namespace ThinMPm.Views.ListItem;
 
 public class SongListItem : Grid
 {
-    private readonly IFavoriteSongService _favoriteSongService;
     private readonly EventHandler<TappedEventArgs> _tappedHandler;
     private bool _isLongPressTriggered;
 
-    public SongListItem(EventHandler<TappedEventArgs> tappedHandler, IFavoriteSongService favoriteSongService)
+    public SongListItem(EventHandler<TappedEventArgs> tappedHandler)
     {
-        _favoriteSongService = favoriteSongService;
         _tappedHandler = tappedHandler;
 
         var tapGesture = new TapGestureRecognizer();
@@ -131,7 +129,10 @@ public class SongListItem : Grid
         var page = GetParentPage();
         if (page == null) return;
 
-        var isFavorite = await _favoriteSongService.ExistsAsync(song.Id);
+        var services = Application.Current!.Handler!.MauiContext!.Services;
+        var favoriteSongService = services.GetRequiredService<IFavoriteSongService>();
+
+        var isFavorite = await favoriteSongService.ExistsAsync(song.Id);
         var favoriteText = isFavorite ? AppResources.FavoriteRemove : AppResources.FavoriteAdd;
         var addToPlaylistText = AppResources.PlaylistAdd;
 
@@ -139,7 +140,7 @@ public class SongListItem : Grid
 
         if (result == favoriteText)
         {
-            await _favoriteSongService.ToggleAsync(song.Id);
+            await favoriteSongService.ToggleAsync(song.Id);
         }
         else if (result == addToPlaylistText)
         {

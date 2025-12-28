@@ -13,15 +13,13 @@ namespace ThinMPm.Views.Page;
 class AlbumDetailPage : DetailPageBase
 {
     private readonly IPlayerService _playerService;
-    private readonly IFavoriteSongService _favoriteSongService;
     private readonly IPreferenceService _preferenceService;
 
-    public AlbumDetailPage(AlbumDetailViewModel vm, IPlayerService playerService, IFavoriteSongService favoriteSongService, IPreferenceService preferenceService, IPlatformUtil platformUtil)
+    public AlbumDetailPage(AlbumDetailViewModel vm, IPlayerService playerService, IPreferenceService preferenceService, IPlatformUtil platformUtil)
         : base(platformUtil, "Album.Name")
     {
         BindingContext = vm;
         _playerService = playerService;
-        _favoriteSongService = favoriteSongService;
         _preferenceService = preferenceService;
 
         var layout = new AbsoluteLayout {
@@ -38,7 +36,7 @@ class AlbumDetailPage : DetailPageBase
             {
                 Children = {
                 new AlbumDetailFirstView{ BindingContext = vm },
-                new SongList(OnSongTapped, _favoriteSongService)
+                new SongList(OnSongTapped)
                     .Bind(ItemsView.ItemsSourceProperty, "Songs")
                 }
             }

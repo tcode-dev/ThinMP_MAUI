@@ -13,18 +13,16 @@ namespace ThinMPm.Views.Page;
 class FavoriteSongsPage : ContentPage
 {
     private readonly IPlayerService _playerService;
-    private readonly IFavoriteSongService _favoriteSongService;
     private readonly IPreferenceService _preferenceService;
     private readonly FavoriteSongsHeader header;
     private bool isBlurBackground = false;
 
-    public FavoriteSongsPage(FavoriteSongsViewModel vm, IPlayerService playerService, IFavoriteSongService favoriteSongService, IPreferenceService preferenceService, IPlatformUtil platformUtil)
+    public FavoriteSongsPage(FavoriteSongsViewModel vm, IPlayerService playerService, IPreferenceService preferenceService, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
 
         BindingContext = vm;
         _playerService = playerService;
-        _favoriteSongService = favoriteSongService;
         _preferenceService = preferenceService;
 
         var layout = new AbsoluteLayout
@@ -38,7 +36,7 @@ class FavoriteSongsPage : ContentPage
 
         var collectionView = new CollectionView
         {
-            ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped, _favoriteSongService)),
+            ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped)),
             Header = new EmptyHeader(),
             Footer = new EmptyListItem(),
         };
