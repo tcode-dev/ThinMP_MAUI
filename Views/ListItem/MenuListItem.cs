@@ -8,10 +8,10 @@ namespace ThinMPm.Views.ListItem;
 
 public class MenuListItem : Grid
 {
-    public MenuListItem(EventHandler<TappedEventArgs> tappedHandler)
+    public MenuListItem()
     {
         var tapGesture = new TapGestureRecognizer();
-        tapGesture.Tapped += tappedHandler;
+        tapGesture.Tapped += OnTapped;
         GestureRecognizers.Add(tapGesture);
 
         Padding = new Thickness(LayoutConstants.SpacingLarge, 0, 0, 0);
@@ -32,5 +32,13 @@ public class MenuListItem : Grid
             new LineSeparator()
             .Row(1).ColumnSpan(2)
         );
+    }
+
+    private async void OnTapped(object? sender, TappedEventArgs e)
+    {
+        if (BindingContext is IMenuModel menu)
+        {
+            await Shell.Current.GoToAsync(menu.Page);
+        }
     }
 }
