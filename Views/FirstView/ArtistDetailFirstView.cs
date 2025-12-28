@@ -26,7 +26,7 @@ class ArtistDetailFirstView : AbsoluteLayout
         AbsoluteLayout.SetLayoutFlags(gradientOverlay, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(gradientOverlay, new Rect(0, 0, 1, 1));
 
-        var image = new ArtworkImage().Bind(ArtworkImage.ImageIdProperty, "ImageId");
+        var image = new ArtworkImage { IsCircle = true }.Bind(ArtworkImage.ImageIdProperty, "ImageId");
         primaryTitle = new PrimaryTitle().Bind(Label.TextProperty, "Artist.Name");
         secondaryTitle = new SecondaryTitle().Bind(Label.TextProperty, "SecondaryText");
 
@@ -48,7 +48,6 @@ class ArtistDetailFirstView : AbsoluteLayout
             imageSize = this.Width / 3;
             image.WidthRequest = imageSize;
             image.HeightRequest = imageSize;
-            image.CornerRadius = imageSize / 2;
 
             var primaryTitleY = this.Height * LayoutConstants.HeaderVisibilityThreshold;
             AbsoluteLayout.SetLayoutBounds(primaryTitle, new Rect(0.5, primaryTitleY, AbsoluteLayout.AutoSize, AbsoluteLayout.AutoSize));
