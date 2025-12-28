@@ -47,7 +47,7 @@ public class ShortcutRepository
         await DatabaseService.InitializeAsync();
         return await DatabaseService.Database
             .Table<ShortcutEntity>()
-            .OrderBy(x => x.SortOrder)
+            .OrderByDescending(x => x.SortOrder)
             .ToListAsync();
     }
 
