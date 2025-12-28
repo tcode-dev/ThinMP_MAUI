@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Markup;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Views.Img;
+using ThinMPm.Views.Page;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.ListItem;
@@ -9,10 +10,10 @@ public class AlbumGridItem : ContentView
 {
     private Grid _imageGrid;
 
-    public AlbumGridItem(EventHandler<TappedEventArgs> tappedHandler)
+    public AlbumGridItem()
     {
         var tapGesture = new TapGestureRecognizer();
-        tapGesture.Tapped += tappedHandler;
+        tapGesture.Tapped += OnTapped;
         GestureRecognizers.Add(tapGesture);
 
         _imageGrid = new Grid
@@ -48,6 +49,14 @@ public class AlbumGridItem : ContentView
         {
             _imageGrid.WidthRequest = Width;
             _imageGrid.HeightRequest = Width;
+        }
+    }
+
+    private async void OnTapped(object? sender, TappedEventArgs e)
+    {
+        if (BindingContext is IAlbumModel album)
+        {
+            await Shell.Current.GoToAsync($"{nameof(AlbumDetailPage)}?AlbumId={album.Id}");
         }
     }
 }

@@ -37,7 +37,7 @@ class AlbumsPage : ContentPage
                 VerticalItemSpacing = LayoutConstants.SpacingLarge,
                 HorizontalItemSpacing = LayoutConstants.SpacingLarge
             },
-            ItemTemplate = new DataTemplate(() => new AlbumGridItem(OnAlbumTapped)),
+            ItemTemplate = new DataTemplate(() => new AlbumGridItem()),
             Header = new EmptyHeader(),
             Footer = new EmptyListItem(),
             Margin = new Thickness(LayoutConstants.SpacingLarge, 0, LayoutConstants.SpacingLarge, 0),
@@ -67,17 +67,6 @@ class AlbumsPage : ContentPage
         if (BindingContext is AlbumViewModel vm)
         {
             vm.Load();
-        }
-    }
-
-    private async void OnAlbumTapped(object? sender, EventArgs e)
-    {
-        if (sender is BindableObject bindable)
-        {
-            if (bindable.BindingContext is IAlbumModel item)
-            {
-                await Shell.Current.GoToAsync($"{nameof(AlbumDetailPage)}?AlbumId={item.Id}");
-            }
         }
     }
 
