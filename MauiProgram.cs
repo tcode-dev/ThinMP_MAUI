@@ -58,6 +58,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IArtistService, ArtistService>();
         builder.Services.AddSingleton<IArtworkService, ArtworkService>();
         builder.Services.AddSingleton<IPlayerService, PlayerService>();
+        builder.Services.AddSingleton<IPermissionService, PermissionService>();
 
         builder.Services.AddSingleton<IPlatformUtil, PlatformUtili>();
 #endif

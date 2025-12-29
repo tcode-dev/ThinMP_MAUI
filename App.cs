@@ -1,14 +1,35 @@
-﻿namespace ThinMPm;
+using ThinMPm.Contracts.Services;
+using ThinMPm.Views.Page;
+
+namespace ThinMPm;
 
 public partial class App : Application
 {
-    public App()
-    {
+    private readonly IPermissionService _permissionService;
 
+    public App(IPermissionService permissionService)
+    {
+        _permissionService = permissionService;
     }
 
     protected override Window CreateWindow(IActivationState? activationState)
     {
-        return new Window(new AppShell());
+        var window = new Window(new ContentPage());
+
+        window.Created += async (s, e) =>
+        {
+            var granted = await _permissionService.CheckAndRequestPermissionAsync();
+
+            if (granted)
+            {
+                window.Page = new AppShell();
+            }
+            else
+            {
+                window.Page = new PermissionDeniedPage(_permissionService);
+            }
+        };
+
+        return window;
     }
 }
