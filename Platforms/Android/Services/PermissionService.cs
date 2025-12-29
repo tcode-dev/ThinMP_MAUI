@@ -2,25 +2,46 @@ using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.Platforms.Android.Services;
 
+public class ReadMediaAudioPermission : Permissions.BasePlatformPermission
+{
+    public override (string androidPermission, bool isRuntime)[] RequiredPermissions =>
+    [
+        (global::Android.Manifest.Permission.ReadMediaAudio, true)
+    ];
+}
+
+public class PostNotificationsPermission : Permissions.BasePlatformPermission
+{
+    public override (string androidPermission, bool isRuntime)[] RequiredPermissions =>
+    [
+        (global::Android.Manifest.Permission.PostNotifications, true)
+    ];
+}
+
 public class PermissionService : IPermissionService
 {
     public async Task<bool> CheckAndRequestPermissionAsync()
     {
-        var status = await Permissions.CheckStatusAsync<Permissions.Media>();
+        var mediaStatus = await Permissions.CheckStatusAsync<ReadMediaAudioPermission>();
 
-        if (status == PermissionStatus.Granted)
+        if (mediaStatus != PermissionStatus.Granted)
         {
-            return true;
+            mediaStatus = await Permissions.RequestAsync<ReadMediaAudioPermission>();
         }
 
-        status = await Permissions.RequestAsync<Permissions.Media>();
+        var notificationStatus = await Permissions.CheckStatusAsync<PostNotificationsPermission>();
 
-        return status == PermissionStatus.Granted;
+        if (notificationStatus != PermissionStatus.Granted)
+        {
+            await Permissions.RequestAsync<PostNotificationsPermission>();
+        }
+
+        return mediaStatus == PermissionStatus.Granted;
     }
 
     public async Task<bool> CheckPermissionAsync()
     {
-        var status = await Permissions.CheckStatusAsync<Permissions.Media>();
+        var status = await Permissions.CheckStatusAsync<ReadMediaAudioPermission>();
 
         return status == PermissionStatus.Granted;
     }
