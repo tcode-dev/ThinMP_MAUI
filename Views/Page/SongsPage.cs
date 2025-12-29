@@ -7,6 +7,7 @@ using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.ListItem;
 using ThinMPm.Views.Player;
+using ThinMPm.Views.Utils;
 
 namespace ThinMPm.Views.Page;
 
@@ -37,8 +38,8 @@ class SongsPage : ContentPage
         var collectionView = new CollectionView
         {
             ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped)),
-            Header = new EmptyHeader(),
-            Footer = new EmptyListItem(),
+            Header = new HeaderSpacer(),
+            Footer = new FooterSpacer(),
         };
         collectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs));
         collectionView.Scrolled += OnScrolled;

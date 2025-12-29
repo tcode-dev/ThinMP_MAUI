@@ -1,10 +1,10 @@
 using ThinMPm.Constants;
 
-namespace ThinMPm.Views.Separator;
+namespace ThinMPm.Views.Utils;
 
-public class LineSeparator : BoxView
+public class Separator : BoxView
 {
-    public LineSeparator()
+    public Separator()
     {
         HeightRequest = 1;
         Color = ColorConstants.LineColor;

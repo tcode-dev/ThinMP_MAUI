@@ -1,7 +1,7 @@
 using CommunityToolkit.Maui.Markup;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
-using ThinMPm.Views.Separator;
+using ThinMPm.Views.Utils;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.ListItem;
@@ -29,7 +29,7 @@ public class MenuListItem : Grid
         );
 
         Children.Add(
-            new LineSeparator()
+            new Separator()
             .Row(1).ColumnSpan(2)
         );
     }

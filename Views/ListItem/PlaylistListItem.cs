@@ -7,7 +7,7 @@ using ThinMPm.Database.Entities;
 using ThinMPm.Resources.Strings;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Page;
-using ThinMPm.Views.Separator;
+using ThinMPm.Views.Utils;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.ListItem;
@@ -73,7 +73,7 @@ public class PlaylistListItem : Grid
         );
 
         Children.Add(
-            new LineSeparator()
+            new Separator()
                 .Row(1)
                 .ColumnSpan(2)
         );

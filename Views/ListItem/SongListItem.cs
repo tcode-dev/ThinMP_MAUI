@@ -6,7 +6,7 @@ using ThinMPm.Contracts.Services;
 using ThinMPm.Resources.Strings;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Popup;
-using ThinMPm.Views.Separator;
+using ThinMPm.Views.Utils;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.ListItem;
@@ -106,7 +106,7 @@ public class SongListItem : Grid
         );
 
         Children.Add(
-            new LineSeparator()
+            new Separator()
                 .Row(2)
                 .ColumnSpan(2)
         );

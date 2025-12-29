@@ -7,6 +7,7 @@ using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.ListItem;
 using ThinMPm.Views.Player;
+using ThinMPm.Views.Utils;
 
 namespace ThinMPm.Views.Page;
 
@@ -38,8 +39,8 @@ class AlbumsPage : ContentPage
                 HorizontalItemSpacing = LayoutConstants.SpacingLarge
             },
             ItemTemplate = new DataTemplate(() => new AlbumGridItem()),
-            Header = new EmptyHeader(),
-            Footer = new EmptyListItem(),
+            Header = new HeaderSpacer(),
+            Footer = new FooterSpacer(),
             Margin = new Thickness(LayoutConstants.SpacingLarge, 0, LayoutConstants.SpacingLarge, 0),
         };
         collectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums));
