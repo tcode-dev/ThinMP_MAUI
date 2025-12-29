@@ -13,6 +13,7 @@ public interface IPlayerService
     void StartFavoriteSongs(IList<string> songIds, int index, RepeatMode repeatMode, ShuffleMode shuffleMode);
     void Play();
     void Pause();
+    void Previous();
     void Next();
     void SetRepeat(RepeatMode repeatMode);
     void SetShuffle(ShuffleMode shuffleMode);

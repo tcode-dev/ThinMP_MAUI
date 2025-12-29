@@ -55,6 +55,11 @@ public class PlayerService : IPlayerService
         MusicPlayer.Shared.Pause();
     }
 
+    public void Previous()
+    {
+        MusicPlayer.Shared.Prev();
+    }
+
     public void Next()
     {
         MusicPlayer.Shared.Next();

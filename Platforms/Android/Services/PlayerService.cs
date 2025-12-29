@@ -76,6 +76,11 @@ public class PlayerService : IPlayerService
         MusicPlayer.Pause();
     }
 
+    public void Previous()
+    {
+        MusicPlayer.Prev();
+    }
+
     public void Next()
     {
         MusicPlayer.Next();

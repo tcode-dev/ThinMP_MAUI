@@ -174,7 +174,7 @@ public partial class PlayerPageViewModel : ObservableObject
     [RelayCommand]
     private void Previous()
     {
-        // TODO: Implement when IPlayerService.Previous is added
+        _playerService.Previous();
     }
 
     [RelayCommand]
