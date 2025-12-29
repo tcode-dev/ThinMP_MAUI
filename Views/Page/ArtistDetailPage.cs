@@ -30,6 +30,7 @@ class ArtistDetailPage : DetailPageBase
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
 
+        // TODO: VariableSpanGridItemsLayout
         var scrollView = new ScrollView
         {
             SafeAreaEdges = SafeAreaEdges.None,
