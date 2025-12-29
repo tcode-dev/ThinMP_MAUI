@@ -3,7 +3,7 @@ using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
-using ThinMPm.Views.ListItem;
+using ThinMPm.Views.List;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Popup;
@@ -92,11 +92,9 @@ public class PlaylistPopup : ContentPage
         var header = CreatePlaylistListHeader();
         _contentContainer.Children.Add(header);
 
-        foreach (var playlist in _viewModel.Playlists)
-        {
-            var row = CreatePlaylistRow(playlist);
-            _contentContainer.Children.Add(row);
-        }
+        var playlistList = new PlaylistList(OnPlaylistTapped);
+        playlistList.ItemsSource = _viewModel.Playlists;
+        _contentContainer.Children.Add(playlistList);
     }
 
     private void ShowCreatePlaylist()
@@ -192,14 +190,12 @@ public class PlaylistPopup : ContentPage
         return header;
     }
 
-    private View CreatePlaylistRow(IPlaylistModel playlist)
+    private void OnPlaylistTapped(object? sender, TappedEventArgs e)
     {
-        var listItem = new PlaylistListItem((s, e) => OnPlaylistSelected(playlist))
+        if (sender is BindableObject bindable && bindable.BindingContext is IPlaylistModel playlist)
         {
-            BindingContext = playlist
-        };
-
-        return listItem;
+            ClosePopup(new PlaylistPopupResult { Action = PlaylistPopupAction.Select, SelectedPlaylist = playlist });
+        }
     }
 
     private void OnBackgroundTapped(object? sender, TappedEventArgs e)
@@ -237,11 +233,6 @@ public class PlaylistPopup : ContentPage
         {
             ClosePopup(new PlaylistPopupResult { Action = PlaylistPopupAction.Create, PlaylistName = _viewModel.PlaylistName });
         }
-    }
-
-    private void OnPlaylistSelected(IPlaylistModel playlist)
-    {
-        ClosePopup(new PlaylistPopupResult { Action = PlaylistPopupAction.Select, SelectedPlaylist = playlist });
     }
 
     private async void ClosePopup(PlaylistPopupResult? result)
