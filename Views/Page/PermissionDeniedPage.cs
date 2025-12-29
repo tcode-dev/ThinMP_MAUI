@@ -53,15 +53,55 @@ class PermissionDeniedPage : ContentPage
         _permissionService.OpenAppSettings();
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
 
+        var window = Application.Current?.Windows.FirstOrDefault();
+
+        if (window != null)
+        {
+            window.Resumed += OnAppResumed;
+        }
+
+        CheckPermissionAndNavigate();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        var window = Application.Current?.Windows.FirstOrDefault();
+
+        if (window != null)
+        {
+            window.Resumed -= OnAppResumed;
+        }
+    }
+
+    private void OnAppResumed(object? sender, EventArgs e)
+    {
+        CheckPermissionAndNavigate();
+    }
+
+    private async void CheckPermissionAndNavigate()
+    {
         var granted = await _permissionService.CheckPermissionAsync();
 
         if (granted && Application.Current != null)
         {
+            UnsubscribeResumedEvent();
             Application.Current.Windows[0].Page = new AppShell();
+        }
+    }
+
+    private void UnsubscribeResumedEvent()
+    {
+        var window = Application.Current?.Windows.FirstOrDefault();
+
+        if (window != null)
+        {
+            window.Resumed -= OnAppResumed;
         }
     }
 }
