@@ -28,12 +28,22 @@ abstract class DetailPageBase : ContentPage
 
     protected void OnScrolled(object? sender, ScrolledEventArgs e)
     {
-        if (e.ScrollY > headerShowPosition && !isHeaderVisible)
+        UpdateHeaderVisibility(e.ScrollY);
+    }
+
+    protected void OnScrolled(object? sender, ItemsViewScrolledEventArgs e)
+    {
+        UpdateHeaderVisibility(e.VerticalOffset);
+    }
+
+    private void UpdateHeaderVisibility(double scrollPosition)
+    {
+        if (scrollPosition > headerShowPosition && !isHeaderVisible)
         {
             isHeaderVisible = true;
             header.Show();
         }
-        else if (e.ScrollY <= headerShowPosition && isHeaderVisible)
+        else if (scrollPosition <= headerShowPosition && isHeaderVisible)
         {
             isHeaderVisible = false;
             header.Hide();
