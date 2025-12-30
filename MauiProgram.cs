@@ -81,7 +81,7 @@ public static class MauiProgram
         builder.Services.AddTransient<SongViewModel>();
         builder.Services.AddTransient<ArtistDetailViewModel>();
         builder.Services.AddTransient<AlbumDetailViewModel>();
-        builder.Services.AddTransient<PlayerPageViewModel>();
+        builder.Services.AddTransient<PlayerViewModel>();
         builder.Services.AddTransient<FavoriteSongsViewModel>();
         builder.Services.AddTransient<FavoriteArtistsViewModel>();
         builder.Services.AddTransient<PlaylistPopupViewModel>();

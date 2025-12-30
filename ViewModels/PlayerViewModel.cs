@@ -7,7 +7,7 @@ using ThinMPm.Views.Popup;
 
 namespace ThinMPm.ViewModels;
 
-public partial class PlayerPageViewModel : ObservableObject
+public partial class PlayerViewModel : ObservableObject
 {
     private readonly IPlayerService _playerService;
     private readonly IFavoriteSongService _favoriteSongService;
@@ -47,7 +47,7 @@ public partial class PlayerPageViewModel : ObservableObject
     [ObservableProperty]
     private bool isFavoriteArtist;
 
-    public PlayerPageViewModel(IPlayerService playerService, IFavoriteSongService favoriteSongService, IFavoriteArtistService favoriteArtistService, IPreferenceService preferenceService, IPlaylistService playlistService, Func<PlaylistPopup> playlistPopupFactory)
+    public PlayerViewModel(IPlayerService playerService, IFavoriteSongService favoriteSongService, IFavoriteArtistService favoriteArtistService, IPreferenceService preferenceService, IPlaylistService playlistService, Func<PlaylistPopup> playlistPopupFactory)
     {
         _playerService = playerService;
         _favoriteSongService = favoriteSongService;
