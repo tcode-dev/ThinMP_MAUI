@@ -1,9 +1,13 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
+using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
+using ThinMPm.Database.Entities;
+using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
+using ThinMPm.Views.Behaviors;
 using ThinMPm.Views.FirstView;
 using ThinMPm.Views.Player;
 using ThinMPm.Views.Selector;
@@ -15,21 +19,37 @@ class ArtistDetailPage : DetailPageBase
 {
     private readonly IPlayerService _playerService;
     private readonly IPreferenceService _preferenceService;
+    private readonly IFavoriteArtistService _favoriteArtistService;
+    private readonly IShortcutService _shortcutService;
+    private readonly ArtistDetailViewModel _vm;
 
-    public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPreferenceService preferenceService, IPlatformUtil platformUtil)
+    public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPreferenceService preferenceService, IFavoriteArtistService favoriteArtistService, IShortcutService shortcutService, IPlatformUtil platformUtil)
         : base(platformUtil, "Artist.Name")
     {
         BindingContext = vm;
+        _vm = vm;
         _playerService = playerService;
         _preferenceService = preferenceService;
+        _favoriteArtistService = favoriteArtistService;
+        _shortcutService = shortcutService;
 
         var layout = new AbsoluteLayout
         {
             SafeAreaEdges = SafeAreaEdges.None,
         };
 
+        var appBarHeight = platformUtil.GetAppBarHeight();
+
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
+        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, appBarHeight));
+
+        var menuButton = CreateMenuButton();
+        AbsoluteLayout.SetLayoutFlags(menuButton, AbsoluteLayoutFlags.None);
+        AbsoluteLayout.SetLayoutBounds(menuButton, new Rect(Width, appBarHeight - LayoutConstants.ButtonSize, LayoutConstants.ButtonSize, LayoutConstants.ButtonSize));
+        SizeChanged += (s, e) =>
+        {
+            AbsoluteLayout.SetLayoutBounds(menuButton, new Rect(Width - LayoutConstants.ButtonSize, appBarHeight - LayoutConstants.ButtonSize, LayoutConstants.ButtonSize, LayoutConstants.ButtonSize));
+        };
 
         var collectionView = new CollectionView
         {
@@ -50,9 +70,60 @@ class ArtistDetailPage : DetailPageBase
 
         layout.Children.Add(collectionView);
         layout.Children.Add(header);
+        layout.Children.Add(menuButton);
         layout.Children.Add(miniPlayer);
 
         Content = layout;
+    }
+
+    private Grid CreateMenuButton()
+    {
+        var grid = new Grid
+        {
+            WidthRequest = LayoutConstants.ButtonSize,
+            HeightRequest = LayoutConstants.ButtonSize
+        };
+
+        var icon = new Image
+        {
+            Source = "more",
+            WidthRequest = LayoutConstants.ImageSize,
+            HeightRequest = LayoutConstants.ImageSize,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Center
+        };
+        icon.Behaviors.Add(new IconColorBehavior());
+
+        grid.Children.Add(icon);
+
+        var tap = new TapGestureRecognizer();
+        tap.Tapped += async (s, e) => await ShowContextMenuAsync();
+        grid.GestureRecognizers.Add(tap);
+
+        return grid;
+    }
+
+    private async Task ShowContextMenuAsync()
+    {
+        var artistId = _vm.ArtistId;
+        var artistName = _vm.Artist?.Name ?? "";
+
+        var isFavorite = await _favoriteArtistService.ExistsAsync(artistId);
+        var favoriteText = isFavorite ? AppResources.FavoriteRemove : AppResources.FavoriteAdd;
+
+        var isShortcut = await _shortcutService.ExistsAsync(artistId, ShortcutCategory.Artist);
+        var shortcutText = isShortcut ? AppResources.ShortcutRemove : AppResources.ShortcutAdd;
+
+        var result = await this.DisplayActionSheetAsync(artistName, AppResources.Cancel, null, favoriteText, shortcutText);
+
+        if (result == favoriteText)
+        {
+            await _favoriteArtistService.ToggleAsync(artistId);
+        }
+        else if (result == shortcutText)
+        {
+            await _shortcutService.ToggleAsync(artistId, ShortcutCategory.Artist);
+        }
     }
 
     protected override void OnAppearing()
