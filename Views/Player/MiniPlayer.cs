@@ -5,7 +5,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Background;
-using ThinMPm.Views.Behaviors;
+using ThinMPm.Views.Button;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Text;
 
@@ -13,10 +13,6 @@ namespace ThinMPm.Views.Player;
 
 public class MiniPlayer : ContentView
 {
-    private const string IconPlay = "playarrow";
-    private const string IconPause = "pause";
-    private const string IconSkipNext = "skipnext";
-
     public MiniPlayer()
     {
         var services = Application.Current!.Handler!.MauiContext!.Services;
@@ -73,36 +69,22 @@ public class MiniPlayer : ContentView
         songTitle.GestureRecognizers.Add(CreateNavigationGesture());
         contentGrid.Children.Add(songTitle);
 
-        var playPauseButton = new Image
+        var playButton = new PlayButton(playerViewModel.PlayCommand);
+        playButton.Column(2);
+        playButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsPlaying), converter: new InverseBoolConverter());
+        contentGrid.Children.Add(playButton);
+
+        var pauseButton = new PauseButton(playerViewModel.PauseCommand);
+        pauseButton.Column(2);
+        pauseButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsPlaying));
+        contentGrid.Children.Add(pauseButton);
+
+        var nextButton = new NextButton(playerViewModel.NextCommand)
         {
-            WidthRequest = 40,
-            HeightRequest = 40,
-            VerticalOptions = LayoutOptions.Center
-        }.Column(2);
-        playPauseButton.Behaviors.Add(new IconColorBehavior());
-        playPauseButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerViewModel.IsPlaying), converter: new PlayPauseImageConverter()));
-
-        var playPauseTapGesture = new TapGestureRecognizer();
-        playPauseTapGesture.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerViewModel.TogglePlayPauseCommand));
-        playPauseButton.GestureRecognizers.Add(playPauseTapGesture);
-
-        contentGrid.Children.Add(playPauseButton);
-
-        var skipNextButton = new Image
-        {
-            Source = IconSkipNext,
-            WidthRequest = 40,
-            HeightRequest = 40,
-            VerticalOptions = LayoutOptions.Center,
             Margin = new Thickness(LayoutConstants.SpacingMedium, 0, 0, 0)
-        }.Column(3);
-        skipNextButton.Behaviors.Add(new IconColorBehavior());
-
-        var skipNextTapGesture = new TapGestureRecognizer();
-        skipNextTapGesture.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerViewModel.NextCommand));
-        skipNextButton.GestureRecognizers.Add(skipNextTapGesture);
-
-        contentGrid.Children.Add(skipNextButton);
+        };
+        nextButton.Column(3);
+        contentGrid.Children.Add(nextButton);
 
         layout.Children.Add(blurBackground);
         layout.Children.Add(contentGrid);
@@ -117,11 +99,11 @@ public class MiniPlayer : ContentView
         return gesture;
     }
 
-    private class PlayPauseImageConverter : IValueConverter
+    private class InverseBoolConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
-            return value is true ? IconPause : IconPlay;
+            return value is bool b ? !b : value;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)

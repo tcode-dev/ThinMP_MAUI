@@ -17,8 +17,6 @@ class PlayerPage : ContentPage
 {
     private const string IconSkipPrevious = "skipprevious";
     private const string IconSkipNext = "skipnext";
-    private const string IconPlay = "playarrow";
-    private const string IconPause = "pause";
     private const string IconRepeat = "repeat";
     private const string IconRepeatAll = "repeaton";
     private const string IconRepeatOne = "repeatoneon";
@@ -273,20 +271,15 @@ class PlayerPage : ContentPage
         previousButton.GestureRecognizers.Add(prevTap);
         previousButton.Column(0);
 
-        // Play/Pause button
-        var playPauseButton = new Image
-        {
-            WidthRequest = 100,
-            HeightRequest = 100,
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center
-        }.Column(1);
-        playPauseButton.Behaviors.Add(new IconColorBehavior());
-        playPauseButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsPlaying), converter: new PlayPauseImageConverter()));
+        // Play button
+        var playButton = new PlayButton((s, e) => (BindingContext as PlayerPageViewModel)?.PlayCommand.Execute(null), LayoutConstants.ButtonExtraLarge);
+        playButton.Column(1);
+        playButton.Bind(IsVisibleProperty, nameof(PlayerPageViewModel.IsPlaying), converter: new InverseBoolConverter());
 
-        var playPauseTap = new TapGestureRecognizer();
-        playPauseTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.TogglePlayPauseCommand));
-        playPauseButton.GestureRecognizers.Add(playPauseTap);
+        // Pause button
+        var pauseButton = new PauseButton((s, e) => (BindingContext as PlayerPageViewModel)?.PauseCommand.Execute(null), LayoutConstants.ButtonExtraLarge);
+        pauseButton.Column(1);
+        pauseButton.Bind(IsVisibleProperty, nameof(PlayerPageViewModel.IsPlaying));
 
         // Next button
         var nextButton = CreateImageButton(IconSkipNext, 88);
@@ -296,7 +289,8 @@ class PlayerPage : ContentPage
         nextButton.Column(2);
 
         controlsContainer.Children.Add(previousButton);
-        controlsContainer.Children.Add(playPauseButton);
+        controlsContainer.Children.Add(playButton);
+        controlsContainer.Children.Add(pauseButton);
         controlsContainer.Children.Add(nextButton);
 
         return controlsContainer;
@@ -404,11 +398,11 @@ class PlayerPage : ContentPage
         return image;
     }
 
-    private class PlayPauseImageConverter : IValueConverter
+    private class InverseBoolConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
-            return value is true ? IconPause : IconPlay;
+            return value is bool b ? !b : value;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)

@@ -159,16 +159,15 @@ public partial class PlayerPageViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void TogglePlayPause()
+    private void Play()
     {
-        if (IsPlaying)
-        {
-            _playerService.Pause();
-        }
-        else
-        {
-            _playerService.Play();
-        }
+        _playerService.Play();
+    }
+
+    [RelayCommand]
+    private void Pause()
+    {
+        _playerService.Pause();
     }
 
     [RelayCommand]
