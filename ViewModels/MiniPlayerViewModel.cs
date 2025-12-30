@@ -5,7 +5,7 @@ using ThinMPm.Contracts.Services;
 
 namespace ThinMPm.ViewModels;
 
-public partial class PlayerViewModel : ObservableObject
+public partial class MiniPlayerViewModel : ObservableObject
 {
     private readonly IPlayerService _playerService;
 
@@ -18,7 +18,7 @@ public partial class PlayerViewModel : ObservableObject
     [ObservableProperty]
     private bool isActive;
 
-    public PlayerViewModel(IPlayerService playerService)
+    public MiniPlayerViewModel(IPlayerService playerService)
     {
         _playerService = playerService;
 

@@ -16,14 +16,14 @@ public class MiniPlayer : ContentView
     public MiniPlayer()
     {
         var services = Application.Current!.Handler!.MauiContext!.Services;
-        var playerViewModel = services.GetRequiredService<PlayerViewModel>();
+        var playerViewModel = services.GetRequiredService<MiniPlayerViewModel>();
         var platformUtil = services.GetRequiredService<IPlatformUtil>();
         var bottomBarHeight = platformUtil.GetBottomBarHeight();
 
         BindingContext = playerViewModel;
         HeightRequest = bottomBarHeight;
         InputTransparent = false;
-        this.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsActive));
+        this.Bind(IsVisibleProperty, nameof(MiniPlayerViewModel.IsActive));
 
         var layout = new AbsoluteLayout
         {
@@ -54,7 +54,7 @@ public class MiniPlayer : ContentView
         AbsoluteLayout.SetLayoutBounds(contentGrid, new Rect(0, 0, 1, bottomBarHeight));
 
         var artwork = new ArtworkImage()
-            .Bind(ArtworkImage.ImageIdProperty, $"{nameof(PlayerViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}")
+            .Bind(ArtworkImage.ImageIdProperty, $"{nameof(MiniPlayerViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}")
             .Width(LayoutConstants.ImageSize)
             .Height(LayoutConstants.ImageSize)
             .Column(0);
@@ -62,7 +62,7 @@ public class MiniPlayer : ContentView
         contentGrid.Children.Add(artwork);
 
         var songTitle = new PrimaryText()
-            .Bind(Label.TextProperty, $"{nameof(PlayerViewModel.CurrentSong)}.{nameof(ISongModel.Name)}")
+            .Bind(Label.TextProperty, $"{nameof(MiniPlayerViewModel.CurrentSong)}.{nameof(ISongModel.Name)}")
             .CenterVertical()
             .Margins(left: LayoutConstants.SpacingMedium)
             .Column(1);
@@ -71,12 +71,12 @@ public class MiniPlayer : ContentView
 
         var playButton = new PlayButton(playerViewModel.PlayCommand);
         playButton.Column(2);
-        playButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsPlaying), converter: new InverseBoolConverter());
+        playButton.Bind(IsVisibleProperty, nameof(MiniPlayerViewModel.IsPlaying), converter: new InverseBoolConverter());
         contentGrid.Children.Add(playButton);
 
         var pauseButton = new PauseButton(playerViewModel.PauseCommand);
         pauseButton.Column(2);
-        pauseButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsPlaying));
+        pauseButton.Bind(IsVisibleProperty, nameof(MiniPlayerViewModel.IsPlaying));
         contentGrid.Children.Add(pauseButton);
 
         var nextButton = new NextButton(playerViewModel.NextCommand)

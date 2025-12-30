@@ -73,7 +73,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<PlaylistSongRepository>();
         builder.Services.AddSingleton<ShortcutRepository>();
 
-        builder.Services.AddSingleton<PlayerViewModel>();
+        builder.Services.AddSingleton<MiniPlayerViewModel>();
 
         builder.Services.AddTransient<MainViewModel>();
         builder.Services.AddTransient<ArtistViewModel>();
