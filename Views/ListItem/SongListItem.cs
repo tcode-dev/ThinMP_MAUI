@@ -4,7 +4,7 @@ using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Resources.Strings;
-using ThinMPm.Views.Behaviors;
+using ThinMPm.Views.Button;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Popup;
 using ThinMPm.Views.Utils;
@@ -28,7 +28,7 @@ public class SongListItem : Grid
 
         ColumnDefinitions.Add(new ColumnDefinition { Width = LayoutConstants.ImageSize });
         ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
-        ColumnDefinitions.Add(new ColumnDefinition { Width = LayoutConstants.ButtonSize });
+        ColumnDefinitions.Add(new ColumnDefinition { Width = LayoutConstants.ButtonMedium });
 
         RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.HeightSmall });
         RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.HeightSmall });
@@ -62,35 +62,17 @@ public class SongListItem : Grid
                 .Column(1)
         );
 
-        Children.Add(CreateMenuButton());
+        var menuButton = new MenuButton(
+            async (s, e) => await ShowContextMenuAsync()
+        );
+        menuButton.Row(0).RowSpan(2).Column(2);
+        Children.Add(menuButton);
 
         Children.Add(
             new Separator()
                 .Row(2)
                 .ColumnSpan(3)
         );
-    }
-
-    private Image CreateMenuButton()
-    {
-        var menuButton = new Image
-        {
-            Source = "more",
-            WidthRequest = 25,
-            HeightRequest = 25
-        };
-        menuButton.Behaviors.Add(new IconColorBehavior { TintColor = ColorConstants.SecondaryTextColor });
-
-        var tapGesture = new TapGestureRecognizer();
-        tapGesture.Tapped += async (s, e) => await ShowContextMenuAsync();
-        menuButton.GestureRecognizers.Add(tapGesture);
-
-        return menuButton
-            .Row(0)
-            .RowSpan(2)
-            .Column(2)
-            .CenterVertical()
-            .Margins(right: LayoutConstants.SpacingMedium);
     }
 
     private void OnTapped(object? sender, TappedEventArgs e)

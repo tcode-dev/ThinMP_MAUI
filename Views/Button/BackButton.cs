@@ -1,31 +1,12 @@
 using ThinMPm.Constants;
-using ThinMPm.Views.Behaviors;
 
 namespace ThinMPm.Views.Button;
 
-public class BackButton : Grid
+public class BackButton : BaseButton
 {
     private const string IconArrowBack = "arrowback";
 
-    public BackButton()
+    public BackButton() : base(IconArrowBack, async (s, e) => await Shell.Current.GoToAsync(".."), LayoutConstants.ButtonExtraSmall)
     {
-        WidthRequest = LayoutConstants.ButtonSize;
-        HeightRequest = LayoutConstants.ButtonSize;
-
-        var icon = new Image
-        {
-            Source = IconArrowBack,
-            WidthRequest = 25,
-            HeightRequest = 25,
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center
-        };
-        icon.Behaviors.Add(new IconColorBehavior());
-
-        Children.Add(icon);
-
-        var tap = new TapGestureRecognizer();
-        tap.Tapped += async (s, e) => await Shell.Current.GoToAsync("..");
-        GestureRecognizers.Add(tap);
     }
 }

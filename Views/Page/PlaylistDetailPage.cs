@@ -7,7 +7,7 @@ using ThinMPm.Contracts.Utils;
 using ThinMPm.Database.Entities;
 using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
-using ThinMPm.Views.Behaviors;
+using ThinMPm.Views.Button;
 using ThinMPm.Views.FirstView;
 using ThinMPm.Views.List;
 using ThinMPm.Views.Player;
@@ -40,12 +40,12 @@ class PlaylistDetailPage : DetailPageBase
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, appBarHeight));
 
-        var menuButton = CreateMenuButton();
+        var menuButton = new MenuButton(async (s, e) => await ShowContextMenuAsync());
         AbsoluteLayout.SetLayoutFlags(menuButton, AbsoluteLayoutFlags.None);
-        AbsoluteLayout.SetLayoutBounds(menuButton, new Rect(Width, appBarHeight - LayoutConstants.ButtonSize, LayoutConstants.ButtonSize, LayoutConstants.ButtonSize));
+        AbsoluteLayout.SetLayoutBounds(menuButton, new Rect(Width, appBarHeight - LayoutConstants.ButtonMedium, LayoutConstants.ButtonMedium, LayoutConstants.ButtonMedium));
         SizeChanged += (s, e) =>
         {
-            AbsoluteLayout.SetLayoutBounds(menuButton, new Rect(Width - LayoutConstants.ButtonSize, appBarHeight - LayoutConstants.ButtonSize, LayoutConstants.ButtonSize, LayoutConstants.ButtonSize));
+            AbsoluteLayout.SetLayoutBounds(menuButton, new Rect(Width - LayoutConstants.ButtonMedium, appBarHeight - LayoutConstants.ButtonMedium, LayoutConstants.ButtonMedium, LayoutConstants.ButtonMedium));
         };
 
         var scrollView = new ScrollView
@@ -76,33 +76,6 @@ class PlaylistDetailPage : DetailPageBase
         layout.Children.Add(miniPlayer);
 
         Content = layout;
-    }
-
-    private Grid CreateMenuButton()
-    {
-        var grid = new Grid
-        {
-            WidthRequest = LayoutConstants.ButtonSize,
-            HeightRequest = LayoutConstants.ButtonSize
-        };
-
-        var icon = new Image
-        {
-            Source = "more",
-            WidthRequest = LayoutConstants.ImageSize,
-            HeightRequest = LayoutConstants.ImageSize,
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center
-        };
-        icon.Behaviors.Add(new IconColorBehavior());
-
-        grid.Children.Add(icon);
-
-        var tap = new TapGestureRecognizer();
-        tap.Tapped += async (s, e) => await ShowContextMenuAsync();
-        grid.GestureRecognizers.Add(tap);
-
-        return grid;
     }
 
     private async Task ShowContextMenuAsync()

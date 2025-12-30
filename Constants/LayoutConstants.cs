@@ -11,6 +11,10 @@ public static class LayoutConstants
     public const double SpacingMedium = 10;
     public const double SpacingLarge = 20;
     public const double ImageSize = 40;
-    public const double ButtonSize = 50;
+    public const double ButtonExtraSmall = 25;
+    public const double ButtonSmall = 40;
+    public const double ButtonMedium = 50;
+    public const double ButtonLarge = 88;
+    public const double ButtonExtraLarge = 100;
     public const double HeaderVisibilityThreshold = 0.75;
 }

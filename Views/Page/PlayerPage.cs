@@ -321,8 +321,8 @@ class PlayerPage : ContentPage
         // Repeat button
         var repeatButton = new Image
         {
-            WidthRequest = LayoutConstants.ButtonSize,
-            HeightRequest = LayoutConstants.ButtonSize,
+            WidthRequest = LayoutConstants.ButtonMedium,
+            HeightRequest = LayoutConstants.ButtonMedium,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(0);
@@ -335,8 +335,8 @@ class PlayerPage : ContentPage
         // Shuffle button
         var shuffleButton = new Image
         {
-            WidthRequest = LayoutConstants.ButtonSize,
-            HeightRequest = LayoutConstants.ButtonSize,
+            WidthRequest = LayoutConstants.ButtonMedium,
+            HeightRequest = LayoutConstants.ButtonMedium,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(1);
@@ -349,8 +349,8 @@ class PlayerPage : ContentPage
         // Favorite artist button
         var favoriteArtistButton = new Image
         {
-            WidthRequest = LayoutConstants.ButtonSize,
-            HeightRequest = LayoutConstants.ButtonSize,
+            WidthRequest = LayoutConstants.ButtonMedium,
+            HeightRequest = LayoutConstants.ButtonMedium,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(2);
@@ -363,8 +363,8 @@ class PlayerPage : ContentPage
         // Favorite song button
         var favoriteSongButton = new Image
         {
-            WidthRequest = LayoutConstants.ButtonSize,
-            HeightRequest = LayoutConstants.ButtonSize,
+            WidthRequest = LayoutConstants.ButtonMedium,
+            HeightRequest = LayoutConstants.ButtonMedium,
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center
         }.Column(3);
