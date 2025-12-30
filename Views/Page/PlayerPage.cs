@@ -5,7 +5,6 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.Extensions;
 using ThinMPm.ViewModels;
-using ThinMPm.Views.Behaviors;
 using ThinMPm.Views.Button;
 using ThinMPm.Views.FirstView;
 using ThinMPm.Views.Img;
@@ -15,19 +14,6 @@ namespace ThinMPm.Views.Page;
 
 class PlayerPage : ContentPage
 {
-    private const string IconSkipPrevious = "skipprevious";
-    private const string IconSkipNext = "skipnext";
-    private const string IconRepeat = "repeat";
-    private const string IconRepeatAll = "repeaton";
-    private const string IconRepeatOne = "repeatoneon";
-    private const string IconShuffle = "shuffle";
-    private const string IconShuffleOn = "shuffleon";
-    private const string IconPerson = "person";
-    private const string IconPersonOn = "personon";
-    private const string IconFavorite = "favorite";
-    private const string IconFavoriteBorder = "favoriteborder";
-    private const string IconPlaylistAdd = "playlistadd";
-
     public PlayerPage(PlayerPageViewModel vm, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
@@ -265,10 +251,7 @@ class PlayerPage : ContentPage
         };
 
         // Previous button
-        var previousButton = CreateImageButton(IconSkipPrevious, 88);
-        var prevTap = new TapGestureRecognizer();
-        prevTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.PreviousCommand));
-        previousButton.GestureRecognizers.Add(prevTap);
+        var previousButton = new PreviousButton((s, e) => (BindingContext as PlayerPageViewModel)?.PreviousCommand.Execute(null), LayoutConstants.ButtonLarge);
         previousButton.Column(0);
 
         // Play button
@@ -282,10 +265,7 @@ class PlayerPage : ContentPage
         pauseButton.Bind(IsVisibleProperty, nameof(PlayerPageViewModel.IsPlaying));
 
         // Next button
-        var nextButton = CreateImageButton(IconSkipNext, 88);
-        var nextTap = new TapGestureRecognizer();
-        nextTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.NextCommand));
-        nextButton.GestureRecognizers.Add(nextTap);
+        var nextButton = new NextButton((s, e) => (BindingContext as PlayerPageViewModel)?.NextCommand.Execute(null), LayoutConstants.ButtonLarge);
         nextButton.Column(2);
 
         controlsContainer.Children.Add(previousButton);
@@ -312,90 +292,67 @@ class PlayerPage : ContentPage
             VerticalOptions = LayoutOptions.End
         };
 
-        // Repeat button
-        var repeatButton = new Image
-        {
-            WidthRequest = LayoutConstants.ButtonMedium,
-            HeightRequest = LayoutConstants.ButtonMedium,
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center
-        }.Column(0);
-        repeatButton.Behaviors.Add(new IconColorBehavior());
-        repeatButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.RepeatMode), converter: new RepeatImageConverter()));
-        var repeatTap = new TapGestureRecognizer();
-        repeatTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleRepeatCommand));
-        repeatButton.GestureRecognizers.Add(repeatTap);
+        // Repeat Off button
+        var repeatOffButton = new RepeatOffButton((s, e) => (BindingContext as PlayerPageViewModel)?.ToggleRepeatCommand.Execute(null));
+        repeatOffButton.Column(0);
+        repeatOffButton.Bind(IsVisibleProperty, nameof(PlayerPageViewModel.RepeatMode), converter: new RepeatModeVisibilityConverter(RepeatMode.Off));
 
-        // Shuffle button
-        var shuffleButton = new Image
-        {
-            WidthRequest = LayoutConstants.ButtonMedium,
-            HeightRequest = LayoutConstants.ButtonMedium,
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center
-        }.Column(1);
-        shuffleButton.Behaviors.Add(new IconColorBehavior());
-        shuffleButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsShuffleOn), converter: new ShuffleImageConverter()));
-        var shuffleTap = new TapGestureRecognizer();
-        shuffleTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleShuffleCommand));
-        shuffleButton.GestureRecognizers.Add(shuffleTap);
+        // Repeat All button
+        var repeatAllButton = new RepeatAllButton((s, e) => (BindingContext as PlayerPageViewModel)?.ToggleRepeatCommand.Execute(null));
+        repeatAllButton.Column(0);
+        repeatAllButton.Bind(IsVisibleProperty, nameof(PlayerPageViewModel.RepeatMode), converter: new RepeatModeVisibilityConverter(RepeatMode.All));
 
-        // Favorite artist button
-        var favoriteArtistButton = new Image
-        {
-            WidthRequest = LayoutConstants.ButtonMedium,
-            HeightRequest = LayoutConstants.ButtonMedium,
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center
-        }.Column(2);
-        favoriteArtistButton.Behaviors.Add(new IconColorBehavior());
-        favoriteArtistButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsFavoriteArtist), converter: new FavoriteArtistImageConverter()));
-        var favoriteArtistTap = new TapGestureRecognizer();
-        favoriteArtistTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleFavoriteArtistCommand));
-        favoriteArtistButton.GestureRecognizers.Add(favoriteArtistTap);
+        // Repeat One button
+        var repeatOneButton = new RepeatOneButton((s, e) => (BindingContext as PlayerPageViewModel)?.ToggleRepeatCommand.Execute(null));
+        repeatOneButton.Column(0);
+        repeatOneButton.Bind(IsVisibleProperty, nameof(PlayerPageViewModel.RepeatMode), converter: new RepeatModeVisibilityConverter(RepeatMode.One));
 
-        // Favorite song button
-        var favoriteSongButton = new Image
-        {
-            WidthRequest = LayoutConstants.ButtonMedium,
-            HeightRequest = LayoutConstants.ButtonMedium,
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center
-        }.Column(3);
-        favoriteSongButton.Behaviors.Add(new IconColorBehavior());
-        favoriteSongButton.SetBinding(Image.SourceProperty, new Binding(nameof(PlayerPageViewModel.IsFavorite), converter: new FavoriteImageConverter()));
-        var favoriteSongTap = new TapGestureRecognizer();
-        favoriteSongTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.ToggleFavoriteCommand));
-        favoriteSongButton.GestureRecognizers.Add(favoriteSongTap);
+        // Shuffle Off button
+        var shuffleOffButton = new ShuffleOffButton((s, e) => (BindingContext as PlayerPageViewModel)?.ToggleShuffleCommand.Execute(null));
+        shuffleOffButton.Column(1);
+        shuffleOffButton.Bind(IsVisibleProperty, nameof(PlayerPageViewModel.IsShuffleOn), converter: new InverseBoolConverter());
+
+        // Shuffle On button
+        var shuffleOnButton = new ShuffleOnButton((s, e) => (BindingContext as PlayerPageViewModel)?.ToggleShuffleCommand.Execute(null));
+        shuffleOnButton.Column(1);
+        shuffleOnButton.Bind(IsVisibleProperty, nameof(PlayerPageViewModel.IsShuffleOn));
+
+        // Favorite artist Off button
+        var favoriteArtistOffButton = new FavoriteArtistOffButton((s, e) => (BindingContext as PlayerPageViewModel)?.ToggleFavoriteArtistCommand.Execute(null));
+        favoriteArtistOffButton.Column(2);
+        favoriteArtistOffButton.Bind(IsVisibleProperty, nameof(PlayerPageViewModel.IsFavoriteArtist), converter: new InverseBoolConverter());
+
+        // Favorite artist On button
+        var favoriteArtistOnButton = new FavoriteArtistOnButton((s, e) => (BindingContext as PlayerPageViewModel)?.ToggleFavoriteArtistCommand.Execute(null));
+        favoriteArtistOnButton.Column(2);
+        favoriteArtistOnButton.Bind(IsVisibleProperty, nameof(PlayerPageViewModel.IsFavoriteArtist));
+
+        // Favorite song Off button
+        var favoriteSongOffButton = new FavoriteSongOffButton((s, e) => (BindingContext as PlayerPageViewModel)?.ToggleFavoriteCommand.Execute(null));
+        favoriteSongOffButton.Column(3);
+        favoriteSongOffButton.Bind(IsVisibleProperty, nameof(PlayerPageViewModel.IsFavorite), converter: new InverseBoolConverter());
+
+        // Favorite song On button
+        var favoriteSongOnButton = new FavoriteSongOnButton((s, e) => (BindingContext as PlayerPageViewModel)?.ToggleFavoriteCommand.Execute(null));
+        favoriteSongOnButton.Column(3);
+        favoriteSongOnButton.Bind(IsVisibleProperty, nameof(PlayerPageViewModel.IsFavorite));
 
         // Add to playlist button
-        var playlistButton = CreateImageButton(IconPlaylistAdd, 50);
-        var playlistTap = new TapGestureRecognizer();
-        playlistTap.SetBinding(TapGestureRecognizer.CommandProperty, nameof(PlayerPageViewModel.AddToPlaylistCommand));
-        playlistButton.GestureRecognizers.Add(playlistTap);
+        var playlistButton = new PlaylistAddButton((s, e) => (BindingContext as PlayerPageViewModel)?.AddToPlaylistCommand.Execute(null));
         playlistButton.Column(4);
 
-        secondaryContainer.Children.Add(repeatButton);
-        secondaryContainer.Children.Add(shuffleButton);
-        secondaryContainer.Children.Add(favoriteArtistButton);
-        secondaryContainer.Children.Add(favoriteSongButton);
+        secondaryContainer.Children.Add(repeatOffButton);
+        secondaryContainer.Children.Add(repeatAllButton);
+        secondaryContainer.Children.Add(repeatOneButton);
+        secondaryContainer.Children.Add(shuffleOffButton);
+        secondaryContainer.Children.Add(shuffleOnButton);
+        secondaryContainer.Children.Add(favoriteArtistOffButton);
+        secondaryContainer.Children.Add(favoriteArtistOnButton);
+        secondaryContainer.Children.Add(favoriteSongOffButton);
+        secondaryContainer.Children.Add(favoriteSongOnButton);
         secondaryContainer.Children.Add(playlistButton);
 
         return secondaryContainer;
-    }
-
-    private static Image CreateImageButton(string source, int size)
-    {
-        var image = new Image
-        {
-            Source = source,
-            WidthRequest = size,
-            HeightRequest = size,
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center
-        };
-        image.Behaviors.Add(new IconColorBehavior());
-        return image;
     }
 
     private class InverseBoolConverter : IValueConverter
@@ -411,55 +368,18 @@ class PlayerPage : ContentPage
         }
     }
 
-    private class RepeatImageConverter : IValueConverter
+    private class RepeatModeVisibilityConverter : IValueConverter
     {
+        private readonly RepeatMode _targetMode;
+
+        public RepeatModeVisibilityConverter(RepeatMode targetMode)
+        {
+            _targetMode = targetMode;
+        }
+
         public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
         {
-            return value switch
-            {
-                RepeatMode.All => IconRepeatAll,
-                RepeatMode.One => IconRepeatOne,
-                _ => IconRepeat
-            };
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    private class ShuffleImageConverter : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
-        {
-            return value is true ? IconShuffleOn : IconShuffle;
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    private class FavoriteImageConverter : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
-        {
-            return value is true ? IconFavorite : IconFavoriteBorder;
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    private class FavoriteArtistImageConverter : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
-        {
-            return value is true ? IconPersonOn : IconPerson;
+            return value is RepeatMode mode && mode == _targetMode;
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
