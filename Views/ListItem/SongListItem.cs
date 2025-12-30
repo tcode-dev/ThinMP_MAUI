@@ -76,8 +76,8 @@ public class SongListItem : Grid
         var menuButton = new Image
         {
             Source = "more",
-            WidthRequest = 30,
-            HeightRequest = 30
+            WidthRequest = 25,
+            HeightRequest = 25
         };
         menuButton.Behaviors.Add(new IconColorBehavior { TintColor = ColorConstants.SecondaryTextColor });
 
