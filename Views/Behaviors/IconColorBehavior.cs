@@ -4,6 +4,8 @@ namespace ThinMPm.Views.Behaviors;
 
 public class IconColorBehavior : Behavior<Image>
 {
+    public Color? TintColor { get; set; }
+
     protected override void OnAttachedTo(Image image)
     {
         base.OnAttachedTo(image);
@@ -35,9 +37,9 @@ public class IconColorBehavior : Behavior<Image>
         }
     }
 
-    private static void ApplyTintColor(Image image)
+    private void ApplyTintColor(Image image)
     {
-        var tintColor = ColorConstants.IconColor;
+        var tintColor = TintColor ?? ColorConstants.IconColor;
 
 #if ANDROID
         if (image.Handler?.PlatformView is Android.Widget.ImageView imageView)

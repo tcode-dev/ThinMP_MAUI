@@ -4,6 +4,7 @@ using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Resources.Strings;
+using ThinMPm.Views.Behaviors;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Popup;
 using ThinMPm.Views.Utils;
@@ -14,7 +15,6 @@ namespace ThinMPm.Views.ListItem;
 public class SongListItem : Grid
 {
     private readonly EventHandler<TappedEventArgs> _tappedHandler;
-    private bool _isLongPressTriggered;
 
     public SongListItem(EventHandler<TappedEventArgs> tappedHandler)
     {
@@ -24,54 +24,11 @@ public class SongListItem : Grid
         tapGesture.Tapped += OnTapped;
         GestureRecognizers.Add(tapGesture);
 
-        var longPressTimer = new System.Timers.Timer(500) { AutoReset = false };
-
-        longPressTimer.Elapsed += async (s, e) =>
-        {
-            _isLongPressTriggered = true;
-            await MainThread.InvokeOnMainThreadAsync(ShowContextMenuAsync);
-        };
-
-        Point? pressedPoint = null;
-        const double moveThreshold = 10.0;
-
-        var pointerGesture = new PointerGestureRecognizer();
-        pointerGesture.PointerPressed += (s, e) =>
-        {
-            _isLongPressTriggered = false;
-            pressedPoint = e.GetPosition(this);
-            longPressTimer.Start();
-        };
-        pointerGesture.PointerMoved += (s, e) =>
-        {
-            if (pressedPoint == null) return;
-            var currentPoint = e.GetPosition(this);
-            if (currentPoint == null) return;
-            var deltaX = Math.Abs(currentPoint.Value.X - pressedPoint.Value.X);
-            var deltaY = Math.Abs(currentPoint.Value.Y - pressedPoint.Value.Y);
-            if (deltaX > moveThreshold || deltaY > moveThreshold)
-            {
-                longPressTimer.Stop();
-                pressedPoint = null;
-            }
-        };
-        pointerGesture.PointerReleased += (s, e) =>
-        {
-            longPressTimer.Stop();
-            pressedPoint = null;
-        };
-        pointerGesture.PointerExited += (s, e) =>
-        {
-            longPressTimer.Stop();
-            pressedPoint = null;
-        };
-
-        GestureRecognizers.Add(pointerGesture);
-
         Padding = new Thickness(LayoutConstants.SpacingLarge, 0, 0, 0);
 
         ColumnDefinitions.Add(new ColumnDefinition { Width = LayoutConstants.ImageSize });
         ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+        ColumnDefinitions.Add(new ColumnDefinition { Width = LayoutConstants.ButtonSize });
 
         RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.HeightSmall });
         RowDefinitions.Add(new RowDefinition { Height = LayoutConstants.HeightSmall });
@@ -105,20 +62,39 @@ public class SongListItem : Grid
                 .Column(1)
         );
 
+        Children.Add(CreateMenuButton());
+
         Children.Add(
             new Separator()
                 .Row(2)
-                .ColumnSpan(2)
+                .ColumnSpan(3)
         );
+    }
+
+    private Image CreateMenuButton()
+    {
+        var menuButton = new Image
+        {
+            Source = "more",
+            WidthRequest = 30,
+            HeightRequest = 30
+        };
+        menuButton.Behaviors.Add(new IconColorBehavior { TintColor = ColorConstants.SecondaryTextColor });
+
+        var tapGesture = new TapGestureRecognizer();
+        tapGesture.Tapped += async (s, e) => await ShowContextMenuAsync();
+        menuButton.GestureRecognizers.Add(tapGesture);
+
+        return menuButton
+            .Row(0)
+            .RowSpan(2)
+            .Column(2)
+            .CenterVertical()
+            .Margins(right: LayoutConstants.SpacingMedium);
     }
 
     private void OnTapped(object? sender, TappedEventArgs e)
     {
-        if (_isLongPressTriggered)
-        {
-            _isLongPressTriggered = false;
-            return;
-        }
         _tappedHandler?.Invoke(sender, e);
     }
 
