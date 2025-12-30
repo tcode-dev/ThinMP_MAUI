@@ -3,11 +3,11 @@ using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
-using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.FirstView;
-using ThinMPm.Views.List;
-using ThinMPm.Views.Text;
+using ThinMPm.Views.Player;
+using ThinMPm.Views.Selector;
+using ThinMPm.Views.Utils;
 
 namespace ThinMPm.Views.Page;
 
@@ -23,36 +23,34 @@ class ArtistDetailPage : DetailPageBase
         _playerService = playerService;
         _preferenceService = preferenceService;
 
-        var layout = new AbsoluteLayout {
+        var layout = new AbsoluteLayout
+        {
             SafeAreaEdges = SafeAreaEdges.None,
         };
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
 
-        // TODO: VariableSpanGridItemsLayout
-        var scrollView = new ScrollView
+        var collectionView = new CollectionView
         {
-            SafeAreaEdges = SafeAreaEdges.None,
-            Content = new VerticalStackLayout
-            {
-                Children = {
-                    new ArtistDetailFirstView{ BindingContext = vm },
-                    new SectionTitle(AppResources.Albums),
-                    new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
-                    new SectionTitle(AppResources.Songs),
-                    new SongList(OnSongTapped)
-                    .Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs))
-                }
-            }
+            ItemTemplate = new ArtistDetailTemplateSelector(OnSongTapped),
+            Header = new ArtistDetailFirstView { BindingContext = vm },
+            Footer = new FooterSpacer(),
         };
-        scrollView.Scrolled += OnScrolled;
+        collectionView.Bind(ItemsView.ItemsSourceProperty, "Items");
+        collectionView.Scrolled += OnScrolled;
 
-        AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
-        AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
+        AbsoluteLayout.SetLayoutFlags(collectionView, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(collectionView, new Rect(0, 0, 1, 1));
 
-        layout.Children.Add(scrollView);
+        var miniPlayer = new MiniPlayer();
+
+        AbsoluteLayout.SetLayoutFlags(miniPlayer, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, platformUtil.GetBottomBarHeight()));
+
+        layout.Children.Add(collectionView);
         layout.Children.Add(header);
+        layout.Children.Add(miniPlayer);
 
         Content = layout;
     }
@@ -69,12 +67,13 @@ class ArtistDetailPage : DetailPageBase
 
     private void OnSongTapped(object? sender, EventArgs e)
     {
-        if (sender is BindableObject bindable && BindingContext is SongViewModel vm)
+        if (sender is BindableObject bindable && BindingContext is ArtistDetailViewModel vm)
         {
             if (bindable.BindingContext is ISongModel item)
             {
                 int index = vm.Songs.IndexOf(item);
-                _playerService.StartAllSongs(index, _preferenceService.GetRepeatMode(), _preferenceService.GetShuffleMode());
+                var songIds = vm.Songs.Select(s => s.Id).ToList();
+                _playerService.StartFavoriteSongs(songIds, index, _preferenceService.GetRepeatMode(), _preferenceService.GetShuffleMode());
             }
         }
     }
