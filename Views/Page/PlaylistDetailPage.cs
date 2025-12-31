@@ -9,8 +9,9 @@ using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Button;
 using ThinMPm.Views.FirstView;
-using ThinMPm.Views.List;
+using ThinMPm.Views.ListItem;
 using ThinMPm.Views.Player;
+using ThinMPm.Views.Utils;
 
 namespace ThinMPm.Views.Page;
 
@@ -48,29 +49,24 @@ class PlaylistDetailPage : DetailPageBase
             AbsoluteLayout.SetLayoutBounds(menuButton, new Rect(Width - LayoutConstants.ButtonMedium, appBarHeight - LayoutConstants.ButtonMedium, LayoutConstants.ButtonMedium, LayoutConstants.ButtonMedium));
         };
 
-        var scrollView = new ScrollView
+        var collectionView = new CollectionView
         {
-            SafeAreaEdges = SafeAreaEdges.None,
-            Content = new VerticalStackLayout
-            {
-                Children = {
-                    new PlaylistDetailFirstView { BindingContext = vm },
-                    new SongList(OnSongTapped)
-                        .Bind(ItemsView.ItemsSourceProperty, "Songs")
-                }
-            }
+            ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped)),
+            Header = new PlaylistDetailFirstView { BindingContext = vm },
+            Footer = new FooterSpacer(),
         };
-        scrollView.Scrolled += OnScrolled;
+        collectionView.Bind(ItemsView.ItemsSourceProperty, "Songs");
+        collectionView.Scrolled += OnScrolled;
 
-        AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
-        AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
+        AbsoluteLayout.SetLayoutFlags(collectionView, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(collectionView, new Rect(0, 0, 1, 1));
 
         var miniPlayer = new MiniPlayer();
 
         AbsoluteLayout.SetLayoutFlags(miniPlayer, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, platformUtil.GetBottomBarHeight()));
 
-        layout.Children.Add(scrollView);
+        layout.Children.Add(collectionView);
         layout.Children.Add(header);
         layout.Children.Add(menuButton);
         layout.Children.Add(miniPlayer);
