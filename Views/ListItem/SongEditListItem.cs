@@ -76,21 +76,6 @@ public class SongEditListItem : SwipeView
                 .Column(1)
         );
 
-        var dragHandle = CreateDragHandle();
-        dragHandle.Row(0).RowSpan(2).Column(2);
-        grid.Children.Add(dragHandle);
-
-        grid.Children.Add(
-            new Separator()
-                .Row(2)
-                .ColumnSpan(3)
-        );
-
-        return grid;
-    }
-
-    private static Grid CreateDragHandle()
-    {
         var dragIcon = new Image
         {
             Source = "drag",
@@ -100,17 +85,16 @@ public class SongEditListItem : SwipeView
             VerticalOptions = LayoutOptions.Center,
         };
         dragIcon.Behaviors.Add(new IconColorBehavior { TintColor = ColorConstants.IconColor });
+        dragIcon.Row(0).RowSpan(2).Column(2);
+        grid.Children.Add(dragIcon);
 
-        var container = new Grid
-        {
-            WidthRequest = LayoutConstants.ButtonMedium,
-            HeightRequest = LayoutConstants.ButtonMedium,
-            HorizontalOptions = LayoutOptions.Center,
-            VerticalOptions = LayoutOptions.Center,
-            Children = { dragIcon }
-        };
+        grid.Children.Add(
+            new Separator()
+                .Row(2)
+                .ColumnSpan(3)
+        );
 
-        return container;
+        return grid;
     }
 
     private void OnDeleteSwipeItemInvoked(object? sender, EventArgs e)
