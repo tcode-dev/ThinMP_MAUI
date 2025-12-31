@@ -48,7 +48,7 @@ public class FavoriteSongsEditHeader : ContentView
             Margin = new Thickness(20, 0, 0, 0)
         };
 
-        var title = new PrimaryTitle { Text = AppResources.FavoriteSongs };
+        var title = new PrimaryTitle { Text = AppResources.Edit };
 
         var doneButton = new TextButton(AppResources.Done, (s, e) => DoneClicked?.Invoke(this, EventArgs.Empty))
         {
