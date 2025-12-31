@@ -5,6 +5,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
+using ThinMPm.Views.Behaviors;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Player;
@@ -44,7 +45,6 @@ class FavoriteSongsEditPage : ContentPage
         };
         collectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs));
         collectionView.Scrolled += OnScrolled;
-        collectionView.ReorderCompleted += OnReorderCompleted;
 
         AbsoluteLayout.SetLayoutFlags(collectionView, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(collectionView, new Rect(0, 0, 1, 1));
@@ -89,6 +89,7 @@ class FavoriteSongsEditPage : ContentPage
             {
                 new ColumnDefinition { Width = LayoutConstants.ImageSize },
                 new ColumnDefinition { Width = GridLength.Star },
+                new ColumnDefinition { Width = LayoutConstants.ButtonMedium },
             },
             RowDefinitions =
             {
@@ -126,13 +127,41 @@ class FavoriteSongsEditPage : ContentPage
                 .Column(1)
         );
 
+        var dragHandle = CreateDragHandle();
+        dragHandle.Row(0).RowSpan(2).Column(2);
+        grid.Children.Add(dragHandle);
+
         grid.Children.Add(
             new Separator()
                 .Row(2)
-                .ColumnSpan(2)
+                .ColumnSpan(3)
         );
 
         return grid;
+    }
+
+    private Grid CreateDragHandle()
+    {
+        var dragIcon = new Image
+        {
+            Source = "drag",
+            WidthRequest = LayoutConstants.ButtonExtraSmall,
+            HeightRequest = LayoutConstants.ButtonExtraSmall,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Center,
+        };
+        dragIcon.Behaviors.Add(new IconColorBehavior { TintColor = ColorConstants.IconColor });
+
+        var container = new Grid
+        {
+            WidthRequest = LayoutConstants.ButtonMedium,
+            HeightRequest = LayoutConstants.ButtonMedium,
+            HorizontalOptions = LayoutOptions.Center,
+            VerticalOptions = LayoutOptions.Center,
+            Children = { dragIcon }
+        };
+
+        return container;
     }
 
     protected override async void OnAppearing()
@@ -182,10 +211,5 @@ class FavoriteSongsEditPage : ContentPage
             isBlurBackground = false;
             header.ShowSolidBackground();
         }
-    }
-
-    private void OnReorderCompleted(object? sender, EventArgs e)
-    {
-        // ObservableCollectionは自動的に更新されるため、追加の処理は不要
     }
 }
