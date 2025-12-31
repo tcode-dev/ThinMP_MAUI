@@ -40,4 +40,9 @@ public class FavoriteArtistService : IFavoriteArtistService
         var ids = favorites.Select(f => f.Id).ToList();
         return _artistService.FindByIds(ids);
     }
+
+    public async Task UpdateAsync(IList<string> ids)
+    {
+        await _repository.UpdateAsync(ids);
+    }
 }
