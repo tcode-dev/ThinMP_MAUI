@@ -49,4 +49,23 @@ public class FavoriteSongRepository
             .OrderBy(x => x.SortOrder)
             .ToListAsync();
     }
+
+    public async Task UpdateAsync(IList<string> ids)
+    {
+        await DatabaseService.InitializeAsync();
+
+        await DatabaseService.Database
+            .Table<FavoriteSongEntity>()
+            .DeleteAsync(x => true);
+
+        for (int i = 0; i < ids.Count; i++)
+        {
+            var entity = new FavoriteSongEntity
+            {
+                Id = ids[i],
+                SortOrder = i + 1
+            };
+            await DatabaseService.Database.InsertAsync(entity);
+        }
+    }
 }

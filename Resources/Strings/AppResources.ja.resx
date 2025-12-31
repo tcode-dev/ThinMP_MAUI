@@ -123,4 +123,7 @@
   <data name="Songs" xml:space="preserve">
     <value>曲</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>削除</value>
+  </data>
 </root>

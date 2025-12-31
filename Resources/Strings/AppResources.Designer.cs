@@ -276,5 +276,13 @@ namespace ThinMPm.Resources.Strings
                 return ResourceManager.GetString("Songs", resourceCulture);
             }
         }
+
+        public static string Delete
+        {
+            get
+            {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
     }
 }

@@ -9,14 +9,15 @@ using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Header;
 
-public class FavoriteSongsHeader : ContentView
+public class FavoriteSongsEditHeader : ContentView
 {
     private readonly BoxView solidBackground;
     private readonly BlurBackgroundView blurBackground;
 
-    public event EventHandler? MenuClicked;
+    public event EventHandler? CancelClicked;
+    public event EventHandler? DoneClicked;
 
-    public FavoriteSongsHeader()
+    public FavoriteSongsEditHeader()
     {
         var platformUtil = Application.Current!.Handler!.MauiContext!.Services.GetRequiredService<IPlatformUtil>();
         var appBarHeight = platformUtil.GetAppBarHeight();
@@ -42,19 +43,22 @@ public class FavoriteSongsHeader : ContentView
         AbsoluteLayout.SetLayoutFlags(blurBackground, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(blurBackground, new Rect(0, 0, 1, appBarHeight));
 
+        var cancelButton = new TextButton(AppResources.Cancel, (s, e) => CancelClicked?.Invoke(this, EventArgs.Empty));
+        var doneButton = new TextButton(AppResources.Done, (s, e) => DoneClicked?.Invoke(this, EventArgs.Empty));
+
         var contentGrid = new Grid
         {
             ColumnDefinitions =
             {
-                new ColumnDefinition(50),
+                new ColumnDefinition(GridLength.Auto),
                 new ColumnDefinition(GridLength.Star),
-                new ColumnDefinition(50)
+                new ColumnDefinition(GridLength.Auto)
             },
             Children =
             {
-                new BackButton().Column(0),
+                cancelButton.Column(0).Margins(LayoutConstants.SpacingMedium, 0, 0, 0),
                 new PrimaryTitle { Text = AppResources.FavoriteSongs }.Column(1),
-                new MenuButton((s, e) => MenuClicked?.Invoke(this, EventArgs.Empty)).Column(2),
+                doneButton.Column(2).Margins(0, 0, LayoutConstants.SpacingMedium, 0),
             }
         };
         AbsoluteLayout.SetLayoutFlags(contentGrid, AbsoluteLayoutFlags.WidthProportional);
