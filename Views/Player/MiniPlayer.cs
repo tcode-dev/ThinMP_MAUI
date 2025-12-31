@@ -3,6 +3,7 @@ using Microsoft.Maui.Layouts;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
+using ThinMPm.Converters;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Background;
 using ThinMPm.Views.Button;
@@ -99,16 +100,4 @@ public class MiniPlayer : ContentView
         return gesture;
     }
 
-    private class InverseBoolConverter : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
-        {
-            return value is bool b ? !b : value;
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

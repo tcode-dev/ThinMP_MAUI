@@ -5,6 +5,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
 using ThinMPm.Extensions;
 using ThinMPm.ViewModels;
+using ThinMPm.Converters;
 using ThinMPm.Views.Button;
 using ThinMPm.Views.FirstView;
 using ThinMPm.Views.Img;
@@ -353,38 +354,5 @@ class PlayerPage : ContentPage
         secondaryContainer.Children.Add(playlistButton);
 
         return secondaryContainer;
-    }
-
-    private class InverseBoolConverter : IValueConverter
-    {
-        public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
-        {
-            return value is bool b ? !b : value;
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    private class RepeatModeVisibilityConverter : IValueConverter
-    {
-        private readonly RepeatMode _targetMode;
-
-        public RepeatModeVisibilityConverter(RepeatMode targetMode)
-        {
-            _targetMode = targetMode;
-        }
-
-        public object? Convert(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
-        {
-            return value is RepeatMode mode && mode == _targetMode;
-        }
-
-        public object? ConvertBack(object? value, Type targetType, object? parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
