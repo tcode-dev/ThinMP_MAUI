@@ -5,7 +5,6 @@ using ThinMPm.Contracts.Utils;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.ListItem;
-using ThinMPm.Views.Player;
 using ThinMPm.Views.Utils;
 
 namespace ThinMPm.Views.Page;
@@ -45,14 +44,8 @@ class FavoriteSongsEditPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(collectionView, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(collectionView, new Rect(0, 0, 1, 1));
 
-        var miniPlayer = new MiniPlayer();
-
-        AbsoluteLayout.SetLayoutFlags(miniPlayer, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, platformUtil.GetBottomBarHeight()));
-
         layout.Children.Add(collectionView);
         layout.Children.Add(header);
-        layout.Children.Add(miniPlayer);
 
         Content = layout;
     }
