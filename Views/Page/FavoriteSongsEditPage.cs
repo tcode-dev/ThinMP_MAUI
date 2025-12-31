@@ -40,9 +40,11 @@ class FavoriteSongsEditPage : ContentPage
             ItemTemplate = new DataTemplate(() => CreateSwipeableItem()),
             Header = new HeaderSpacer(),
             Footer = new FooterSpacer(),
+            CanReorderItems = true,
         };
         collectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs));
         collectionView.Scrolled += OnScrolled;
+        collectionView.ReorderCompleted += OnReorderCompleted;
 
         AbsoluteLayout.SetLayoutFlags(collectionView, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(collectionView, new Rect(0, 0, 1, 1));
@@ -180,5 +182,10 @@ class FavoriteSongsEditPage : ContentPage
             isBlurBackground = false;
             header.ShowSolidBackground();
         }
+    }
+
+    private void OnReorderCompleted(object? sender, EventArgs e)
+    {
+        // ObservableCollectionは自動的に更新されるため、追加の処理は不要
     }
 }
