@@ -1,4 +1,3 @@
-using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Utils;
@@ -43,24 +42,39 @@ public class FavoriteSongsEditHeader : ContentView
         AbsoluteLayout.SetLayoutFlags(blurBackground, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(blurBackground, new Rect(0, 0, 1, appBarHeight));
 
-        var cancelButton = new TextButton(AppResources.Cancel, (s, e) => CancelClicked?.Invoke(this, EventArgs.Empty));
-        var doneButton = new TextButton(AppResources.Done, (s, e) => DoneClicked?.Invoke(this, EventArgs.Empty));
+        var cancelButton = new TextButton(AppResources.Cancel, (s, e) => CancelClicked?.Invoke(this, EventArgs.Empty))
+        {
+            HorizontalOptions = LayoutOptions.Start,
+            Margin = new Thickness(20, 0, 0, 0)
+        };
+
+        var title = new PrimaryTitle { Text = AppResources.FavoriteSongs };
+
+        var doneButton = new TextButton(AppResources.Done, (s, e) => DoneClicked?.Invoke(this, EventArgs.Empty))
+        {
+            HorizontalOptions = LayoutOptions.End,
+            Margin = new Thickness(0, 0, 20, 0)
+        };
 
         var contentGrid = new Grid
         {
             ColumnDefinitions =
             {
-                new ColumnDefinition(GridLength.Auto),
                 new ColumnDefinition(GridLength.Star),
-                new ColumnDefinition(GridLength.Auto)
+                new ColumnDefinition(GridLength.Auto),
+                new ColumnDefinition(GridLength.Star)
             },
             Children =
             {
-                cancelButton.Column(0).Margins(LayoutConstants.SpacingMedium, 0, 0, 0),
-                new PrimaryTitle { Text = AppResources.FavoriteSongs }.Column(1),
-                doneButton.Column(2).Margins(0, 0, LayoutConstants.SpacingMedium, 0),
+                cancelButton,
+                title,
+                doneButton
             }
         };
+        Grid.SetColumn(cancelButton, 0);
+        Grid.SetColumn(title, 1);
+        Grid.SetColumn(doneButton, 2);
+
         AbsoluteLayout.SetLayoutFlags(contentGrid, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(contentGrid, new Rect(0, 0, 1, appBarHeight));
 
