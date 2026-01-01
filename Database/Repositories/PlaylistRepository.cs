@@ -58,4 +58,22 @@ public class PlaylistRepository
             .Table<PlaylistEntity>()
             .DeleteAsync(x => x.Id == id);
     }
+
+    public async Task UpdateOrderAsync(IList<int> ids)
+    {
+        await DatabaseService.InitializeAsync();
+        for (var i = 0; i < ids.Count; i++)
+        {
+            var entity = await DatabaseService.Database
+                .Table<PlaylistEntity>()
+                .Where(x => x.Id == ids[i])
+                .FirstOrDefaultAsync();
+
+            if (entity != null)
+            {
+                entity.SortOrder = i;
+                await DatabaseService.Database.UpdateAsync(entity);
+            }
+        }
+    }
 }

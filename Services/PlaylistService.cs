@@ -61,4 +61,14 @@ public class PlaylistService : IPlaylistService
     {
         return await _playlistSongRepository.ExistsAsync(playlistId, songId);
     }
+
+    public async Task DeleteAsync(int id)
+    {
+        await _playlistRepository.DeleteAsync(id);
+    }
+
+    public async Task UpdateOrderAsync(IList<int> ids)
+    {
+        await _playlistRepository.UpdateOrderAsync(ids);
+    }
 }

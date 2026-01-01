@@ -10,4 +10,6 @@ public interface IPlaylistService
     Task<int> CreateAsync(string name);
     Task AddSongAsync(int playlistId, string songId);
     Task<bool> SongExistsAsync(int playlistId, string songId);
+    Task DeleteAsync(int id);
+    Task UpdateOrderAsync(IList<int> ids);
 }
