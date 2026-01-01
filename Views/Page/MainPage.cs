@@ -29,13 +29,16 @@ class MainPage : ContentPage
         var shortcutList = new ShortcutList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Shortcuts));
         shortcutList.SetBinding(IsVisibleProperty, new Binding(nameof(vm.Shortcuts), converter: new ListNotEmptyConverter()));
 
+        var mainHeader = new MainHeader();
+        mainHeader.MenuClicked += OnMenuClicked;
+
         var scrollView = new ScrollView
         {
             SafeAreaEdges = SafeAreaEdges.None,
             Content = new VerticalStackLayout
             {
                 Children = {
-                    new MainHeader(),
+                    mainHeader,
                     new MenuList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.MenuItems)),
                     shortcutTitle,
                     shortcutList,
@@ -60,6 +63,16 @@ class MainPage : ContentPage
         if (BindingContext is MainViewModel vm)
         {
             vm.Load();
+        }
+    }
+
+    private async void OnMenuClicked(object? sender, EventArgs e)
+    {
+        var action = await DisplayActionSheetAsync(null, AppResources.Cancel, null, AppResources.Edit);
+
+        if (action == AppResources.Edit)
+        {
+            await Shell.Current.GoToAsync(nameof(MainEditPage));
         }
     }
 }

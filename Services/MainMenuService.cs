@@ -69,4 +69,25 @@ public class MainMenuService : IMainMenuService
             .Cast<IMenuModel>()
             .ToList();
     }
+
+    public IList<IMainMenuEditItemModel> GetAllForEdit()
+    {
+        return GetAll()
+            .Select(item => MenuMapping.TryGetValue(item.Id, out var mapping)
+                ? new MainMenuEditItemModel(item.Id, mapping.Title, item.IsVisible)
+                : null)
+            .Where(item => item != null)
+            .Cast<IMainMenuEditItemModel>()
+            .ToList();
+    }
+
+    public void Save(IList<IMainMenuEditItemModel> items)
+    {
+        var menuItems = items
+            .Select(item => new MainMenuItemModel(item.Id, item.IsVisible))
+            .ToList();
+
+        var json = JsonSerializer.Serialize(menuItems);
+        Preferences.Set(MainMenuKey, json);
+    }
 }

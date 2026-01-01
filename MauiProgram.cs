@@ -87,6 +87,7 @@ public static class MauiProgram
         builder.Services.AddTransient<FavoriteSongsEditViewModel>();
         builder.Services.AddTransient<FavoriteArtistsViewModel>();
         builder.Services.AddTransient<FavoriteArtistsEditViewModel>();
+        builder.Services.AddTransient<MainMenuEditViewModel>();
         builder.Services.AddTransient<PlaylistPopupViewModel>();
         builder.Services.AddTransient<PlaylistsViewModel>();
         builder.Services.AddTransient<PlaylistDetailViewModel>();
@@ -102,6 +103,7 @@ public static class MauiProgram
         builder.Services.AddTransient<FavoriteSongsEditPage>();
         builder.Services.AddTransient<FavoriteArtistsPage>();
         builder.Services.AddTransient<FavoriteArtistsEditPage>();
+        builder.Services.AddTransient<MainEditPage>();
         builder.Services.AddTransient<PlaylistsPage>();
         builder.Services.AddTransient<PlaylistDetailPage>();
 
