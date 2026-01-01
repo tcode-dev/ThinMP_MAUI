@@ -1,4 +1,3 @@
-using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Models;
@@ -34,14 +33,9 @@ class MainEditPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
 
-        var menuCollectionView = new CollectionView
-        {
-            ItemTemplate = new DataTemplate(() => new MainMenuEditListItem()),
-#if IOS
-            CanReorderItems = true,
-#endif
-        };
-        menuCollectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.MenuItems));
+        var menuLayout = new VerticalStackLayout();
+        BindableLayout.SetItemTemplate(menuLayout, new DataTemplate(() => new MainMenuEditListItem()));
+        menuLayout.SetBinding(BindableLayout.ItemsSourceProperty, nameof(vm.MenuItems));
 
         var shortcutHeader = new PrimaryText
         {
@@ -49,25 +43,21 @@ class MainEditPage : ContentPage
             Margin = new Thickness(LayoutConstants.SpacingLarge, LayoutConstants.SpacingLarge, 0, LayoutConstants.SpacingSmall),
         };
 
-        var shortcutCollectionView = new CollectionView
-        {
-            ItemTemplate = new DataTemplate(() => new ShortcutEditListItem(OnDeleteShortcutRequested)),
-#if IOS
-            CanReorderItems = true,
-#endif
-        };
-        shortcutCollectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Shortcuts));
+        var shortcutLayout = new VerticalStackLayout();
+        BindableLayout.SetItemTemplate(shortcutLayout, new DataTemplate(() => new ShortcutEditListItem(OnDeleteShortcutRequested)));
+        shortcutLayout.SetBinding(BindableLayout.ItemsSourceProperty, nameof(vm.Shortcuts));
 
         var scrollView = new ScrollView
         {
+            SafeAreaEdges = SafeAreaEdges.None,
             Content = new VerticalStackLayout
             {
                 Children =
                 {
                     new HeaderSpacer(),
-                    menuCollectionView,
+                    menuLayout,
                     shortcutHeader,
-                    shortcutCollectionView,
+                    shortcutLayout,
                     new BoxView { HeightRequest = platformUtil.GetBottomBarHeight() }
                 }
             }
