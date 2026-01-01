@@ -49,8 +49,8 @@ public class ShortcutEditListItem : SwipeView
 
         var artworkImage = new ArtworkImage
         {
-            WidthRequest = LayoutConstants.HeightSmall,
-            HeightRequest = LayoutConstants.HeightSmall,
+            WidthRequest = LayoutConstants.ImageSize,
+            HeightRequest = LayoutConstants.ImageSize,
         };
         artworkImage.Bind(ArtworkImage.ImageIdProperty, nameof(IShortcutModel.ImageId));
         artworkImage.Bind(ArtworkImage.IsCircleProperty, nameof(IShortcutModel.Category), converter: new IsArtistCategoryConverter());
