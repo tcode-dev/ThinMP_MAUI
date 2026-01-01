@@ -1,16 +1,30 @@
 using CommunityToolkit.Maui.Markup;
+using ThinMPm.Resources.Strings;
 using ThinMPm.Views.Button;
 
 namespace ThinMPm.Views.Header;
 
-public class ListMenuHeader : ListHeader
+public abstract class ListMenuHeader : ListHeader
 {
-    public event EventHandler? MenuClicked;
+    protected abstract string EditPageRoute { get; }
 
     public ListMenuHeader()
     {
         contentGrid.Children.Add(
-            new MenuButton((s, e) => MenuClicked?.Invoke(this, EventArgs.Empty)).Column(2)
+            new MenuButton(OnMenuClicked).Column(2)
         );
+    }
+
+    private async void OnMenuClicked(object? sender, EventArgs e)
+    {
+        var page = Application.Current?.Windows.FirstOrDefault()?.Page;
+        if (page == null) return;
+
+        var result = await page.DisplayActionSheetAsync(null, AppResources.Cancel, null, AppResources.Edit);
+
+        if (result == AppResources.Edit)
+        {
+            await Shell.Current.GoToAsync(EditPageRoute);
+        }
     }
 }

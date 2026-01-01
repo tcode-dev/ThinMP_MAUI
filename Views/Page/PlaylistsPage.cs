@@ -2,7 +2,6 @@ using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
-using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.ListItem;
@@ -27,7 +26,6 @@ class PlaylistsPage : ContentPage
             SafeAreaEdges = SafeAreaEdges.None,
         };
         header = new PlaylistsHeader();
-        header.MenuClicked += OnMenuClicked;
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
@@ -88,16 +86,6 @@ class PlaylistsPage : ContentPage
         {
             isBlurBackground = false;
             header.ShowSolidBackground();
-        }
-    }
-
-    private async void OnMenuClicked(object? sender, EventArgs e)
-    {
-        var result = await DisplayActionSheetAsync(null, AppResources.Cancel, null, AppResources.Edit);
-
-        if (result == AppResources.Edit)
-        {
-            await Shell.Current.GoToAsync(nameof(PlaylistsEditPage));
         }
     }
 }

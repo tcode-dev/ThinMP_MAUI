@@ -3,7 +3,6 @@ using Microsoft.Maui.Layouts;
 using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Contracts.Utils;
-using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.ListItem;
@@ -32,7 +31,6 @@ class FavoriteSongsPage : ContentPage
             SafeAreaEdges = SafeAreaEdges.None,
         };
         header = new FavoriteSongsHeader();
-        header.MenuClicked += OnMenuClicked;
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
@@ -95,16 +93,6 @@ class FavoriteSongsPage : ContentPage
         {
             isBlurBackground = false;
             header.ShowSolidBackground();
-        }
-    }
-
-    private async void OnMenuClicked(object? sender, EventArgs e)
-    {
-        var result = await DisplayActionSheetAsync(null, AppResources.Cancel, null, AppResources.Edit);
-
-        if (result == AppResources.Edit)
-        {
-            await Shell.Current.GoToAsync(nameof(FavoriteSongsEditPage));
         }
     }
 }
