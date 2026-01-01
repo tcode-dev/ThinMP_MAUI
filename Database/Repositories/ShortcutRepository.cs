@@ -72,7 +72,7 @@ public class ShortcutRepository
             {
                 Id = shortcuts[i].Id,
                 Category = (int)shortcuts[i].Category,
-                SortOrder = i
+                SortOrder = shortcuts.Count - 1 - i
             };
 
             await DatabaseService.Database.InsertAsync(entity);
