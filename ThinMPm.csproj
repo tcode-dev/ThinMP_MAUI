@@ -14,7 +14,7 @@
 		<ApplicationTitle>ThinMPm</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.thinmpm</ApplicationId>
+		<ApplicationId>dev.tcode.thinmpm</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
