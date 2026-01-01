@@ -1,9 +1,13 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
+using ThinMPm.Constants;
+using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Utils;
+using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.ListItem;
+using ThinMPm.Views.Text;
 using ThinMPm.Views.Utils;
 
 namespace ThinMPm.Views.Page;
@@ -30,34 +34,70 @@ class MainEditPage : ContentPage
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
 
-        var collectionView = new CollectionView
+        var menuCollectionView = new CollectionView
         {
             ItemTemplate = new DataTemplate(() => new MainMenuEditListItem()),
-            Header = new HeaderSpacer(),
-            Footer = new FooterSpacer(),
 #if IOS
             CanReorderItems = true,
 #endif
         };
-        collectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.MenuItems));
-        collectionView.Scrolled += OnScrolled;
+        menuCollectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.MenuItems));
 
-        AbsoluteLayout.SetLayoutFlags(collectionView, AbsoluteLayoutFlags.All);
-        AbsoluteLayout.SetLayoutBounds(collectionView, new Rect(0, 0, 1, 1));
+        var shortcutHeader = new PrimaryText
+        {
+            Text = AppResources.Shortcut,
+            Margin = new Thickness(LayoutConstants.SpacingLarge, LayoutConstants.SpacingLarge, 0, LayoutConstants.SpacingSmall),
+        };
 
-        layout.Children.Add(collectionView);
+        var shortcutCollectionView = new CollectionView
+        {
+            ItemTemplate = new DataTemplate(() => new ShortcutEditListItem(OnDeleteShortcutRequested)),
+#if IOS
+            CanReorderItems = true,
+#endif
+        };
+        shortcutCollectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Shortcuts));
+
+        var scrollView = new ScrollView
+        {
+            Content = new VerticalStackLayout
+            {
+                Children =
+                {
+                    new HeaderSpacer(),
+                    menuCollectionView,
+                    shortcutHeader,
+                    shortcutCollectionView,
+                    new BoxView { HeightRequest = platformUtil.GetBottomBarHeight() }
+                }
+            }
+        };
+        scrollView.Scrolled += OnScrolled;
+
+        AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
+        AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
+
+        layout.Children.Add(scrollView);
         layout.Children.Add(header);
 
         Content = layout;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
 
         if (BindingContext is MainMenuEditViewModel vm)
         {
-            vm.Load();
+            await vm.LoadAsync();
+        }
+    }
+
+    private void OnDeleteShortcutRequested(IShortcutModel shortcut)
+    {
+        if (BindingContext is MainMenuEditViewModel vm)
+        {
+            vm.RemoveShortcut(shortcut);
         }
     }
 
@@ -70,19 +110,19 @@ class MainEditPage : ContentPage
     {
         if (BindingContext is MainMenuEditViewModel vm)
         {
-            vm.Save();
+            await vm.SaveAsync();
         }
         await Shell.Current.GoToAsync("..");
     }
 
-    private void OnScrolled(object? sender, ItemsViewScrolledEventArgs e)
+    private void OnScrolled(object? sender, ScrolledEventArgs e)
     {
-        if (e.VerticalOffset > 0 && !isBlurBackground)
+        if (e.ScrollY > 0 && !isBlurBackground)
         {
             isBlurBackground = true;
             header.ShowBlurBackground();
         }
-        else if (e.VerticalOffset <= 0 && isBlurBackground)
+        else if (e.ScrollY <= 0 && isBlurBackground)
         {
             isBlurBackground = false;
             header.ShowSolidBackground();

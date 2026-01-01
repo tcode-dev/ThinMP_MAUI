@@ -60,4 +60,22 @@ public class ShortcutRepository
             .OrderBy(x => x.SortOrder)
             .ToListAsync();
     }
+
+    public async Task UpdateAsync(IList<(string Id, ShortcutCategory Category)> shortcuts)
+    {
+        await DatabaseService.InitializeAsync();
+        await DatabaseService.Database.Table<ShortcutEntity>().DeleteAsync(x => true);
+
+        for (var i = 0; i < shortcuts.Count; i++)
+        {
+            var entity = new ShortcutEntity
+            {
+                Id = shortcuts[i].Id,
+                Category = (int)shortcuts[i].Category,
+                SortOrder = i
+            };
+
+            await DatabaseService.Database.InsertAsync(entity);
+        }
+    }
 }

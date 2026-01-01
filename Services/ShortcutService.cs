@@ -97,4 +97,10 @@ public class ShortcutService : IShortcutService
 
         return new ShortcutModel(id, playlist.Name, playlist.ImageId, ShortcutCategory.Playlist);
     }
+
+    public async Task UpdateAsync(IList<IShortcutModel> shortcuts)
+    {
+        var data = shortcuts.Select(s => (s.Id, s.Category)).ToList();
+        await _repository.UpdateAsync(data);
+    }
 }

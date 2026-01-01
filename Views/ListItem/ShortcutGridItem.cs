@@ -76,7 +76,7 @@ public class ShortcutGridItem : ContentView
     }
 }
 
-class ShortcutCategoryConverter : IValueConverter
+public class ShortcutCategoryConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
@@ -99,7 +99,7 @@ class ShortcutCategoryConverter : IValueConverter
     }
 }
 
-class IsArtistCategoryConverter : IValueConverter
+public class IsArtistCategoryConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
