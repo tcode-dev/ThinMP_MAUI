@@ -35,9 +35,14 @@ class MainEditPage : ContentPage
             ItemTemplate = new DataTemplate(() => new MainMenuEditListItem()),
             Header = new HeaderSpacer(),
             Footer = new FooterSpacer(),
+#if IOS
             CanReorderItems = true,
+#endif
         };
         collectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.MenuItems));
+#if IOS
+        collectionView.ReorderCompleted += OnReorderCompleted;
+#endif
         collectionView.Scrolled += OnScrolled;
 
         AbsoluteLayout.SetLayoutFlags(collectionView, AbsoluteLayoutFlags.All);
@@ -86,4 +91,14 @@ class MainEditPage : ContentPage
             header.ShowSolidBackground();
         }
     }
+
+#if IOS
+    private void OnReorderCompleted(object? sender, EventArgs e)
+    {
+        if (BindingContext is MainMenuEditViewModel vm && sender is CollectionView collectionView)
+        {
+            vm.UpdateOrder(collectionView.ItemsSource);
+        }
+    }
+#endif
 }
