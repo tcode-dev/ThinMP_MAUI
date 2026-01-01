@@ -1,33 +1,22 @@
-using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Constants;
 using ThinMPm.Contracts.Utils;
+using ThinMPm.Resources.Strings;
 using ThinMPm.Views.Background;
 using ThinMPm.Views.Button;
 using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Header;
 
-public class ListHeader : ContentView
+public class EditHeader : ContentView
 {
     private readonly BoxView solidBackground;
     private readonly BlurBackgroundView blurBackground;
-    protected readonly Grid contentGrid;
 
-    public static readonly BindableProperty TitleProperty =
-        BindableProperty.Create(
-            nameof(Title),
-            typeof(string),
-            typeof(ListHeader),
-            default(string));
+    public event EventHandler? CancelClicked;
+    public event EventHandler? DoneClicked;
 
-    public string Title
-    {
-        get => (string)GetValue(TitleProperty);
-        set => SetValue(TitleProperty, value);
-    }
-
-    public ListHeader()
+    public EditHeader()
     {
         var platformUtil = Application.Current!.Handler!.MauiContext!.Services.GetRequiredService<IPlatformUtil>();
         var appBarHeight = platformUtil.GetAppBarHeight();
@@ -53,22 +42,39 @@ public class ListHeader : ContentView
         AbsoluteLayout.SetLayoutFlags(blurBackground, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(blurBackground, new Rect(0, 0, 1, appBarHeight));
 
-        contentGrid = new Grid
+        var cancelButton = new TextButton(AppResources.Cancel, (s, e) => CancelClicked?.Invoke(this, EventArgs.Empty))
+        {
+            HorizontalOptions = LayoutOptions.Start,
+            Margin = new Thickness(20, 0, 0, 0)
+        };
+
+        var title = new PrimaryTitle { Text = AppResources.Edit };
+
+        var doneButton = new TextButton(AppResources.Done, (s, e) => DoneClicked?.Invoke(this, EventArgs.Empty))
+        {
+            HorizontalOptions = LayoutOptions.End,
+            Margin = new Thickness(0, 0, 20, 0)
+        };
+
+        var contentGrid = new Grid
         {
             ColumnDefinitions =
             {
-                new ColumnDefinition(50),
                 new ColumnDefinition(GridLength.Star),
-                new ColumnDefinition(50)
+                new ColumnDefinition(GridLength.Auto),
+                new ColumnDefinition(GridLength.Star)
             },
             Children =
             {
-                new BackButton().Column(0),
-                new PrimaryTitle()
-                    .Bind(Label.TextProperty, nameof(Title), source: this)
-                    .Column(1),
+                cancelButton,
+                title,
+                doneButton
             }
         };
+        Grid.SetColumn(cancelButton, 0);
+        Grid.SetColumn(title, 1);
+        Grid.SetColumn(doneButton, 2);
+
         AbsoluteLayout.SetLayoutFlags(contentGrid, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(contentGrid, new Rect(0, 0, 1, appBarHeight));
 
