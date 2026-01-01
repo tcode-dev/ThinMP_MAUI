@@ -13,7 +13,7 @@ namespace ThinMPm.Views.Page;
 
 class MainEditPage : ContentPage
 {
-    private readonly MainMenuEditHeader header;
+    private readonly EditHeader header;
     private bool isBlurBackground = false;
 
     public MainEditPage(MainMenuEditViewModel vm, IPlatformUtil platformUtil)
@@ -26,7 +26,7 @@ class MainEditPage : ContentPage
         {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        header = new MainMenuEditHeader();
+        header = new EditHeader();
         header.CancelClicked += OnCancelClicked;
         header.DoneClicked += OnDoneClicked;
 

@@ -11,7 +11,7 @@ namespace ThinMPm.Views.Page;
 
 class FavoriteArtistsEditPage : ContentPage
 {
-    private readonly FavoriteArtistsEditHeader header;
+    private readonly EditHeader header;
     private bool isBlurBackground = false;
 
     public FavoriteArtistsEditPage(FavoriteArtistsEditViewModel vm, IPlatformUtil platformUtil)
@@ -24,7 +24,7 @@ class FavoriteArtistsEditPage : ContentPage
         {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        header = new FavoriteArtistsEditHeader();
+        header = new EditHeader();
         header.CancelClicked += OnCancelClicked;
         header.DoneClicked += OnDoneClicked;
 

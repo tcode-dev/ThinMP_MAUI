@@ -11,7 +11,7 @@ namespace ThinMPm.Views.Page;
 
 class PlaylistsEditPage : ContentPage
 {
-    private readonly PlaylistsEditHeader header;
+    private readonly EditHeader header;
     private bool isBlurBackground = false;
 
     public PlaylistsEditPage(PlaylistsEditViewModel vm, IPlatformUtil platformUtil)
@@ -24,7 +24,7 @@ class PlaylistsEditPage : ContentPage
         {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        header = new PlaylistsEditHeader();
+        header = new EditHeader();
         header.CancelClicked += OnCancelClicked;
         header.DoneClicked += OnDoneClicked;
 
