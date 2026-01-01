@@ -60,4 +60,23 @@ public class PlaylistSongRepository
             .Table<PlaylistSongEntity>()
             .DeleteAsync(x => x.PlaylistId == playlistId);
     }
+
+    public async Task UpdateAsync(int playlistId, IList<string> songIds)
+    {
+        await DatabaseService.InitializeAsync();
+        await DatabaseService.Database
+            .Table<PlaylistSongEntity>()
+            .DeleteAsync(x => x.PlaylistId == playlistId);
+
+        for (var i = 0; i < songIds.Count; i++)
+        {
+            var entity = new PlaylistSongEntity
+            {
+                PlaylistId = playlistId,
+                SongId = songIds[i],
+                SortOrder = i
+            };
+            await DatabaseService.Database.InsertAsync(entity);
+        }
+    }
 }

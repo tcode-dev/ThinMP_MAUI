@@ -82,9 +82,13 @@ class PlaylistDetailPage : DetailPageBase
         var isShortcut = await _shortcutService.ExistsAsync(playlistId, ShortcutCategory.Playlist);
         var shortcutText = isShortcut ? AppResources.ShortcutRemove : AppResources.ShortcutAdd;
 
-        var result = await this.DisplayActionSheetAsync(playlistName, AppResources.Cancel, null, shortcutText);
+        var result = await this.DisplayActionSheetAsync(playlistName, AppResources.Cancel, null, AppResources.Edit, shortcutText);
 
-        if (result == shortcutText)
+        if (result == AppResources.Edit)
+        {
+            await Shell.Current.GoToAsync($"{nameof(PlaylistDetailEditPage)}?PlaylistId={_vm.PlaylistId}");
+        }
+        else if (result == shortcutText)
         {
             await _shortcutService.ToggleAsync(playlistId, ShortcutCategory.Playlist);
         }

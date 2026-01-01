@@ -71,4 +71,18 @@ public class PlaylistService : IPlaylistService
     {
         await _playlistRepository.UpdateOrderAsync(ids);
     }
+
+    public async Task UpdateNameAsync(int id, string name)
+    {
+        var entity = await _playlistRepository.GetByIdAsync(id);
+        if (entity == null) return;
+
+        entity.Name = name;
+        await _playlistRepository.UpdateAsync(entity);
+    }
+
+    public async Task UpdateSongsAsync(int playlistId, IList<string> songIds)
+    {
+        await _playlistSongRepository.UpdateAsync(playlistId, songIds);
+    }
 }

@@ -92,6 +92,7 @@ public static class MauiProgram
         builder.Services.AddTransient<PlaylistPopupViewModel>();
         builder.Services.AddTransient<PlaylistsViewModel>();
         builder.Services.AddTransient<PlaylistDetailViewModel>();
+        builder.Services.AddTransient<PlaylistDetailEditViewModel>();
 
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<ArtistsPage>();
@@ -108,6 +109,7 @@ public static class MauiProgram
         builder.Services.AddTransient<PlaylistsPage>();
         builder.Services.AddTransient<PlaylistsEditPage>();
         builder.Services.AddTransient<PlaylistDetailPage>();
+        builder.Services.AddTransient<PlaylistDetailEditPage>();
 
         builder.Services.AddTransient<PlaylistPopup>();
         builder.Services.AddSingleton<Func<PlaylistPopup>>(sp => () => sp.GetRequiredService<PlaylistPopup>());
