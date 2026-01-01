@@ -52,6 +52,7 @@ public class MainMenuEditListItem : ContentView
                 .Column(1)
         );
 
+#if IOS
         var dragIcon = new Image
         {
             Source = "drag",
@@ -63,6 +64,7 @@ public class MainMenuEditListItem : ContentView
         dragIcon.Behaviors.Add(new IconColorBehavior { TintColor = ColorConstants.IconColor });
         dragIcon.Row(0).Column(2);
         grid.Children.Add(dragIcon);
+#endif
 
         grid.Children.Add(
             new Separator()

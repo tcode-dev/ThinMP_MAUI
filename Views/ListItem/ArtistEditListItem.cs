@@ -54,6 +54,7 @@ public class ArtistEditListItem : SwipeView
                 .Column(0)
         );
 
+#if IOS
         var dragIcon = new Image
         {
             Source = "drag",
@@ -65,6 +66,7 @@ public class ArtistEditListItem : SwipeView
         dragIcon.Behaviors.Add(new IconColorBehavior { TintColor = ColorConstants.IconColor });
         dragIcon.Row(0).Column(1);
         grid.Children.Add(dragIcon);
+#endif
 
         grid.Children.Add(
             new Separator()
