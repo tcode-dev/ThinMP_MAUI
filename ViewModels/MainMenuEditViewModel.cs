@@ -21,12 +21,4 @@ public partial class MainMenuEditViewModel(IMainMenuService mainMenuService) : O
     {
         _mainMenuService.Save(MenuItems.ToList());
     }
-
-    public void UpdateOrder(object itemsSource)
-    {
-        if (itemsSource is IEnumerable<IMainMenuEditItemModel> items)
-        {
-            MenuItems = new ObservableCollection<IMainMenuEditItemModel>(items);
-        }
-    }
 }

@@ -41,9 +41,6 @@ class FavoriteSongsEditPage : ContentPage
 #endif
         };
         collectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs));
-#if IOS
-        collectionView.ReorderCompleted += OnReorderCompleted;
-#endif
         collectionView.Scrolled += OnScrolled;
 
         AbsoluteLayout.SetLayoutFlags(collectionView, AbsoluteLayoutFlags.All);
@@ -100,14 +97,4 @@ class FavoriteSongsEditPage : ContentPage
             header.ShowSolidBackground();
         }
     }
-
-#if IOS
-    private void OnReorderCompleted(object? sender, EventArgs e)
-    {
-        if (BindingContext is FavoriteSongsEditViewModel vm && sender is CollectionView collectionView)
-        {
-            vm.UpdateOrder(collectionView.ItemsSource);
-        }
-    }
-#endif
 }

@@ -41,12 +41,4 @@ public partial class FavoriteArtistsEditViewModel(IFavoriteArtistService favorit
 
         return false;
     }
-
-    public void UpdateOrder(object itemsSource)
-    {
-        if (itemsSource is IEnumerable<IArtistModel> items)
-        {
-            Artists = new ObservableCollection<IArtistModel>(items);
-        }
-    }
 }

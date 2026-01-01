@@ -41,12 +41,4 @@ public partial class FavoriteSongsEditViewModel(IFavoriteSongService favoriteSon
 
         return false;
     }
-
-    public void UpdateOrder(object itemsSource)
-    {
-        if (itemsSource is IEnumerable<ISongModel> items)
-        {
-            Songs = new ObservableCollection<ISongModel>(items);
-        }
-    }
 }
