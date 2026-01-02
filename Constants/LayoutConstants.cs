@@ -17,4 +17,6 @@ public static class LayoutConstants
     public const double ButtonLarge = 88;
     public const double ButtonExtraLarge = 100;
     public const double HeaderVisibilityThreshold = 0.75;
+    public const double BaseGridSize = 200;
+    public const int MinGridCount = 2;
 }
