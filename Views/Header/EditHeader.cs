@@ -13,7 +13,6 @@ public class EditHeader : ContentView
     private readonly BoxView solidBackground;
     private readonly BlurBackgroundView blurBackground;
 
-    public event EventHandler? CancelClicked;
     public event EventHandler? DoneClicked;
 
     public EditHeader()
@@ -42,7 +41,7 @@ public class EditHeader : ContentView
         AbsoluteLayout.SetLayoutFlags(blurBackground, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(blurBackground, new Rect(0, 0, 1, appBarHeight));
 
-        var cancelButton = new TextButton(AppResources.Cancel, (s, e) => CancelClicked?.Invoke(this, EventArgs.Empty))
+        var cancelButton = new TextButton(AppResources.Cancel, async (s, e) => await Shell.Current.GoToAsync(".."))
         {
             HorizontalOptions = LayoutOptions.Start,
             Margin = new Thickness(20, 0, 0, 0)

@@ -25,7 +25,6 @@ class FavoriteSongsEditPage : ContentPage
             SafeAreaEdges = SafeAreaEdges.None,
         };
         header = new EditHeader();
-        header.CancelClicked += OnCancelClicked;
         header.DoneClicked += OnDoneClicked;
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
@@ -68,11 +67,6 @@ class FavoriteSongsEditPage : ContentPage
         {
             vm.RemoveSong(song);
         }
-    }
-
-    private async void OnCancelClicked(object? sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("..");
     }
 
     private async void OnDoneClicked(object? sender, EventArgs e)
