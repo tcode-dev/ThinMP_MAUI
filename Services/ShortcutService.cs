@@ -66,7 +66,22 @@ public class ShortcutService : IShortcutService
             }
         }
 
+        if (!Validate(entities.Count, shortcuts.Count))
+        {
+            await FixShortcutsAsync(shortcuts);
+
+            return await GetAllAsync();
+        }
+
         return shortcuts;
+    }
+
+    private static bool Validate(int expected, int actual) => expected == actual;
+
+    private async Task FixShortcutsAsync(IList<IShortcutModel> shortcuts)
+    {
+        var data = shortcuts.Select(s => (s.Id, s.Category)).ToList();
+        await _repository.UpdateAsync(data);
     }
 
     private IShortcutModel? CreateArtistShortcut(string id)
