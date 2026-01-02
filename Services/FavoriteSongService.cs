@@ -38,7 +38,25 @@ public class FavoriteSongService : IFavoriteSongService
     {
         var favorites = await _repository.GetAllAsync();
         var ids = favorites.Select(f => f.Id).ToList();
-        return _songService.FindByIds(ids);
+        var songs = _songService.FindByIds(ids);
+
+        if (!Validate(favorites.Count, songs.Count))
+        {
+            await FixFavoriteSongsAsync(ids, songs);
+
+            return await GetFavoriteSongsAsync();
+        }
+
+        return songs;
+    }
+
+    private static bool Validate(int expected, int actual) => expected == actual;
+
+    private async Task FixFavoriteSongsAsync(IList<string> favoriteIds, IList<ISongModel> songs)
+    {
+        var existingIds = songs.Select(s => s.Id).ToHashSet();
+        var validIds = favoriteIds.Where(existingIds.Contains).ToList();
+        await _repository.UpdateAsync(validIds);
     }
 
     public async Task UpdateAsync(IList<string> ids)
