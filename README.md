@@ -15,3 +15,22 @@ This app is a simple music player for Android and iOS.
 #### iPhone 14 Plus
 
 <img alt="" src="https://github.com/user-attachments/assets/d92ac611-fa2a-4e2a-8105-0c22c567384d" width="156" /> <img alt="" src="https://github.com/user-attachments/assets/c71d464e-b7e6-49ef-80d9-93ffe536a6f0" width="156" /> <img alt="" src="https://github.com/user-attachments/assets/3251b121-f131-4f94-b8ab-e91bf88621cb" width="156" /> <img alt="" src="https://github.com/user-attachments/assets/0b72d5d0-dc71-420f-b49c-2f07191a0605" width="156" /> <img alt="" src="https://github.com/user-attachments/assets/1936f70b-a9b1-4970-8d1c-b8f49e357305" width="156" />
+
+## Features
+
+* device music play
+* background play
+* favorite artists
+* favorite songs
+* playlists
+* shortcuts
+
+## Environments
+
+* .NET MAUI
+* C# Markup
+* C#
+
+## Libraries
+
+* sqlite-net-pcl - https://www.nuget.org/packages/sqlite-net-pcl/
