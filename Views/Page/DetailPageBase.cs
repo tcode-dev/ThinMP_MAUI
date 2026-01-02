@@ -5,25 +5,32 @@ using ThinMPm.Views.Header;
 
 namespace ThinMPm.Views.Page;
 
-abstract class DetailPageBase : ContentPage
+abstract class DetailPageBase : ResponsivePage
 {
     protected readonly IPlatformUtil _platformUtil;
-    protected readonly DetailHeader header;
-    private bool isHeaderVisible = false;
-    private double headerShowPosition = 0;
+    protected DetailHeader? _header;
+    protected string _titleBindingPath;
+    private bool _isHeaderVisible = false;
+    private double _headerShowPosition = 0;
 
     protected DetailPageBase(IPlatformUtil platformUtil, string titleBindingPath)
     {
         Shell.SetNavBarIsVisible(this, false);
         _platformUtil = platformUtil;
-        header = new DetailHeader().Bind(DetailHeader.TitleProperty, titleBindingPath);
+        _titleBindingPath = titleBindingPath;
+    }
+
+    protected DetailHeader CreateHeader()
+    {
+        _header = new DetailHeader().Bind(DetailHeader.TitleProperty, _titleBindingPath);
+        return _header;
     }
 
     protected override void OnSizeAllocated(double width, double height)
     {
         base.OnSizeAllocated(width, height);
         var statusBarHeight = _platformUtil.GetStatusBarHeight();
-        headerShowPosition = this.Width * LayoutConstants.HeaderVisibilityThreshold - statusBarHeight;
+        _headerShowPosition = this.Width * LayoutConstants.HeaderVisibilityThreshold - statusBarHeight;
     }
 
     protected void OnScrolled(object? sender, ScrolledEventArgs e)
@@ -38,15 +45,17 @@ abstract class DetailPageBase : ContentPage
 
     private void UpdateHeaderVisibility(double scrollPosition)
     {
-        if (scrollPosition > headerShowPosition && !isHeaderVisible)
+        if (_header == null) return;
+
+        if (scrollPosition > _headerShowPosition && !_isHeaderVisible)
         {
-            isHeaderVisible = true;
-            header.Show();
+            _isHeaderVisible = true;
+            _header.Show();
         }
-        else if (scrollPosition <= headerShowPosition && isHeaderVisible)
+        else if (scrollPosition <= _headerShowPosition && _isHeaderVisible)
         {
-            isHeaderVisible = false;
-            header.Hide();
+            _isHeaderVisible = false;
+            _header.Hide();
         }
     }
 }

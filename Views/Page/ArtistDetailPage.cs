@@ -26,19 +26,25 @@ class ArtistDetailPage : DetailPageBase
     public ArtistDetailPage(ArtistDetailViewModel vm, IPlayerService playerService, IPreferenceService preferenceService, IFavoriteArtistService favoriteArtistService, IShortcutService shortcutService, IPlatformUtil platformUtil)
         : base(platformUtil, "Artist.Name")
     {
-        BindingContext = vm;
         _vm = vm;
         _playerService = playerService;
         _preferenceService = preferenceService;
         _favoriteArtistService = favoriteArtistService;
         _shortcutService = shortcutService;
 
+        BindingContext = vm;
+        BuildContent();
+    }
+
+    protected override void BuildContent()
+    {
         var layout = new AbsoluteLayout
         {
             SafeAreaEdges = SafeAreaEdges.None,
         };
 
-        var appBarHeight = platformUtil.GetAppBarHeight();
+        var appBarHeight = _platformUtil.GetAppBarHeight();
+        var header = CreateHeader();
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, appBarHeight));
@@ -54,7 +60,7 @@ class ArtistDetailPage : DetailPageBase
         var collectionView = new CollectionView
         {
             ItemTemplate = new ArtistDetailTemplateSelector(OnSongTapped),
-            Header = new ArtistDetailFirstView { BindingContext = vm },
+            Header = new ArtistDetailFirstView { BindingContext = _vm },
             Footer = new FooterSpacer(),
         };
         collectionView.Bind(ItemsView.ItemsSourceProperty, "Items");
@@ -66,7 +72,7 @@ class ArtistDetailPage : DetailPageBase
         var miniPlayer = new MiniPlayer();
 
         AbsoluteLayout.SetLayoutFlags(miniPlayer, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, platformUtil.GetBottomBarHeight()));
+        AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, _platformUtil.GetBottomBarHeight()));
 
         layout.Children.Add(collectionView);
         layout.Children.Add(header);
@@ -102,21 +108,17 @@ class ArtistDetailPage : DetailPageBase
     protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        if (BindingContext is ArtistDetailViewModel vm)
-        {
-            vm.Load();
-        }
+        _vm.Load();
     }
 
     private void OnSongTapped(object? sender, EventArgs e)
     {
-        if (sender is BindableObject bindable && BindingContext is ArtistDetailViewModel vm)
+        if (sender is BindableObject bindable)
         {
             if (bindable.BindingContext is ISongModel item)
             {
-                int index = vm.Songs.IndexOf(item);
-                var songIds = vm.Songs.Select(s => s.Id).ToList();
+                int index = _vm.Songs.IndexOf(item);
+                var songIds = _vm.Songs.Select(s => s.Id).ToList();
                 _playerService.StartFavoriteSongs(songIds, index, _preferenceService.GetRepeatMode(), _preferenceService.GetShuffleMode());
             }
         }

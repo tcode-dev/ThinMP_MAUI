@@ -13,15 +13,26 @@ using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Page;
 
-class PlayerPage : ContentPage
+class PlayerPage : ResponsivePage
 {
+    private readonly PlayerViewModel _vm;
+    private readonly IPlatformUtil _platformUtil;
+
     public PlayerPage(PlayerViewModel vm, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
+
+        _vm = vm;
+        _platformUtil = platformUtil;
         BindingContext = vm;
 
-        var statusBarHeight = platformUtil.GetStatusBarHeight();
-        var safeAreaBottom = platformUtil.GetBottomSafeAreaHeight();
+        BuildContent();
+    }
+
+    protected override void BuildContent()
+    {
+        var statusBarHeight = _platformUtil.GetStatusBarHeight();
+        var safeAreaBottom = _platformUtil.GetBottomSafeAreaHeight();
 
         var layout = new AbsoluteLayout {
             SafeAreaEdges = SafeAreaEdges.None,

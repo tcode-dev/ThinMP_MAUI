@@ -9,25 +9,36 @@ using ThinMPm.Views.Utils;
 
 namespace ThinMPm.Views.Page;
 
-class FavoriteSongsEditPage : ContentPage
+class FavoriteSongsEditPage : ResponsivePage
 {
-    private readonly EditHeader header;
-    private bool isBlurBackground = false;
+    private readonly FavoriteSongsEditViewModel _vm;
+    private readonly IPlatformUtil _platformUtil;
+    private EditHeader? _header;
+    private bool _isBlurBackground = false;
 
     public FavoriteSongsEditPage(FavoriteSongsEditViewModel vm, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
 
+        _vm = vm;
+        _platformUtil = platformUtil;
         BindingContext = vm;
+
+        BuildContent();
+    }
+
+    protected override void BuildContent()
+    {
+        _isBlurBackground = false;
 
         var layout = new AbsoluteLayout
         {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        header = new EditHeader(OnDoneClicked);
+        _header = new EditHeader(OnDoneClicked);
 
-        AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
+        AbsoluteLayout.SetLayoutFlags(_header, AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(_header, new Rect(0, 0, 1, _platformUtil.GetAppBarHeight()));
 
         var collectionView = new CollectionView
         {
@@ -38,14 +49,14 @@ class FavoriteSongsEditPage : ContentPage
             CanReorderItems = true,
 #endif
         };
-        collectionView.Bind(ItemsView.ItemsSourceProperty, nameof(vm.Songs));
+        collectionView.Bind(ItemsView.ItemsSourceProperty, nameof(_vm.Songs));
         collectionView.Scrolled += OnScrolled;
 
         AbsoluteLayout.SetLayoutFlags(collectionView, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(collectionView, new Rect(0, 0, 1, 1));
 
         layout.Children.Add(collectionView);
-        layout.Children.Add(header);
+        layout.Children.Add(_header);
 
         Content = layout;
     }
@@ -79,15 +90,15 @@ class FavoriteSongsEditPage : ContentPage
 
     private void OnScrolled(object? sender, ItemsViewScrolledEventArgs e)
     {
-        if (e.VerticalOffset > 0 && !isBlurBackground)
+        if (e.VerticalOffset > 0 && !_isBlurBackground)
         {
-            isBlurBackground = true;
-            header.ShowBlurBackground();
+            _isBlurBackground = true;
+            _header?.ShowBlurBackground();
         }
-        else if (e.VerticalOffset <= 0 && isBlurBackground)
+        else if (e.VerticalOffset <= 0 && _isBlurBackground)
         {
-            isBlurBackground = false;
-            header.ShowSolidBackground();
+            _isBlurBackground = false;
+            _header?.ShowSolidBackground();
         }
     }
 }

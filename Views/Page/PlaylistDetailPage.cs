@@ -25,18 +25,24 @@ class PlaylistDetailPage : DetailPageBase
     public PlaylistDetailPage(PlaylistDetailViewModel vm, IPlayerService playerService, IPreferenceService preferenceService, IShortcutService shortcutService, IPlatformUtil platformUtil)
         : base(platformUtil, "Playlist.Name")
     {
-        BindingContext = vm;
         _vm = vm;
         _playerService = playerService;
         _preferenceService = preferenceService;
         _shortcutService = shortcutService;
 
+        BindingContext = vm;
+        BuildContent();
+    }
+
+    protected override void BuildContent()
+    {
         var layout = new AbsoluteLayout
         {
             SafeAreaEdges = SafeAreaEdges.None,
         };
 
-        var appBarHeight = platformUtil.GetAppBarHeight();
+        var appBarHeight = _platformUtil.GetAppBarHeight();
+        var header = CreateHeader();
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, appBarHeight));
@@ -52,7 +58,7 @@ class PlaylistDetailPage : DetailPageBase
         var collectionView = new CollectionView
         {
             ItemTemplate = new DataTemplate(() => new SongListItem(OnSongTapped)),
-            Header = new PlaylistDetailFirstView { BindingContext = vm },
+            Header = new PlaylistDetailFirstView { BindingContext = _vm },
             Footer = new FooterSpacer(),
         };
         collectionView.Bind(ItemsView.ItemsSourceProperty, "Songs");
@@ -64,7 +70,7 @@ class PlaylistDetailPage : DetailPageBase
         var miniPlayer = new MiniPlayer();
 
         AbsoluteLayout.SetLayoutFlags(miniPlayer, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, platformUtil.GetBottomBarHeight()));
+        AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, _platformUtil.GetBottomBarHeight()));
 
         layout.Children.Add(collectionView);
         layout.Children.Add(header);
@@ -97,21 +103,17 @@ class PlaylistDetailPage : DetailPageBase
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-
-        if (BindingContext is PlaylistDetailViewModel vm)
-        {
-            await vm.LoadAsync();
-        }
+        await _vm.LoadAsync();
     }
 
     private void OnSongTapped(object? sender, EventArgs e)
     {
-        if (sender is BindableObject bindable && BindingContext is PlaylistDetailViewModel vm)
+        if (sender is BindableObject bindable)
         {
             if (bindable.BindingContext is ISongModel item)
             {
-                int index = vm.Songs.IndexOf(item);
-                var songIds = vm.Songs.Select(s => s.Id).ToList();
+                int index = _vm.Songs.IndexOf(item);
+                var songIds = _vm.Songs.Select(s => s.Id).ToList();
                 _playerService.StartFavoriteSongs(songIds, index, _preferenceService.GetRepeatMode(), _preferenceService.GetShuffleMode());
             }
         }

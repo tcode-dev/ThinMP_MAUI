@@ -11,29 +11,40 @@ using ThinMPm.Views.Utils;
 
 namespace ThinMPm.Views.Page;
 
-class MainEditPage : ContentPage
+class MainEditPage : ResponsivePage
 {
-    private readonly EditHeader header;
-    private bool isBlurBackground = false;
+    private readonly MainMenuEditViewModel _vm;
+    private readonly IPlatformUtil _platformUtil;
+    private EditHeader? _header;
+    private bool _isBlurBackground = false;
 
     public MainEditPage(MainMenuEditViewModel vm, IPlatformUtil platformUtil)
     {
         Shell.SetNavBarIsVisible(this, false);
 
+        _vm = vm;
+        _platformUtil = platformUtil;
         BindingContext = vm;
+
+        BuildContent();
+    }
+
+    protected override void BuildContent()
+    {
+        _isBlurBackground = false;
 
         var layout = new AbsoluteLayout
         {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        header = new EditHeader(OnDoneClicked);
+        _header = new EditHeader(OnDoneClicked);
 
-        AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
-        AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
+        AbsoluteLayout.SetLayoutFlags(_header, AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(_header, new Rect(0, 0, 1, _platformUtil.GetAppBarHeight()));
 
         var menuLayout = new VerticalStackLayout();
         BindableLayout.SetItemTemplate(menuLayout, new DataTemplate(() => new MainMenuEditListItem()));
-        menuLayout.SetBinding(BindableLayout.ItemsSourceProperty, nameof(vm.MenuItems));
+        menuLayout.SetBinding(BindableLayout.ItemsSourceProperty, nameof(_vm.MenuItems));
 
         var shortcutHeader = new PrimaryText
         {
@@ -43,7 +54,7 @@ class MainEditPage : ContentPage
 
         var shortcutLayout = new VerticalStackLayout();
         BindableLayout.SetItemTemplate(shortcutLayout, new DataTemplate(() => new ShortcutEditListItem(OnDeleteShortcutRequested)));
-        shortcutLayout.SetBinding(BindableLayout.ItemsSourceProperty, nameof(vm.Shortcuts));
+        shortcutLayout.SetBinding(BindableLayout.ItemsSourceProperty, nameof(_vm.Shortcuts));
 
         var scrollView = new ScrollView
         {
@@ -56,7 +67,7 @@ class MainEditPage : ContentPage
                     menuLayout,
                     shortcutHeader,
                     shortcutLayout,
-                    new BoxView { HeightRequest = platformUtil.GetBottomBarHeight() }
+                    new BoxView { HeightRequest = _platformUtil.GetBottomBarHeight() }
                 }
             }
         };
@@ -66,7 +77,7 @@ class MainEditPage : ContentPage
         AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
 
         layout.Children.Add(scrollView);
-        layout.Children.Add(header);
+        layout.Children.Add(_header);
 
         Content = layout;
     }
@@ -100,15 +111,15 @@ class MainEditPage : ContentPage
 
     private void OnScrolled(object? sender, ScrolledEventArgs e)
     {
-        if (e.ScrollY > 0 && !isBlurBackground)
+        if (e.ScrollY > 0 && !_isBlurBackground)
         {
-            isBlurBackground = true;
-            header.ShowBlurBackground();
+            _isBlurBackground = true;
+            _header?.ShowBlurBackground();
         }
-        else if (e.ScrollY <= 0 && isBlurBackground)
+        else if (e.ScrollY <= 0 && _isBlurBackground)
         {
-            isBlurBackground = false;
-            header.ShowSolidBackground();
+            _isBlurBackground = false;
+            _header?.ShowSolidBackground();
         }
     }
 }
