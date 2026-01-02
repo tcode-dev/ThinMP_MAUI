@@ -86,7 +86,7 @@ public partial class PlayerViewModel : ObservableObject
         StopTimer();
     }
 
-    private void StartTimer()
+    public void StartTimer()
     {
         if (_timer != null) return;
 
@@ -98,7 +98,7 @@ public partial class PlayerViewModel : ObservableObject
         _timer.Start();
     }
 
-    private void StopTimer()
+    public void StopTimer()
     {
         if (_timer == null) return;
 

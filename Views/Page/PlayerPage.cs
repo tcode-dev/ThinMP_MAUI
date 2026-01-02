@@ -94,6 +94,13 @@ class PlayerPage : ContentPage
         {
             vm.Load();
         }
+
+        var window = Application.Current?.Windows.FirstOrDefault();
+        if (window != null)
+        {
+            window.Deactivated += OnWindowDeactivated;
+            window.Activated += OnWindowActivated;
+        }
     }
 
     protected override void OnDisappearing()
@@ -103,6 +110,29 @@ class PlayerPage : ContentPage
         if (BindingContext is PlayerViewModel vm)
         {
             vm.Unload();
+        }
+
+        var window = Application.Current?.Windows.FirstOrDefault();
+        if (window != null)
+        {
+            window.Deactivated -= OnWindowDeactivated;
+            window.Activated -= OnWindowActivated;
+        }
+    }
+
+    private void OnWindowDeactivated(object? sender, EventArgs e)
+    {
+        if (BindingContext is PlayerViewModel vm)
+        {
+            vm.StopTimer();
+        }
+    }
+
+    private void OnWindowActivated(object? sender, EventArgs e)
+    {
+        if (BindingContext is PlayerViewModel vm && vm.IsPlaying)
+        {
+            vm.StartTimer();
         }
     }
 
