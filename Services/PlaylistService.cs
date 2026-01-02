@@ -9,11 +9,13 @@ public class PlaylistService : IPlaylistService
 {
     private readonly PlaylistRepository _playlistRepository;
     private readonly PlaylistSongRepository _playlistSongRepository;
+    private readonly ISongService _songService;
 
-    public PlaylistService(PlaylistRepository playlistRepository, PlaylistSongRepository playlistSongRepository)
+    public PlaylistService(PlaylistRepository playlistRepository, PlaylistSongRepository playlistSongRepository, ISongService songService)
     {
         _playlistRepository = playlistRepository;
         _playlistSongRepository = playlistSongRepository;
+        _songService = songService;
     }
 
     public async Task<IList<IPlaylistModel>> GetAllAsync()
@@ -41,10 +43,29 @@ public class PlaylistService : IPlaylistService
         return new PlaylistModel(entity.Id, entity.Name, firstSongId);
     }
 
-    public async Task<IList<string>> GetSongIdsAsync(int playlistId)
+    public async Task<IList<ISongModel>> GetSongsAsync(int playlistId)
     {
-        var songs = await _playlistSongRepository.GetByPlaylistIdAsync(playlistId);
-        return songs.Select(s => s.SongId).ToList();
+        var playlistSongs = await _playlistSongRepository.GetByPlaylistIdAsync(playlistId);
+        var ids = playlistSongs.Select(s => s.SongId).ToList();
+        var songs = _songService.FindByIds(ids);
+
+        if (!Validate(playlistSongs.Count, songs.Count))
+        {
+            await FixPlaylistSongsAsync(playlistId, ids, songs);
+
+            return await GetSongsAsync(playlistId);
+        }
+
+        return songs;
+    }
+
+    private static bool Validate(int expected, int actual) => expected == actual;
+
+    private async Task FixPlaylistSongsAsync(int playlistId, IList<string> playlistSongIds, IList<ISongModel> songs)
+    {
+        var existingIds = songs.Select(s => s.Id).ToHashSet();
+        var validIds = playlistSongIds.Where(existingIds.Contains).ToList();
+        await _playlistSongRepository.UpdateAsync(playlistId, validIds);
     }
 
     public async Task<int> CreateAsync(string name)

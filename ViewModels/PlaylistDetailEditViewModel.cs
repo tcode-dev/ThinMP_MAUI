@@ -6,11 +6,10 @@ using ThinMPm.Contracts.Services;
 namespace ThinMPm.ViewModels;
 
 [QueryProperty(nameof(PlaylistId), "PlaylistId")]
-public partial class PlaylistDetailEditViewModel(IPlaylistService playlistService, ISongService songService) : ObservableObject
+public partial class PlaylistDetailEditViewModel(IPlaylistService playlistService) : ObservableObject
 {
     public int PlaylistId { get; set; }
     private readonly IPlaylistService _playlistService = playlistService;
-    private readonly ISongService _songService = songService;
     private IList<ISongModel> _originalSongs = [];
     private string _originalName = "";
 
@@ -29,18 +28,7 @@ public partial class PlaylistDetailEditViewModel(IPlaylistService playlistServic
             _originalName = playlist.Name;
         }
 
-        var songIds = await _playlistService.GetSongIdsAsync(PlaylistId);
-        var songs = new List<ISongModel>();
-
-        foreach (var songId in songIds)
-        {
-            var song = _songService.FindById(songId);
-            if (song != null)
-            {
-                songs.Add(song);
-            }
-        }
-
+        var songs = await _playlistService.GetSongsAsync(PlaylistId);
         _originalSongs = songs.ToList();
         Songs = new ObservableCollection<ISongModel>(songs);
     }
