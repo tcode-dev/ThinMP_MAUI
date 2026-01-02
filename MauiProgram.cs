@@ -63,6 +63,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<IPlatformUtil, PlatformUtili>();
 #endif
 
+        builder.Services.AddSingleton<DisplayInfoService>();
+
         builder.Services.AddSingleton<IFavoriteSongService, FavoriteSongService>();
         builder.Services.AddSingleton<IFavoriteArtistService, FavoriteArtistService>();
         builder.Services.AddSingleton<IPreferenceService, PreferenceService>();

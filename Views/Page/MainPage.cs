@@ -10,24 +10,31 @@ using ThinMPm.Views.Text;
 
 namespace ThinMPm.Views.Page;
 
-class MainPage : ContentPage
+class MainPage : ResponsivePage
 {
+    private readonly MainViewModel _vm;
+
     public MainPage(MainViewModel vm)
     {
+        _vm = vm;
+
         Shell.SetNavBarIsVisible(this, false);
-
         BindingContext = vm;
+        BuildContent();
+    }
 
+    protected override void BuildContent()
+    {
         var layout = new AbsoluteLayout
         {
             SafeAreaEdges = SafeAreaEdges.None,
         };
 
         var shortcutTitle = new SectionTitle(AppResources.Shortcut);
-        shortcutTitle.SetBinding(IsVisibleProperty, new Binding(nameof(vm.Shortcuts), converter: new ListNotEmptyConverter()));
+        shortcutTitle.SetBinding(IsVisibleProperty, new Binding(nameof(_vm.Shortcuts), converter: new ListNotEmptyConverter()));
 
-        var shortcutList = new ShortcutList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Shortcuts));
-        shortcutList.SetBinding(IsVisibleProperty, new Binding(nameof(vm.Shortcuts), converter: new ListNotEmptyConverter()));
+        var shortcutList = new ShortcutList().Bind(ItemsView.ItemsSourceProperty, nameof(_vm.Shortcuts));
+        shortcutList.SetBinding(IsVisibleProperty, new Binding(nameof(_vm.Shortcuts), converter: new ListNotEmptyConverter()));
 
         var mainHeader = new MainHeader();
         mainHeader.MenuClicked += OnMenuClicked;
@@ -39,11 +46,11 @@ class MainPage : ContentPage
             {
                 Children = {
                     mainHeader,
-                    new MenuList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.MenuItems)),
+                    new MenuList().Bind(ItemsView.ItemsSourceProperty, nameof(_vm.MenuItems)),
                     shortcutTitle,
                     shortcutList,
                     new SectionTitle(AppResources.RecentlyAdded),
-                    new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(vm.Albums)),
+                    new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(_vm.Albums)),
                 }
             }
         };
@@ -59,11 +66,7 @@ class MainPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        if (BindingContext is MainViewModel vm)
-        {
-            vm.Load();
-        }
+        _vm.Load();
     }
 
     private async void OnMenuClicked(object? sender, EventArgs e)
