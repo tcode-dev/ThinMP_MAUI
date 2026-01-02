@@ -3,6 +3,7 @@ using ThinMPm.Contracts.Models;
 using ThinMPm.Contracts.Services;
 using ThinMPm.Models;
 using ThinMPm.Resources.Strings;
+using ThinMPm.Utils;
 
 namespace ThinMPm.ViewModels;
 
@@ -64,8 +65,9 @@ public partial class ArtistDetailViewModel(IArtistService artistService, IAlbumS
         return items;
     }
 
-    private static IList<IAlbumStackModel> ConvertToAlbumStacks(IList<IAlbumModel> albums, int columnCount = 2)
+    private static IList<IAlbumStackModel> ConvertToAlbumStacks(IList<IAlbumModel> albums)
     {
+        var columnCount = LayoutHelper.GetGridCount();
         var stacks = new List<IAlbumStackModel>();
 
         for (int i = 0; i < albums.Count; i += columnCount)
