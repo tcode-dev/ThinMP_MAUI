@@ -33,4 +33,5 @@ This app is a simple music player for Android and iOS.
 
 ## Libraries
 
+* Material Icons - https://fonts.google.com/icons
 * sqlite-net-pcl - https://www.nuget.org/packages/sqlite-net-pcl/
