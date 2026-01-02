@@ -12,11 +12,11 @@ public class EditHeader : ContentView
 {
     private readonly BoxView solidBackground;
     private readonly BlurBackgroundView blurBackground;
+    private readonly Action _doneCallback;
 
-    public event EventHandler? DoneClicked;
-
-    public EditHeader()
+    public EditHeader(Action doneCallback)
     {
+        _doneCallback = doneCallback;
         var platformUtil = Application.Current!.Handler!.MauiContext!.Services.GetRequiredService<IPlatformUtil>();
         var appBarHeight = platformUtil.GetAppBarHeight();
 
@@ -49,7 +49,7 @@ public class EditHeader : ContentView
 
         var title = new PrimaryTitle { Text = AppResources.Edit };
 
-        var doneButton = new TextButton(AppResources.Done, (s, e) => DoneClicked?.Invoke(this, EventArgs.Empty))
+        var doneButton = new TextButton(AppResources.Done, (s, e) => _doneCallback())
         {
             HorizontalOptions = LayoutOptions.End,
             Margin = new Thickness(0, 0, 20, 0)

@@ -25,8 +25,7 @@ class PlaylistDetailEditPage : ContentPage
         {
             SafeAreaEdges = SafeAreaEdges.None,
         };
-        header = new EditHeader();
-        header.DoneClicked += OnDoneClicked;
+        header = new EditHeader(OnDoneClicked);
 
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, platformUtil.GetAppBarHeight()));
@@ -100,7 +99,7 @@ class PlaylistDetailEditPage : ContentPage
         }
     }
 
-    private async void OnDoneClicked(object? sender, EventArgs e)
+    private async void OnDoneClicked()
     {
         if (BindingContext is PlaylistDetailEditViewModel vm)
         {
