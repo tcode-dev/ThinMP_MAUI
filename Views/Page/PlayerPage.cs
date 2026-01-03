@@ -8,6 +8,7 @@ using ThinMPm.ViewModels;
 using ThinMPm.Converters;
 using ThinMPm.Views.Button;
 using ThinMPm.Views.FirstView;
+using ThinMPm.Utils;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Text;
 
@@ -161,12 +162,9 @@ class PlayerPage : ResponsivePage
         // Set size based on screen width
         artwork.SizeChanged += (s, e) =>
         {
-            if (Application.Current?.Windows.FirstOrDefault()?.Width is double windowWidth && windowWidth > 0)
-            {
-                var size = windowWidth * 0.7;
-                artwork.WidthRequest = size;
-                artwork.HeightRequest = size;
-            }
+            var size = LayoutHelper.GetSize() * 0.7;
+            artwork.WidthRequest = size;
+            artwork.HeightRequest = size;
         };
 
         artworkContainer.Children.Add(artwork);
