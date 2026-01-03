@@ -91,6 +91,7 @@ public class ArtworkImage : CachedImage
 
         if (string.IsNullOrEmpty(imageId))
         {
+            control.Source = "song.png";
             return;
         }
 
@@ -104,10 +105,14 @@ public class ArtworkImage : CachedImage
             {
                 control.Source = ImageSource.FromStream(() => new MemoryStream(artwork));
             }
+            else
+            {
+                control.Source = "song.png";
+            }
         }
         catch
         {
-
+            control.Source = "song.png";
         }
     }
 }
