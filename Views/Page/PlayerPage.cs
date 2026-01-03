@@ -156,10 +156,8 @@ class PlayerPage : ResponsivePage
             HorizontalOptions = LayoutOptions.Center
         };
 
-        var artwork = new ArtworkImage(4)
-        .Bind(ArtworkImage.ImageIdProperty, $"{nameof(PlayerViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}");
+        var artwork = new ArtworkImage().Bind(ArtworkImage.ImageIdProperty, $"{nameof(PlayerViewModel.CurrentSong)}.{nameof(ISongModel.ImageId)}");
 
-        // Set size based on screen width
         artwork.SizeChanged += (s, e) =>
         {
             var displayInfo = DeviceDisplay.MainDisplayInfo;
