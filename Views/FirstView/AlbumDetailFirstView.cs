@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Constants;
+using ThinMPm.Utils;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Text;
 
@@ -32,9 +33,12 @@ class AlbumDetailFirstView : AbsoluteLayout
 
         this.SizeChanged += (s, e) =>
         {
-            HeightRequest = this.Width;
-            image.WidthRequest = this.Width;
-            image.HeightRequest = this.Width;
+            var size = LayoutHelper.GetSize();
+            HorizontalOptions = LayoutOptions.Center;
+            WidthRequest = size;
+            HeightRequest = size;
+            image.WidthRequest = size;
+            image.HeightRequest = size;
             image.CornerRadius = 0;
 
             var primaryTitleY = this.Height * LayoutConstants.HeaderVisibilityThreshold;

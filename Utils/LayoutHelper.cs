@@ -11,4 +11,13 @@ public static class LayoutHelper
 
         return Math.Max((int)Math.Floor(screenWidth / LayoutConstants.BaseGridSize), LayoutConstants.MinGridCount);
     }
+
+    public static double GetSize()
+    {
+        var displayInfo = DeviceDisplay.MainDisplayInfo;
+        var width = displayInfo.Width / displayInfo.Density;
+        var height = displayInfo.Height / displayInfo.Density;
+
+        return displayInfo.Orientation == DisplayOrientation.Portrait ? width : height;
+    }
 }

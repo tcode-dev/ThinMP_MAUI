@@ -2,6 +2,7 @@ using CommunityToolkit.Maui.Markup;
 using Microsoft.Maui.Layouts;
 using ThinMPm.Constants;
 using ThinMPm.Extensions;
+using ThinMPm.Utils;
 using ThinMPm.Views.Img;
 using ThinMPm.Views.Text;
 
@@ -44,8 +45,11 @@ class ArtistDetailFirstView : AbsoluteLayout
 
         this.SizeChanged += (s, e) =>
         {
-            HeightRequest = this.Width;
-            imageSize = this.Width / 3;
+            var size = LayoutHelper.GetSize();
+            HorizontalOptions = LayoutOptions.Center;
+            WidthRequest = size;
+            HeightRequest = size;
+            imageSize = size / 3;
             image.WidthRequest = imageSize;
             image.HeightRequest = imageSize;
 
