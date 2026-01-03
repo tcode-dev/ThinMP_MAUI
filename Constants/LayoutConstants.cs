@@ -19,4 +19,6 @@ public static class LayoutConstants
     public const double HeaderVisibilityThreshold = 0.75;
     public const double BaseGridSize = 200;
     public const int MinGridCount = 2;
+    public const double ArtworkSizeRatioPortrait = 0.7;
+    public const double ArtworkSizeRatioLandscape = 0.5;
 }

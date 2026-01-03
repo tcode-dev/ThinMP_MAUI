@@ -162,7 +162,11 @@ class PlayerPage : ResponsivePage
         // Set size based on screen width
         artwork.SizeChanged += (s, e) =>
         {
-            var size = LayoutHelper.GetSize() * 0.7;
+            var displayInfo = DeviceDisplay.MainDisplayInfo;
+            var ratio = displayInfo.Orientation == DisplayOrientation.Portrait
+                ? LayoutConstants.ArtworkSizeRatioPortrait
+                : LayoutConstants.ArtworkSizeRatioLandscape;
+            var size = LayoutHelper.GetSize() * ratio;
             artwork.WidthRequest = size;
             artwork.HeightRequest = size;
         };
