@@ -19,7 +19,7 @@ public partial class PlaylistDetailEditViewModel(IPlaylistService playlistServic
     [ObservableProperty]
     private ObservableCollection<ISongModel> _songs = [];
 
-    public async Task LoadAsync()
+    public async void Load()
     {
         var playlist = await _playlistService.GetByIdAsync(PlaylistId);
         if (playlist != null)

@@ -13,7 +13,7 @@ public partial class FavoriteArtistsEditViewModel(IFavoriteArtistService favorit
     [ObservableProperty]
     private ObservableCollection<IArtistModel> _artists = [];
 
-    public async Task LoadAsync()
+    public async void Load()
     {
         _originalArtists = await _favoriteArtistService.GetFavoriteArtistsAsync();
         Artists = new ObservableCollection<IArtistModel>(_originalArtists);

@@ -100,10 +100,10 @@ class PlaylistDetailPage : DetailPageBase
         }
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-        await _vm.LoadAsync();
+        _vm.Load();
     }
 
     private void OnSongTapped(object? sender, EventArgs e)

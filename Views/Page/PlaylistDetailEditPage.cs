@@ -92,14 +92,10 @@ class PlaylistDetailEditPage : ResponsivePage
         return stackLayout;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        if (BindingContext is PlaylistDetailEditViewModel vm)
-        {
-            await vm.LoadAsync();
-        }
+        _vm.Load();
     }
 
     private void OnDeleteRequested(ISongModel song)

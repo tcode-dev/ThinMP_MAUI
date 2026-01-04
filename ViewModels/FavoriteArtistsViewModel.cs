@@ -11,7 +11,7 @@ public partial class FavoriteArtistsViewModel(IFavoriteArtistService favoriteArt
     [ObservableProperty]
     private IList<IArtistModel> _artists = [];
 
-    public async Task LoadAsync()
+    public async void Load()
     {
         Artists = await _favoriteArtistService.GetFavoriteArtistsAsync();
     }

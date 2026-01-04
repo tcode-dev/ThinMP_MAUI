@@ -61,14 +61,10 @@ class FavoriteArtistsEditPage : ResponsivePage
         Content = layout;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        if (BindingContext is FavoriteArtistsEditViewModel vm)
-        {
-            await vm.LoadAsync();
-        }
+        _vm.Load();
     }
 
     private void OnDeleteRequested(IArtistModel artist)

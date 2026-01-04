@@ -61,14 +61,10 @@ class PlaylistsEditPage : ResponsivePage
         Content = layout;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        if (BindingContext is PlaylistsEditViewModel vm)
-        {
-            await vm.LoadAsync();
-        }
+        _vm.Load();
     }
 
     private void OnDeleteRequested(IPlaylistModel playlist)

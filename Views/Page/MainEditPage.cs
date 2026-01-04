@@ -82,14 +82,10 @@ class MainEditPage : ResponsivePage
         Content = layout;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        if (BindingContext is MainMenuEditViewModel vm)
-        {
-            await vm.LoadAsync();
-        }
+        _vm.Load();
     }
 
     private void OnDeleteShortcutRequested(IShortcutModel shortcut)

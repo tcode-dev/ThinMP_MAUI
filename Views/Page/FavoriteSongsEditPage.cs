@@ -61,14 +61,10 @@ class FavoriteSongsEditPage : ResponsivePage
         Content = layout;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        if (BindingContext is FavoriteSongsEditViewModel vm)
-        {
-            await vm.LoadAsync();
-        }
+        _vm.Load();
     }
 
     private void OnDeleteRequested(ISongModel song)

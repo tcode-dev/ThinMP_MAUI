@@ -16,7 +16,7 @@ public partial class PlaylistDetailViewModel(IPlaylistService playlistService) :
     [ObservableProperty]
     private IList<ISongModel> _songs = [];
 
-    public async Task LoadAsync()
+    public async void Load()
     {
         Playlist = await _playlistService.GetByIdAsync(PlaylistId);
         Songs = await _playlistService.GetSongsAsync(PlaylistId);

@@ -11,7 +11,7 @@ public partial class FavoriteSongsViewModel(IFavoriteSongService favoriteSongSer
     [ObservableProperty]
     private IList<ISongModel> _songs = [];
 
-    public async Task LoadAsync()
+    public async void Load()
     {
         Songs = await _favoriteSongService.GetFavoriteSongsAsync();
     }

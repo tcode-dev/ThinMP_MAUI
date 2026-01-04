@@ -64,10 +64,10 @@ class PlaylistsPage : ResponsivePage
         Content = layout;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-        await _vm.LoadAsync();
+        _vm.Load();
     }
 
     private async void OnPlaylistTapped(object? sender, TappedEventArgs e)

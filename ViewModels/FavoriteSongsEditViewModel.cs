@@ -13,7 +13,7 @@ public partial class FavoriteSongsEditViewModel(IFavoriteSongService favoriteSon
     [ObservableProperty]
     private ObservableCollection<ISongModel> _songs = [];
 
-    public async Task LoadAsync()
+    public async void Load()
     {
         _originalSongs = await _favoriteSongService.GetFavoriteSongsAsync();
         Songs = new ObservableCollection<ISongModel>(_originalSongs);

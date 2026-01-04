@@ -101,11 +101,7 @@ class PlayerPage : ResponsivePage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        if (BindingContext is PlayerViewModel vm)
-        {
-            vm.Load();
-        }
+        _vm.Load();
 
         var window = Application.Current?.Windows.FirstOrDefault();
         if (window != null)
@@ -118,11 +114,7 @@ class PlayerPage : ResponsivePage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-
-        if (BindingContext is PlayerViewModel vm)
-        {
-            vm.Unload();
-        }
+        _vm.Unload();
 
         var window = Application.Current?.Windows.FirstOrDefault();
         if (window != null)

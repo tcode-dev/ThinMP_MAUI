@@ -13,7 +13,7 @@ public partial class PlaylistsEditViewModel(IPlaylistService playlistService) : 
     [ObservableProperty]
     private ObservableCollection<IPlaylistModel> _playlists = [];
 
-    public async Task LoadAsync()
+    public async void Load()
     {
         _originalPlaylists = await _playlistService.GetAllAsync();
         Playlists = new ObservableCollection<IPlaylistModel>(_originalPlaylists);

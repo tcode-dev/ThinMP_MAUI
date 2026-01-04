@@ -16,7 +16,7 @@ public partial class MainMenuEditViewModel(IMainMenuService mainMenuService, ISh
     [ObservableProperty]
     private ObservableCollection<IShortcutModel> _shortcuts = [];
 
-    public async Task LoadAsync()
+    public async void Load()
     {
         MenuItems = new ObservableCollection<IMainMenuEditItemModel>(_mainMenuService.GetAllForEdit());
         var shortcuts = await _shortcutService.GetAllAsync();

@@ -63,10 +63,10 @@ class FavoriteArtistsPage : ResponsivePage
         Content = layout;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
-        await _vm.LoadAsync();
+        _vm.Load();
     }
 
     private void OnScrolled(object? sender, ItemsViewScrolledEventArgs e)

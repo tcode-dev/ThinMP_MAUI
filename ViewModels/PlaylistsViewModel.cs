@@ -11,7 +11,7 @@ public partial class PlaylistsViewModel(IPlaylistService playlistService) : Obse
     [ObservableProperty]
     private IList<IPlaylistModel> _playlists = [];
 
-    public async Task LoadAsync()
+    public async void Load()
     {
         Playlists = await _playlistService.GetAllAsync();
     }
