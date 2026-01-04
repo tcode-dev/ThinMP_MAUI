@@ -18,11 +18,11 @@ class FavoriteSongsEditPage : ResponsivePage
 
     public FavoriteSongsEditPage(FavoriteSongsEditViewModel vm, IPlatformUtil platformUtil)
     {
-        Shell.SetNavBarIsVisible(this, false);
-
         _vm = vm;
         _platformUtil = platformUtil;
         BindingContext = vm;
+
+        Shell.SetNavBarIsVisible(this, false);
 
         BuildContent();
     }

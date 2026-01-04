@@ -15,9 +15,10 @@ abstract class DetailPageBase : ResponsivePage
 
     protected DetailPageBase(IPlatformUtil platformUtil, string titleBindingPath)
     {
-        Shell.SetNavBarIsVisible(this, false);
         _platformUtil = platformUtil;
         _titleBindingPath = titleBindingPath;
+
+        Shell.SetNavBarIsVisible(this, false);
     }
 
     protected DetailHeader CreateHeader()

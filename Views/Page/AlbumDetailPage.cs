@@ -31,6 +31,7 @@ class AlbumDetailPage : DetailPageBase
         _shortcutService = shortcutService;
 
         BindingContext = vm;
+
         BuildContent();
     }
 

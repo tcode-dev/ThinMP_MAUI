@@ -31,8 +31,8 @@ class ArtistDetailPage : DetailPageBase
         _preferenceService = preferenceService;
         _favoriteArtistService = favoriteArtistService;
         _shortcutService = shortcutService;
-
         BindingContext = vm;
+
         BuildContent();
     }
 

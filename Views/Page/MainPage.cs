@@ -22,9 +22,10 @@ class MainPage : ResponsivePage
     {
         _vm = vm;
         _platformUtil = platformUtil;
+        BindingContext = vm;
 
         Shell.SetNavBarIsVisible(this, false);
-        BindingContext = vm;
+
         BuildContent();
     }
 

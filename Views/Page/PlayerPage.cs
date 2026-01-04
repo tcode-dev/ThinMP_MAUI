@@ -21,11 +21,11 @@ class PlayerPage : ResponsivePage
 
     public PlayerPage(PlayerViewModel vm, IPlatformUtil platformUtil)
     {
-        Shell.SetNavBarIsVisible(this, false);
-
         _vm = vm;
         _platformUtil = platformUtil;
         BindingContext = vm;
+
+        Shell.SetNavBarIsVisible(this, false);
 
         BuildContent();
     }

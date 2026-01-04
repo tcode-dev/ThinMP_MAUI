@@ -20,11 +20,11 @@ class MainEditPage : ResponsivePage
 
     public MainEditPage(MainMenuEditViewModel vm, IPlatformUtil platformUtil)
     {
-        Shell.SetNavBarIsVisible(this, false);
-
         _vm = vm;
         _platformUtil = platformUtil;
         BindingContext = vm;
+
+        Shell.SetNavBarIsVisible(this, false);
 
         BuildContent();
     }

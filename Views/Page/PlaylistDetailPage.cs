@@ -29,8 +29,8 @@ class PlaylistDetailPage : DetailPageBase
         _playerService = playerService;
         _preferenceService = preferenceService;
         _shortcutService = shortcutService;
-
         BindingContext = vm;
+
         BuildContent();
     }
 

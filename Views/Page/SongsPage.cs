@@ -26,9 +26,10 @@ class SongsPage : ResponsivePage
         _playerService = playerService;
         _preferenceService = preferenceService;
         _platformUtil = platformUtil;
+        BindingContext = vm;
 
         Shell.SetNavBarIsVisible(this, false);
-        BindingContext = vm;
+
         BuildContent();
     }
 
