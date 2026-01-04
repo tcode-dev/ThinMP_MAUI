@@ -90,18 +90,12 @@ class MainEditPage : ResponsivePage
 
     private void OnDeleteShortcutRequested(IShortcutModel shortcut)
     {
-        if (BindingContext is MainMenuEditViewModel vm)
-        {
-            vm.RemoveShortcut(shortcut);
-        }
+        _vm.RemoveShortcut(shortcut);
     }
 
     private async void OnDoneClicked()
     {
-        if (BindingContext is MainMenuEditViewModel vm)
-        {
-            await vm.SaveAsync();
-        }
+        await _vm.SaveAsync();
         await Shell.Current.GoToAsync("..");
     }
 
