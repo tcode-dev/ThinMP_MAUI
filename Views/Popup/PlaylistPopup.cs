@@ -14,10 +14,10 @@ public class PlaylistPopup : ContentPage
     private readonly VerticalStackLayout _contentContainer;
     private TaskCompletionSource<PlaylistPopupResult?>? _taskCompletionSource;
 
-    public PlaylistPopup(PlaylistPopupViewModel viewModel)
+    public PlaylistPopup(PlaylistPopupViewModel vm)
     {
-        _vm = viewModel;
-        BindingContext = viewModel;
+        _vm = vm;
+        BindingContext = vm;
 
         Shell.SetNavBarIsVisible(this, false);
         this.SetAppThemeColor(BackgroundColorProperty, ColorConstants.OverlayColorLight, ColorConstants.OverlayColorDark);
