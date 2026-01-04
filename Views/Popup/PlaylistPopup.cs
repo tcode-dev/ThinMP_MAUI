@@ -10,13 +10,13 @@ namespace ThinMPm.Views.Popup;
 
 public class PlaylistPopup : ContentPage
 {
-    private readonly PlaylistPopupViewModel _viewModel;
+    private readonly PlaylistPopupViewModel _vm;
     private readonly VerticalStackLayout _contentContainer;
     private TaskCompletionSource<PlaylistPopupResult?>? _taskCompletionSource;
 
     public PlaylistPopup(PlaylistPopupViewModel viewModel)
     {
-        _viewModel = viewModel;
+        _vm = viewModel;
         BindingContext = viewModel;
 
         Shell.SetNavBarIsVisible(this, false);
@@ -67,7 +67,7 @@ public class PlaylistPopup : ContentPage
     {
         _taskCompletionSource = new TaskCompletionSource<PlaylistPopupResult?>();
 
-        await _viewModel.LoadAsync();
+        await _vm.LoadAsync();
         UpdateContent();
 
         return await _taskCompletionSource.Task;
@@ -77,7 +77,7 @@ public class PlaylistPopup : ContentPage
     {
         _contentContainer.Children.Clear();
 
-        if (_viewModel.Playlists.Count > 0)
+        if (_vm.Playlists.Count > 0)
         {
             ShowPlaylistList();
         }
@@ -93,7 +93,7 @@ public class PlaylistPopup : ContentPage
         _contentContainer.Children.Add(header);
 
         var playlistList = new PlaylistList(OnPlaylistTapped);
-        playlistList.ItemsSource = _viewModel.Playlists;
+        playlistList.ItemsSource = _vm.Playlists;
         _contentContainer.Children.Add(playlistList);
     }
 
@@ -216,7 +216,7 @@ public class PlaylistPopup : ContentPage
 
     private void OnCreateCancelClicked(object? sender, EventArgs e)
     {
-        if (_viewModel.Playlists.Count > 0)
+        if (_vm.Playlists.Count > 0)
         {
             _contentContainer.Children.Clear();
             ShowPlaylistList();
@@ -229,9 +229,9 @@ public class PlaylistPopup : ContentPage
 
     private void OnCreateDoneClicked(object? sender, EventArgs e)
     {
-        if (!string.IsNullOrWhiteSpace(_viewModel.PlaylistName))
+        if (!string.IsNullOrWhiteSpace(_vm.PlaylistName))
         {
-            ClosePopup(new PlaylistPopupResult { Action = PlaylistPopupAction.Create, PlaylistName = _viewModel.PlaylistName });
+            ClosePopup(new PlaylistPopupResult { Action = PlaylistPopupAction.Create, PlaylistName = _vm.PlaylistName });
         }
     }
 
