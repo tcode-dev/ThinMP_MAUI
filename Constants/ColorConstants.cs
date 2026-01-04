@@ -12,6 +12,7 @@ public static class ColorConstants
     public static Color GradientColorLight => Colors.White;
     public static Color IconColorLight => Color.FromArgb("#1C1C1E");
     public static Color LineColorLight => Colors.LightGray;
+    public static Color OverlayColorLight => Color.FromArgb("#80FFFFFF");
 
     // Dark mode colors
     public static Color PrimaryBackgroundColorDark => Colors.Black;
@@ -21,6 +22,7 @@ public static class ColorConstants
     public static Color GradientColorDark => Colors.Black;
     public static Color IconColorDark => Colors.WhiteSmoke;
     public static Color LineColorDark => Colors.DarkGray;
+    public static Color OverlayColorDark => Color.FromArgb("#80000000");
 
     // Current theme colors (for one-time evaluation, use Light/Dark versions with SetAppThemeColor for dynamic updates)
     public static Color PrimaryBackgroundColor => IsDarkMode ? PrimaryBackgroundColorDark : PrimaryBackgroundColorLight;
@@ -30,4 +32,5 @@ public static class ColorConstants
     public static Color GradientColor => IsDarkMode ? GradientColorDark : GradientColorLight;
     public static Color IconColor => IsDarkMode ? IconColorDark : IconColorLight;
     public static Color LineColor => IsDarkMode ? LineColorDark : LineColorLight;
+    public static Color OverlayColor => IsDarkMode ? OverlayColorDark : OverlayColorLight;
 }

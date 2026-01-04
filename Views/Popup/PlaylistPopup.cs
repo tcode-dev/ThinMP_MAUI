@@ -20,7 +20,7 @@ public class PlaylistPopup : ContentPage
         BindingContext = viewModel;
 
         Shell.SetNavBarIsVisible(this, false);
-        BackgroundColor = Color.FromArgb("#80000000");
+        BackgroundColor = ColorConstants.OverlayColor;
 
         _contentContainer = new VerticalStackLayout
         {
