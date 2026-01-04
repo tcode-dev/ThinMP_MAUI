@@ -100,18 +100,12 @@ class PlaylistDetailEditPage : ResponsivePage
 
     private void OnDeleteRequested(ISongModel song)
     {
-        if (BindingContext is PlaylistDetailEditViewModel vm)
-        {
-            vm.RemoveSong(song);
-        }
+        _vm.RemoveSong(song);
     }
 
     private async void OnDoneClicked()
     {
-        if (BindingContext is PlaylistDetailEditViewModel vm)
-        {
-            await vm.SaveAsync();
-        }
+        await _vm.SaveAsync();
         await Shell.Current.GoToAsync("..");
     }
 

@@ -69,18 +69,12 @@ class FavoriteSongsEditPage : ResponsivePage
 
     private void OnDeleteRequested(ISongModel song)
     {
-        if (BindingContext is FavoriteSongsEditViewModel vm)
-        {
-            vm.RemoveSong(song);
-        }
+        _vm.RemoveSong(song);
     }
 
     private async void OnDoneClicked()
     {
-        if (BindingContext is FavoriteSongsEditViewModel vm)
-        {
-            await vm.SaveAsync();
-        }
+        await _vm.SaveAsync();
         await Shell.Current.GoToAsync("..");
     }
 

@@ -69,18 +69,12 @@ class PlaylistsEditPage : ResponsivePage
 
     private void OnDeleteRequested(IPlaylistModel playlist)
     {
-        if (BindingContext is PlaylistsEditViewModel vm)
-        {
-            vm.RemovePlaylist(playlist);
-        }
+        _vm.RemovePlaylist(playlist);
     }
 
     private async void OnDoneClicked()
     {
-        if (BindingContext is PlaylistsEditViewModel vm)
-        {
-            await vm.SaveAsync();
-        }
+        await _vm.SaveAsync();
         await Shell.Current.GoToAsync("..");
     }
 

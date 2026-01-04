@@ -126,17 +126,14 @@ class PlayerPage : ResponsivePage
 
     private void OnWindowDeactivated(object? sender, EventArgs e)
     {
-        if (BindingContext is PlayerViewModel vm)
-        {
-            vm.StopTimer();
-        }
+        _vm.StopTimer();
     }
 
     private void OnWindowActivated(object? sender, EventArgs e)
     {
-        if (BindingContext is PlayerViewModel vm && vm.IsPlaying)
+        if (_vm.IsPlaying)
         {
-            vm.StartTimer();
+            _vm.StartTimer();
         }
     }
 
@@ -234,10 +231,7 @@ class PlayerPage : ResponsivePage
 
         slider.DragCompleted += (s, e) =>
         {
-            if (BindingContext is PlayerViewModel vm)
-            {
-                vm.SeekCommand.Execute(slider.Value);
-            }
+            _vm.SeekCommand.Execute(slider.Value);
         };
 
         var timeContainer = new Grid
@@ -285,21 +279,21 @@ class PlayerPage : ResponsivePage
         };
 
         // Previous button
-        var previousButton = new PreviousButton((s, e) => (BindingContext as PlayerViewModel)?.PreviousCommand.Execute(null), LayoutConstants.ButtonLarge);
+        var previousButton = new PreviousButton((s, e) => _vm.PreviousCommand.Execute(null), LayoutConstants.ButtonLarge);
         previousButton.Column(0);
 
         // Play button
-        var playButton = new PlayButton((s, e) => (BindingContext as PlayerViewModel)?.PlayCommand.Execute(null), LayoutConstants.ButtonExtraLarge);
+        var playButton = new PlayButton((s, e) => _vm.PlayCommand.Execute(null), LayoutConstants.ButtonExtraLarge);
         playButton.Column(1);
         playButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsPlaying), converter: new InverseBoolConverter());
 
         // Pause button
-        var pauseButton = new PauseButton((s, e) => (BindingContext as PlayerViewModel)?.PauseCommand.Execute(null), LayoutConstants.ButtonExtraLarge);
+        var pauseButton = new PauseButton((s, e) => _vm.PauseCommand.Execute(null), LayoutConstants.ButtonExtraLarge);
         pauseButton.Column(1);
         pauseButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsPlaying));
 
         // Next button
-        var nextButton = new NextButton((s, e) => (BindingContext as PlayerViewModel)?.NextCommand.Execute(null), LayoutConstants.ButtonLarge);
+        var nextButton = new NextButton((s, e) => _vm.NextCommand.Execute(null), LayoutConstants.ButtonLarge);
         nextButton.Column(2);
 
         controlsContainer.Children.Add(previousButton);
@@ -327,52 +321,52 @@ class PlayerPage : ResponsivePage
         };
 
         // Repeat Off button
-        var repeatOffButton = new RepeatOffButton((s, e) => (BindingContext as PlayerViewModel)?.ToggleRepeatCommand.Execute(null));
+        var repeatOffButton = new RepeatOffButton((s, e) => _vm.ToggleRepeatCommand.Execute(null));
         repeatOffButton.Column(0);
         repeatOffButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.RepeatMode), converter: new RepeatModeVisibilityConverter(RepeatMode.Off));
 
         // Repeat All button
-        var repeatAllButton = new RepeatAllButton((s, e) => (BindingContext as PlayerViewModel)?.ToggleRepeatCommand.Execute(null));
+        var repeatAllButton = new RepeatAllButton((s, e) => _vm.ToggleRepeatCommand.Execute(null));
         repeatAllButton.Column(0);
         repeatAllButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.RepeatMode), converter: new RepeatModeVisibilityConverter(RepeatMode.All));
 
         // Repeat One button
-        var repeatOneButton = new RepeatOneButton((s, e) => (BindingContext as PlayerViewModel)?.ToggleRepeatCommand.Execute(null));
+        var repeatOneButton = new RepeatOneButton((s, e) => _vm.ToggleRepeatCommand.Execute(null));
         repeatOneButton.Column(0);
         repeatOneButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.RepeatMode), converter: new RepeatModeVisibilityConverter(RepeatMode.One));
 
         // Shuffle Off button
-        var shuffleOffButton = new ShuffleOffButton((s, e) => (BindingContext as PlayerViewModel)?.ToggleShuffleCommand.Execute(null));
+        var shuffleOffButton = new ShuffleOffButton((s, e) => _vm.ToggleShuffleCommand.Execute(null));
         shuffleOffButton.Column(1);
         shuffleOffButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsShuffleOn), converter: new InverseBoolConverter());
 
         // Shuffle On button
-        var shuffleOnButton = new ShuffleOnButton((s, e) => (BindingContext as PlayerViewModel)?.ToggleShuffleCommand.Execute(null));
+        var shuffleOnButton = new ShuffleOnButton((s, e) => _vm.ToggleShuffleCommand.Execute(null));
         shuffleOnButton.Column(1);
         shuffleOnButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsShuffleOn));
 
         // Favorite artist Off button
-        var favoriteArtistOffButton = new FavoriteArtistOffButton((s, e) => (BindingContext as PlayerViewModel)?.ToggleFavoriteArtistCommand.Execute(null));
+        var favoriteArtistOffButton = new FavoriteArtistOffButton((s, e) => _vm.ToggleFavoriteArtistCommand.Execute(null));
         favoriteArtistOffButton.Column(2);
         favoriteArtistOffButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsFavoriteArtist), converter: new InverseBoolConverter());
 
         // Favorite artist On button
-        var favoriteArtistOnButton = new FavoriteArtistOnButton((s, e) => (BindingContext as PlayerViewModel)?.ToggleFavoriteArtistCommand.Execute(null));
+        var favoriteArtistOnButton = new FavoriteArtistOnButton((s, e) => _vm.ToggleFavoriteArtistCommand.Execute(null));
         favoriteArtistOnButton.Column(2);
         favoriteArtistOnButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsFavoriteArtist));
 
         // Favorite song Off button
-        var favoriteSongOffButton = new FavoriteSongOffButton((s, e) => (BindingContext as PlayerViewModel)?.ToggleFavoriteCommand.Execute(null));
+        var favoriteSongOffButton = new FavoriteSongOffButton((s, e) => _vm.ToggleFavoriteCommand.Execute(null));
         favoriteSongOffButton.Column(3);
         favoriteSongOffButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsFavorite), converter: new InverseBoolConverter());
 
         // Favorite song On button
-        var favoriteSongOnButton = new FavoriteSongOnButton((s, e) => (BindingContext as PlayerViewModel)?.ToggleFavoriteCommand.Execute(null));
+        var favoriteSongOnButton = new FavoriteSongOnButton((s, e) => _vm.ToggleFavoriteCommand.Execute(null));
         favoriteSongOnButton.Column(3);
         favoriteSongOnButton.Bind(IsVisibleProperty, nameof(PlayerViewModel.IsFavorite));
 
         // Add to playlist button
-        var playlistButton = new PlaylistAddButton((s, e) => (BindingContext as PlayerViewModel)?.AddToPlaylistCommand.Execute(null));
+        var playlistButton = new PlaylistAddButton((s, e) => _vm.AddToPlaylistCommand.Execute(null));
         playlistButton.Column(4);
 
         secondaryContainer.Children.Add(repeatOffButton);

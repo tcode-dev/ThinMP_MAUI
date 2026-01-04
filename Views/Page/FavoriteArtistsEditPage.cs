@@ -69,18 +69,12 @@ class FavoriteArtistsEditPage : ResponsivePage
 
     private void OnDeleteRequested(IArtistModel artist)
     {
-        if (BindingContext is FavoriteArtistsEditViewModel vm)
-        {
-            vm.RemoveArtist(artist);
-        }
+        _vm.RemoveArtist(artist);
     }
 
     private async void OnDoneClicked()
     {
-        if (BindingContext is FavoriteArtistsEditViewModel vm)
-        {
-            await vm.SaveAsync();
-        }
+        await _vm.SaveAsync();
         await Shell.Current.GoToAsync("..");
     }
 
