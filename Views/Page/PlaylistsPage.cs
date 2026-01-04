@@ -72,12 +72,9 @@ class PlaylistsPage : ResponsivePage
 
     private async void OnPlaylistTapped(object? sender, TappedEventArgs e)
     {
-        if (sender is BindableObject bindable)
+        if (sender is BindableObject bindable && bindable.BindingContext is IPlaylistModel item)
         {
-            if (bindable.BindingContext is IPlaylistModel item)
-            {
-                await Shell.Current.GoToAsync($"{nameof(PlaylistDetailPage)}?PlaylistId={item.Id}");
-            }
+            await Shell.Current.GoToAsync($"{nameof(PlaylistDetailPage)}?PlaylistId={item.Id}");
         }
     }
 

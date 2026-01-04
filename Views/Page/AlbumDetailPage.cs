@@ -104,13 +104,10 @@ class AlbumDetailPage : DetailPageBase
 
     private void OnSongTapped(object? sender, EventArgs e)
     {
-        if (sender is BindableObject bindable)
+        if (sender is BindableObject bindable && bindable.BindingContext is ISongModel item)
         {
-            if (bindable.BindingContext is ISongModel item)
-            {
-                int index = _vm.Songs.IndexOf(item);
-                _playerService.StartAlbumSongs(_vm.AlbumId, index, _preferenceService.GetRepeatMode(), _preferenceService.GetShuffleMode());
-            }
+            int index = _vm.Songs.IndexOf(item);
+            _playerService.StartAlbumSongs(_vm.AlbumId, index, _preferenceService.GetRepeatMode(), _preferenceService.GetShuffleMode());
         }
     }
 }

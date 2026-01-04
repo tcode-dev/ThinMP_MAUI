@@ -77,14 +77,11 @@ class FavoriteSongsPage : ResponsivePage
 
     private void OnSongTapped(object? sender, EventArgs e)
     {
-        if (sender is BindableObject bindable)
+        if (sender is BindableObject bindable && bindable.BindingContext is ISongModel item)
         {
-            if (bindable.BindingContext is ISongModel item)
-            {
-                int index = _vm.Songs.IndexOf(item);
-                var songIds = _vm.Songs.Select(s => s.Id).ToList();
-                _playerService.StartFavoriteSongs(songIds, index, _preferenceService.GetRepeatMode(), _preferenceService.GetShuffleMode());
-            }
+            int index = _vm.Songs.IndexOf(item);
+            var songIds = _vm.Songs.Select(s => s.Id).ToList();
+            _playerService.StartFavoriteSongs(songIds, index, _preferenceService.GetRepeatMode(), _preferenceService.GetShuffleMode());
         }
     }
 
