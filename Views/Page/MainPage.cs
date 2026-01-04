@@ -6,17 +6,22 @@ using ThinMPm.Resources.Strings;
 using ThinMPm.ViewModels;
 using ThinMPm.Views.Header;
 using ThinMPm.Views.List;
+using ThinMPm.Contracts.Utils;
+using ThinMPm.Views.Player;
 using ThinMPm.Views.Text;
+using ThinMPm.Views.Utils;
 
 namespace ThinMPm.Views.Page;
 
 class MainPage : ResponsivePage
 {
     private readonly MainViewModel _vm;
+    private readonly IPlatformUtil _platformUtil;
 
-    public MainPage(MainViewModel vm)
+    public MainPage(MainViewModel vm, IPlatformUtil platformUtil)
     {
         _vm = vm;
+        _platformUtil = platformUtil;
 
         Shell.SetNavBarIsVisible(this, false);
         BindingContext = vm;
@@ -51,6 +56,7 @@ class MainPage : ResponsivePage
                     shortcutList,
                     new SectionTitle(AppResources.RecentlyAdded),
                     new AlbumList().Bind(ItemsView.ItemsSourceProperty, nameof(_vm.Albums)),
+                    new FooterSpacer(),
                 }
             }
         };
@@ -58,7 +64,13 @@ class MainPage : ResponsivePage
         AbsoluteLayout.SetLayoutFlags(scrollView, AbsoluteLayoutFlags.All);
         AbsoluteLayout.SetLayoutBounds(scrollView, new Rect(0, 0, 1, 1));
 
+        var miniPlayer = new MiniPlayer();
+
+        AbsoluteLayout.SetLayoutFlags(miniPlayer, AbsoluteLayoutFlags.PositionProportional | AbsoluteLayoutFlags.WidthProportional);
+        AbsoluteLayout.SetLayoutBounds(miniPlayer, new Rect(0, 1, 1, _platformUtil.GetBottomBarHeight()));
+
         layout.Children.Add(scrollView);
+        layout.Children.Add(miniPlayer);
 
         Content = layout;
     }
