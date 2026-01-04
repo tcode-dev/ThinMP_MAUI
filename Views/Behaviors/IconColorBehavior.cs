@@ -5,12 +5,19 @@ namespace ThinMPm.Views.Behaviors;
 public class IconColorBehavior : Behavior<Image>
 {
     public Color? TintColor { get; set; }
+    private Image? _image;
 
     protected override void OnAttachedTo(Image image)
     {
         base.OnAttachedTo(image);
+        _image = image;
         image.HandlerChanged += OnHandlerChanged;
         image.PropertyChanged += OnPropertyChanged;
+
+        if (Application.Current != null)
+        {
+            Application.Current.RequestedThemeChanged += OnRequestedThemeChanged;
+        }
     }
 
     protected override void OnDetachingFrom(Image image)
@@ -18,6 +25,13 @@ public class IconColorBehavior : Behavior<Image>
         base.OnDetachingFrom(image);
         image.HandlerChanged -= OnHandlerChanged;
         image.PropertyChanged -= OnPropertyChanged;
+
+        if (Application.Current != null)
+        {
+            Application.Current.RequestedThemeChanged -= OnRequestedThemeChanged;
+        }
+
+        _image = null;
     }
 
     private void OnHandlerChanged(object? sender, EventArgs e)
@@ -32,8 +46,15 @@ public class IconColorBehavior : Behavior<Image>
     {
         if (e.PropertyName == nameof(Image.Source) && sender is Image image)
         {
-            // Sourceが変更されたら少し遅延してTintColorを再適用
             image.Dispatcher.Dispatch(() => ApplyTintColor(image));
+        }
+    }
+
+    private void OnRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
+    {
+        if (_image != null)
+        {
+            _image.Dispatcher.Dispatch(() => ApplyTintColor(_image));
         }
     }
 

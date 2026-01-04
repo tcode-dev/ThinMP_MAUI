@@ -6,6 +6,6 @@ public class PrimaryText : BaseText
 {
     public PrimaryText()
     {
-        TextColor = ColorConstants.PrimaryTextColor;
+        this.SetAppThemeColor(Label.TextColorProperty, ColorConstants.PrimaryTextColorLight, ColorConstants.PrimaryTextColorDark);
     }
 }

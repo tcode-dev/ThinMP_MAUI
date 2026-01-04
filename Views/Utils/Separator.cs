@@ -7,7 +7,7 @@ public class Separator : BoxView
     public Separator()
     {
         HeightRequest = 1;
-        Color = ColorConstants.LineColor;
+        this.SetAppThemeColor(BoxView.ColorProperty, ColorConstants.LineColorLight, ColorConstants.LineColorDark);
         HorizontalOptions = LayoutOptions.Fill;
     }
 }

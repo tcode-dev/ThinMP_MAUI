@@ -32,7 +32,6 @@ public class PlaylistEditListItem : SwipeView
         var grid = new Grid
         {
             Padding = new Thickness(LayoutConstants.SpacingLarge, 0, 0, 0),
-            BackgroundColor = ColorConstants.PrimaryBackgroundColor,
             ColumnDefinitions =
             {
                 new ColumnDefinition { Width = GridLength.Star },
@@ -44,6 +43,7 @@ public class PlaylistEditListItem : SwipeView
                 new RowDefinition { Height = 1 },
             }
         };
+        grid.SetAppThemeColor(Grid.BackgroundColorProperty, ColorConstants.PrimaryBackgroundColorLight, ColorConstants.PrimaryBackgroundColorDark);
 
         grid.Children.Add(
             new PrimaryText()
@@ -63,7 +63,7 @@ public class PlaylistEditListItem : SwipeView
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center,
         };
-        dragIcon.Behaviors.Add(new IconColorBehavior { TintColor = ColorConstants.IconColor });
+        dragIcon.Behaviors.Add(new IconColorBehavior());
         dragIcon.Row(0).Column(1);
         grid.Children.Add(dragIcon);
 #endif

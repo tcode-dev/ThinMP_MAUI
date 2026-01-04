@@ -30,11 +30,11 @@ public class PlaylistPopup : ContentPage
         var border = new Border
         {
             Content = _contentContainer,
-            BackgroundColor = ColorConstants.SecondaryBackgroundColor,
             StrokeShape = new Microsoft.Maui.Controls.Shapes.RoundRectangle { CornerRadius = 14 },
             StrokeThickness = 0,
             VerticalOptions = LayoutOptions.Center
         };
+        border.SetAppThemeColor(Border.BackgroundColorProperty, ColorConstants.SecondaryBackgroundColorLight, ColorConstants.SecondaryBackgroundColorDark);
         Grid.SetColumn(border, 1);
 
         var tapGesture = new TapGestureRecognizer();
@@ -118,10 +118,10 @@ public class PlaylistPopup : ContentPage
         var entry = new Entry
         {
             Placeholder = AppResources.PlaylistEnter,
-            BackgroundColor = ColorConstants.PrimaryBackgroundColor,
-            TextColor = ColorConstants.PrimaryTextColor,
-            PlaceholderColor = ColorConstants.SecondaryTextColor
         };
+        entry.SetAppThemeColor(Entry.BackgroundColorProperty, ColorConstants.PrimaryBackgroundColorLight, ColorConstants.PrimaryBackgroundColorDark);
+        entry.SetAppThemeColor(Entry.TextColorProperty, ColorConstants.PrimaryTextColorLight, ColorConstants.PrimaryTextColorDark);
+        entry.SetAppThemeColor(Entry.PlaceholderColorProperty, ColorConstants.SecondaryTextColorLight, ColorConstants.SecondaryTextColorDark);
         entry.SetBinding(Entry.TextProperty, nameof(PlaylistPopupViewModel.PlaylistName));
 
         inputContainer.Children.Add(titleLabel);

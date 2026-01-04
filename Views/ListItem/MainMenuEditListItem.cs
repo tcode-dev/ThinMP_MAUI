@@ -19,7 +19,6 @@ public class MainMenuEditListItem : ContentView
         var grid = new Grid
         {
             Padding = new Thickness(LayoutConstants.SpacingLarge, 0, 0, 0),
-            BackgroundColor = ColorConstants.PrimaryBackgroundColor,
             ColumnDefinitions =
             {
                 new ColumnDefinition { Width = LayoutConstants.ButtonMedium },
@@ -32,13 +31,14 @@ public class MainMenuEditListItem : ContentView
                 new RowDefinition { Height = 1 },
             }
         };
+        grid.SetAppThemeColor(Grid.BackgroundColorProperty, ColorConstants.PrimaryBackgroundColorLight, ColorConstants.PrimaryBackgroundColorDark);
 
         var checkBox = new CheckBox
         {
-            Color = ColorConstants.PrimaryTextColor,
             VerticalOptions = LayoutOptions.Center,
             HorizontalOptions = LayoutOptions.Center,
         };
+        checkBox.SetAppThemeColor(CheckBox.ColorProperty, ColorConstants.PrimaryTextColorLight, ColorConstants.PrimaryTextColorDark);
         checkBox.Bind(CheckBox.IsCheckedProperty, nameof(IMainMenuEditItemModel.IsVisible));
         checkBox.Row(0).Column(0);
         grid.Children.Add(checkBox);
@@ -61,7 +61,7 @@ public class MainMenuEditListItem : ContentView
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center,
         };
-        dragIcon.Behaviors.Add(new IconColorBehavior { TintColor = ColorConstants.IconColor });
+        dragIcon.Behaviors.Add(new IconColorBehavior());
         dragIcon.Row(0).Column(2);
         grid.Children.Add(dragIcon);
 #endif

@@ -33,7 +33,6 @@ public class SongEditListItem : SwipeView
         var grid = new Grid
         {
             Padding = new Thickness(LayoutConstants.SpacingLarge, 0, 0, 0),
-            BackgroundColor = ColorConstants.PrimaryBackgroundColor,
             ColumnDefinitions =
             {
                 new ColumnDefinition { Width = LayoutConstants.ImageSize },
@@ -47,6 +46,7 @@ public class SongEditListItem : SwipeView
                 new RowDefinition { Height = 1 },
             }
         };
+        grid.SetAppThemeColor(Grid.BackgroundColorProperty, ColorConstants.PrimaryBackgroundColorLight, ColorConstants.PrimaryBackgroundColorDark);
 
         grid.Children.Add(
             new ArtworkImage()
@@ -85,7 +85,7 @@ public class SongEditListItem : SwipeView
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center,
         };
-        dragIcon.Behaviors.Add(new IconColorBehavior { TintColor = ColorConstants.IconColor });
+        dragIcon.Behaviors.Add(new IconColorBehavior());
         dragIcon.Row(0).RowSpan(2).Column(2);
         grid.Children.Add(dragIcon);
 #endif

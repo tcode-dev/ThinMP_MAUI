@@ -6,6 +6,21 @@ public class GradientOverlay : BoxView
 {
     public GradientOverlay()
     {
+        ApplyGradient();
+
+        if (Application.Current != null)
+        {
+            Application.Current.RequestedThemeChanged += OnRequestedThemeChanged;
+        }
+    }
+
+    private void OnRequestedThemeChanged(object? sender, AppThemeChangedEventArgs e)
+    {
+        Dispatcher.Dispatch(ApplyGradient);
+    }
+
+    private void ApplyGradient()
+    {
         var gradientColor = ColorConstants.GradientColor;
         Background = new LinearGradientBrush
         {

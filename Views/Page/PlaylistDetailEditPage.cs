@@ -74,17 +74,17 @@ class PlaylistDetailEditPage : ResponsivePage
         {
             Placeholder = "Playlist Name",
             FontSize = 18,
-            TextColor = ColorConstants.PrimaryTextColor,
-            PlaceholderColor = ColorConstants.SecondaryTextColor,
             BackgroundColor = Colors.Transparent,
         };
+        entry.SetAppThemeColor(Entry.TextColorProperty, ColorConstants.PrimaryTextColorLight, ColorConstants.PrimaryTextColorDark);
+        entry.SetAppThemeColor(Entry.PlaceholderColorProperty, ColorConstants.SecondaryTextColorLight, ColorConstants.SecondaryTextColorDark);
         entry.Bind(Entry.TextProperty, nameof(_vm.PlaylistName));
 
         var separator = new BoxView
         {
             HeightRequest = 1,
-            Color = ColorConstants.LineColor,
         };
+        separator.SetAppThemeColor(BoxView.ColorProperty, ColorConstants.LineColorLight, ColorConstants.LineColorDark);
 
         stackLayout.Children.Add(entry);
         stackLayout.Children.Add(separator);

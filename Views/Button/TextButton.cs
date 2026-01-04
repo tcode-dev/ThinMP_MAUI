@@ -7,7 +7,7 @@ public class TextButton : Label
     public TextButton(string text, EventHandler<TappedEventArgs> onTapped)
     {
         Text = text;
-        TextColor = ColorConstants.PrimaryTextColor;
+        this.SetAppThemeColor(Label.TextColorProperty, ColorConstants.PrimaryTextColorLight, ColorConstants.PrimaryTextColorDark);
         FontSize = 16;
         VerticalOptions = LayoutOptions.Center;
         HorizontalOptions = LayoutOptions.Center;

@@ -235,10 +235,10 @@ class PlayerPage : ResponsivePage
         {
             Minimum = 0,
             Maximum = 1,
-            MinimumTrackColor = ColorConstants.PrimaryTextColor,
-            MaximumTrackColor = ColorConstants.LineColor,
-            ThumbColor = ColorConstants.PrimaryTextColor
         }.Bind(Slider.ValueProperty, nameof(PlayerViewModel.CurrentTime));
+        slider.SetAppThemeColor(Slider.MinimumTrackColorProperty, ColorConstants.PrimaryTextColorLight, ColorConstants.PrimaryTextColorDark);
+        slider.SetAppThemeColor(Slider.MaximumTrackColorProperty, ColorConstants.LineColorLight, ColorConstants.LineColorDark);
+        slider.SetAppThemeColor(Slider.ThumbColorProperty, ColorConstants.PrimaryTextColorLight, ColorConstants.PrimaryTextColorDark);
 
         slider.DragCompleted += (s, e) =>
         {

@@ -27,10 +27,8 @@ public class EditHeader : ContentView
             SafeAreaEdges = SafeAreaEdges.None,
         };
 
-        solidBackground = new BoxView
-        {
-            Color = ColorConstants.PrimaryBackgroundColor,
-        };
+        solidBackground = new BoxView();
+        solidBackground.SetAppThemeColor(BoxView.ColorProperty, ColorConstants.PrimaryBackgroundColorLight, ColorConstants.PrimaryBackgroundColorDark);
         AbsoluteLayout.SetLayoutFlags(solidBackground, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(solidBackground, new Rect(0, 0, 1, appBarHeight));
 

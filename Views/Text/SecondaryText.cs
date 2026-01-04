@@ -6,6 +6,6 @@ public class SecondaryText : BaseText
 {
     public SecondaryText()
     {
-        TextColor = ColorConstants.SecondaryTextColor;
+        this.SetAppThemeColor(Label.TextColorProperty, ColorConstants.SecondaryTextColorLight, ColorConstants.SecondaryTextColorDark);
     }
 }

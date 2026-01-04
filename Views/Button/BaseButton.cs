@@ -23,7 +23,7 @@ public class BaseButton : Grid
             VerticalOptions = LayoutOptions.Center
         };
 
-        Icon.Behaviors.Add(new IconColorBehavior { TintColor = ColorConstants.IconColor });
+        Icon.Behaviors.Add(new IconColorBehavior());
 
         Children.Add(Icon);
 

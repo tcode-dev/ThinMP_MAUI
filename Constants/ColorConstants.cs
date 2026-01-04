@@ -3,11 +3,31 @@ namespace ThinMPm.Constants;
 public static class ColorConstants
 {
     public static bool IsDarkMode => Application.Current?.RequestedTheme == AppTheme.Dark;
-    public static Color PrimaryBackgroundColor => IsDarkMode ? Colors.Black : Colors.White;
-    public static Color SecondaryBackgroundColor => IsDarkMode ? Color.FromArgb("#1C1C1E") : Colors.WhiteSmoke;
-    public static Color PrimaryTextColor => IsDarkMode ? Colors.White : Colors.Black;
-    public static Color SecondaryTextColor => IsDarkMode ? Colors.WhiteSmoke : Color.FromArgb("#1C1C1E");
-    public static Color GradientColor => IsDarkMode ? Colors.Black : Colors.White;
-    public static Color IconColor => IsDarkMode ? Colors.WhiteSmoke : Color.FromArgb("#1C1C1E");
-    public static Color LineColor => IsDarkMode ? Colors.DarkGray : Colors.LightGray;
+
+    // Light mode colors
+    public static Color PrimaryBackgroundColorLight => Colors.White;
+    public static Color SecondaryBackgroundColorLight => Colors.WhiteSmoke;
+    public static Color PrimaryTextColorLight => Colors.Black;
+    public static Color SecondaryTextColorLight => Color.FromArgb("#1C1C1E");
+    public static Color GradientColorLight => Colors.White;
+    public static Color IconColorLight => Color.FromArgb("#1C1C1E");
+    public static Color LineColorLight => Colors.LightGray;
+
+    // Dark mode colors
+    public static Color PrimaryBackgroundColorDark => Colors.Black;
+    public static Color SecondaryBackgroundColorDark => Color.FromArgb("#1C1C1E");
+    public static Color PrimaryTextColorDark => Colors.White;
+    public static Color SecondaryTextColorDark => Colors.WhiteSmoke;
+    public static Color GradientColorDark => Colors.Black;
+    public static Color IconColorDark => Colors.WhiteSmoke;
+    public static Color LineColorDark => Colors.DarkGray;
+
+    // Current theme colors (for one-time evaluation, use Light/Dark versions with SetAppThemeColor for dynamic updates)
+    public static Color PrimaryBackgroundColor => IsDarkMode ? PrimaryBackgroundColorDark : PrimaryBackgroundColorLight;
+    public static Color SecondaryBackgroundColor => IsDarkMode ? SecondaryBackgroundColorDark : SecondaryBackgroundColorLight;
+    public static Color PrimaryTextColor => IsDarkMode ? PrimaryTextColorDark : PrimaryTextColorLight;
+    public static Color SecondaryTextColor => IsDarkMode ? SecondaryTextColorDark : SecondaryTextColorLight;
+    public static Color GradientColor => IsDarkMode ? GradientColorDark : GradientColorLight;
+    public static Color IconColor => IsDarkMode ? IconColorDark : IconColorLight;
+    public static Color LineColor => IsDarkMode ? LineColorDark : LineColorLight;
 }

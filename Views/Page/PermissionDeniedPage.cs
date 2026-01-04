@@ -14,26 +14,26 @@ class PermissionDeniedPage : ContentPage
 
         Shell.SetNavBarIsVisible(this, false);
 
-        BackgroundColor = ColorConstants.PrimaryBackgroundColor;
+        this.SetAppThemeColor(ContentPage.BackgroundColorProperty, ColorConstants.PrimaryBackgroundColorLight, ColorConstants.PrimaryBackgroundColorDark);
 
         var messageLabel = new Label
         {
             Text = AppResources.PermissionDenied,
-            TextColor = ColorConstants.PrimaryTextColor,
             HorizontalTextAlignment = TextAlignment.Center,
             FontSize = 16,
             Margin = new Thickness(LayoutConstants.SpacingLarge)
         };
+        messageLabel.SetAppThemeColor(Label.TextColorProperty, ColorConstants.PrimaryTextColorLight, ColorConstants.PrimaryTextColorDark);
 
         var settingsButton = new Microsoft.Maui.Controls.Button
         {
             Text = AppResources.OpenAppSettings,
-            BackgroundColor = ColorConstants.SecondaryBackgroundColor,
-            TextColor = ColorConstants.PrimaryTextColor,
             CornerRadius = 8,
             Padding = new Thickness(LayoutConstants.SpacingLarge, LayoutConstants.SpacingMedium),
             Margin = new Thickness(LayoutConstants.SpacingLarge)
         };
+        settingsButton.SetAppThemeColor(Microsoft.Maui.Controls.Button.BackgroundColorProperty, ColorConstants.SecondaryBackgroundColorLight, ColorConstants.SecondaryBackgroundColorDark);
+        settingsButton.SetAppThemeColor(Microsoft.Maui.Controls.Button.TextColorProperty, ColorConstants.PrimaryTextColorLight, ColorConstants.PrimaryTextColorDark);
         settingsButton.Clicked += OnSettingsButtonClicked;
 
         Content = new VerticalStackLayout
