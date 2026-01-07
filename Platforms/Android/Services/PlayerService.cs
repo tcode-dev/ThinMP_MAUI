@@ -49,7 +49,6 @@ public class PlayerService : IPlayerService
             shuffleMode,
             sendPlaybackSongChange: song =>
             {
-                Console.WriteLine($"called sendPlaybackSongChange: song={song}");
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     NowPlayingItemChanged?.Invoke(song.ToHostModel());
@@ -57,7 +56,6 @@ public class PlayerService : IPlayerService
             },
             sendIsPlayingChange: isPlaying =>
             {
-                Console.WriteLine($"called sendIsPlayingChange: isPlaying={isPlaying}");
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
                     IsPlayingChanged?.Invoke(isPlaying);

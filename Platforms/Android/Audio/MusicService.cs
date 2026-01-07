@@ -313,7 +313,6 @@ public class MusicService : Service
 
     public void OnPlaybackStateChanged(int playbackState)
     {
-      Console.WriteLine($"called OnPlaybackStateChanged: playbackState={playbackState}");
       if (playbackState == ThinMPm.Platforms.Android.Constants.MediaConstants.STATE_ENDED)
       {
         service._player.Pause();
@@ -330,21 +329,18 @@ public class MusicService : Service
 
     public void OnIsPlayingChanged(bool isPlaying)
     {
-      Console.WriteLine($"called OnIsPlayingChanged: isPlaying={isPlaying}");
       service._isPlaying = isPlaying;
       service.OnIsPlayingChange();
     }
 
     public void OnMediaItemTransition(MediaItem? mediaItem, int reason)
     {
-      Console.WriteLine($"called OnMediaItemTransition: reason={reason}");
       service.OnPlaybackSongChange();
       service.Notification();
     }
 
     public void OnPlayerError(PlaybackException? error)
     {
-      Console.WriteLine($"called OnPlayerError: {error?.Message}");
       if (error?.ErrorCode == PlaybackException.ErrorCodeIoFileNotFound)
       {
         service.OnError(error.Message);
