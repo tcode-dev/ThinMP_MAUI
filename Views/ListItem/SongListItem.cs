@@ -62,9 +62,7 @@ public class SongListItem : Grid
                 .Column(1)
         );
 
-        var menuButton = new MenuButton(
-            async (s, e) => await ShowContextMenuAsync()
-        );
+        var menuButton = new MenuButton(ShowContextMenu);
         menuButton.Row(0).RowSpan(2).Column(2);
         Children.Add(menuButton);
 
@@ -80,7 +78,7 @@ public class SongListItem : Grid
         _tappedHandler?.Invoke(sender, e);
     }
 
-    private async Task ShowContextMenuAsync()
+    private async Task ShowContextMenu()
     {
         if (BindingContext is not ISongModel song) return;
 
@@ -102,11 +100,11 @@ public class SongListItem : Grid
         }
         else if (result == addToPlaylistText)
         {
-            await AddToPlaylistAsync(song);
+            await AddToPlaylist(song);
         }
     }
 
-    private async Task AddToPlaylistAsync(ISongModel song)
+    private async Task AddToPlaylist(ISongModel song)
     {
         var page = GetParentPage();
         if (page == null) return;

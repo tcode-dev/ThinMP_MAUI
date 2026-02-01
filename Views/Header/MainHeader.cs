@@ -9,7 +9,7 @@ namespace ThinMPm.Views.Header;
 
 public class MainHeader : ContentView
 {
-    public event EventHandler? MenuClicked;
+    public Func<Task>? MenuClicked;
 
     public MainHeader()
     {
@@ -21,7 +21,10 @@ public class MainHeader : ContentView
         HeightRequest = platformUtil.GetMainAppBarHeight();
         Padding = new Thickness(0, statusBarHeight, 0, 0);
 
-        var menuButton = new MenuButton((s, e) => MenuClicked?.Invoke(this, EventArgs.Empty))
+        var menuButton = new MenuButton(async () =>
+        {
+            if (MenuClicked != null) await MenuClicked();
+        })
         {
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center,

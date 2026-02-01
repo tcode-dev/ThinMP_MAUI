@@ -103,7 +103,7 @@ class PlaylistDetailEditPage : ResponsivePage
         _vm.RemoveSong(song);
     }
 
-    private async void OnDoneClicked()
+    private async Task OnDoneClicked()
     {
         await _vm.SaveAsync();
         await Shell.Current.GoToAsync("..");

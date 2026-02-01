@@ -15,7 +15,7 @@ public abstract class ListMenuHeader : ListHeader
         );
     }
 
-    private async void OnMenuClicked(object? sender, EventArgs e)
+    private async Task OnMenuClicked()
     {
         var page = Application.Current?.Windows.FirstOrDefault()?.Page;
         if (page == null) return;

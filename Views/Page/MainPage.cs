@@ -43,7 +43,7 @@ class MainPage : ResponsivePage
         shortcutList.SetBinding(IsVisibleProperty, new Binding(nameof(_vm.Shortcuts), converter: new ListNotEmptyConverter()));
 
         var mainHeader = new MainHeader();
-        mainHeader.MenuClicked += OnMenuClicked;
+        mainHeader.MenuClicked = OnMenuClicked;
 
         var scrollView = new ScrollView
         {
@@ -82,7 +82,7 @@ class MainPage : ResponsivePage
         _vm.Load();
     }
 
-    private async void OnMenuClicked(object? sender, EventArgs e)
+    private async Task OnMenuClicked()
     {
         var action = await DisplayActionSheetAsync(null, AppResources.Cancel, null, AppResources.Edit);
 

@@ -72,7 +72,7 @@ class FavoriteArtistsEditPage : ResponsivePage
         _vm.RemoveArtist(artist);
     }
 
-    private async void OnDoneClicked()
+    private async Task OnDoneClicked()
     {
         await _vm.SaveAsync();
         await Shell.Current.GoToAsync("..");

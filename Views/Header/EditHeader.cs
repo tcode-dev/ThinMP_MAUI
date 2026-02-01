@@ -12,9 +12,10 @@ public class EditHeader : ContentView
 {
     private readonly BoxView solidBackground;
     private readonly BlurBackgroundView blurBackground;
-    private readonly Action _doneCallback;
+    private readonly Func<Task> _doneCallback;
+    private bool _isProcessing;
 
-    public EditHeader(Action doneCallback)
+    public EditHeader(Func<Task> doneCallback)
     {
         _doneCallback = doneCallback;
         var platformUtil = Application.Current!.Handler!.MauiContext!.Services.GetRequiredService<IPlatformUtil>();
@@ -47,7 +48,21 @@ public class EditHeader : ContentView
 
         var title = new PrimaryTitle { Text = AppResources.Edit };
 
-        var doneButton = new TextButton(AppResources.Done, (s, e) => _doneCallback())
+        var doneButton = new TextButton(AppResources.Done, async (s, e) =>
+        {
+            if (_isProcessing) return;
+
+            _isProcessing = true;
+
+            try
+            {
+                await _doneCallback();
+            }
+            finally
+            {
+                _isProcessing = false;
+            }
+        })
         {
             HorizontalOptions = LayoutOptions.End,
             Margin = new Thickness(0, 0, 20, 0)

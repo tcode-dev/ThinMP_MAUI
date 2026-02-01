@@ -93,7 +93,7 @@ class MainEditPage : ResponsivePage
         _vm.RemoveShortcut(shortcut);
     }
 
-    private async void OnDoneClicked()
+    private async Task OnDoneClicked()
     {
         await _vm.SaveAsync();
         await Shell.Current.GoToAsync("..");

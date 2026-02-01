@@ -49,7 +49,7 @@ class ArtistDetailPage : DetailPageBase
         AbsoluteLayout.SetLayoutFlags(header, AbsoluteLayoutFlags.WidthProportional);
         AbsoluteLayout.SetLayoutBounds(header, new Rect(0, 0, 1, appBarHeight));
 
-        var menuButton = new MenuButton(async (s, e) => await ShowContextMenuAsync());
+        var menuButton = new MenuButton(ShowContextMenu);
         AbsoluteLayout.SetLayoutFlags(menuButton, AbsoluteLayoutFlags.None);
         AbsoluteLayout.SetLayoutBounds(menuButton, new Rect(Width, appBarHeight - LayoutConstants.ButtonMedium, LayoutConstants.ButtonMedium, LayoutConstants.ButtonMedium));
         SizeChanged += (s, e) =>
@@ -82,7 +82,7 @@ class ArtistDetailPage : DetailPageBase
         Content = layout;
     }
 
-    private async Task ShowContextMenuAsync()
+    private async Task ShowContextMenu()
     {
         var artistId = _vm.ArtistId;
         var artistName = _vm.Artist?.Name ?? "";
